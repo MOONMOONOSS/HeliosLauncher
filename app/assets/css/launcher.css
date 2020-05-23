@@ -2955,6 +2955,15 @@ input:checked + .toggleSwitchSlider:before {
     fill: #1b8dd4;
 }
 
+/* Donate icon colors. */
+#donateSVG:hover,
+#donateURL:focus #donateSVG {
+    fill: #32a852;
+}
+#donateSVG:active {
+    fill: #2a8c44;
+}
+
 /* Instagram icon colors. */
 #instagramSVG:hover,
 #instagramURL:focus #instagramSVG {
