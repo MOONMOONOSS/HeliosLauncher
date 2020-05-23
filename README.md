@@ -4,7 +4,7 @@
 
 <em><h5 align="center">(formerly Electron Launcher)</h5></em>
 
-[<p align="center"><img src="https://img.shields.io/travis/dscalzi/HeliosLauncher.svg?style=for-the-badge" alt="travis">](https://travis-ci.org/dscalzi/HeliosLauncher) [<img src="https://img.shields.io/github/downloads/dscalzi/HeliosLauncher/total.svg?style=for-the-badge" alt="downloads">](https://github.com/dscalzi/HeliosLauncher/releases) <img src="https://forthebadge.com/images/badges/winter-is-coming.svg"  height="28px" alt="stark"></p>
+[<p align="center"><img src="https://img.shields.io/travis/MOONMOONOSS/HeliosLauncher.svg?style=for-the-badge" alt="travis">](https://travis-ci.org/dscalzi/HeliosLauncher) [<img src="https://img.shields.io/github/downloads/MOONMOONOSS/HeliosLauncher/total.svg?style=for-the-badge" alt="downloads">](https://github.com/MOONMOONOSS/HeliosLauncher/releases) <img src="https://forthebadge.com/images/badges/winter-is-coming.svg"  height="28px" alt="stark"></p>
 
 <p align="center">Join modded servers without worrying about installing Java, Forge, or other mods. We'll handle that for you.</p>
 
@@ -38,18 +38,18 @@ This is not an exhaustive list. Download and install the launcher to gauge all i
 
 ## Downloads
 
-You can download from [GitHub Releases](https://github.com/dscalzi/HeliosLauncher/releases)
+You can download from [GitHub Releases](https://github.com/MOONMOONOSS/HeliosLauncher/releases)
 
 #### Latest Release
 
-[![](https://img.shields.io/github/release/dscalzi/HeliosLauncher.svg?style=flat-square)](https://github.com/dscalzi/HeliosLauncher/releases/latest)
+[![](https://img.shields.io/github/release/MOONMOONOSS/HeliosLauncher.svg?style=flat-square)](https://github.com/dscalzi/HeliosLauncher/releases/latest)
 
 #### Latest Pre-Release
-[![](https://img.shields.io/github/release/dscalzi/HeliosLauncher/all.svg?style=flat-square)](https://github.com/dscalzi/HeliosLauncher/releases)
+[![](https://img.shields.io/github/release/MOONMOONOSS/HeliosLauncher/all.svg?style=flat-square)](https://github.com/dscalzi/HeliosLauncher/releases)
 
 **Supported Platforms**
 
-If you download from the [Releases](https://github.com/dscalzi/HeliosLauncher/releases) tab, select the installer for your system.
+If you download from the [Releases](https://github.com/MOONMOONOSS/HeliosLauncher/releases) tab, select the installer for your system.
 
 | Platform | File |
 | -------- | ---- |
@@ -87,7 +87,7 @@ If you want to export the console output, simply right click anywhere on the con
 **Clone and Install Dependencies**
 
 ```console
-> git clone https://github.com/dscalzi/HeliosLauncher.git
+> git clone https://github.com/MOONMOONOSS/HeliosLauncher.git
 > cd HeliosLauncher
 > npm install
 ```

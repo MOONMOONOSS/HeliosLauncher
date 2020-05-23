@@ -57,13 +57,13 @@
                 }
               },
               {
-                "id": "jline:jline:2.13",
+                "id": "jline:jline:3.5.1",
                 "name": "Mojang (jline)",
                 "type": "Library",
                 "artifact": {
-                  "size": 248566,
-                  "MD5": "f251ba666cccb260ff7215b2cbeee8d4",
-                  "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/jline-2.13.jar"
+                  "size": 614590,
+                  "MD5": "4c20d2879ed2bd75a0771ce29e89f6b0",
+                  "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/jline-3.5.1.jar"
                 }
               },
               {
