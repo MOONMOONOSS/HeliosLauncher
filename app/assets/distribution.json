@@ -8,7 +8,7 @@
   "java": {
     "oracle": "http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html"
   },
-  "rss": "",
+  "rss": "https://moontaku.com/rss",
   "servers": [
     {
       "id": "Tilicum-1.12.2",
