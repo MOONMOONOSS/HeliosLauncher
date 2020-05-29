@@ -1,0 +1,47 @@
+<style>
+
+.whitelist_container {
+  width: 13rem;
+  position: absolute;
+  right: 4rem;
+  top: 3rem;
+}
+
+.whitelist_status_line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 2rem;
+  height: 1rem;
+}
+
+.whitelist_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 20px black;
+  font-size: 12px;
+  padding: 0px;
+  transition: 0.25s ease;
+  outline: none;
+}
+
+.whitelist_text{
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 20px black;
+  font-weight: 900;
+}
+
+</style>
+
+<div id="whitelist_content" class="whitelist_container">
+  <div id="whitelist_loading" class="whitelist_status_line" ><span class="whitelist_text">Checking Whitelist Status...</span> </div>
+  <div id="no_discord_token" class="whitelist_status_line" style="display: none;"><button id="discord_login" class="whitelist_button">Get Whitelist Status</button></div>
+  <div id='has_discord_token' class="whitelist_status_line" style="display: none;"> <span class="whitelist_text">Whitelist Status</span> <span id="mojang_status_icon">&#8226;</span></div>
+
+  <script src="./components/WhitelistStatus/WhitelistStatusController.js"></script>
+</div>

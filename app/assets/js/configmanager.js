@@ -103,7 +103,11 @@ const DEFAULT_CONFIG = {
     selectedServer: null, // Resolved
     selectedAccount: null,
     authenticationDatabase: {},
-    modConfigurations: []
+    modConfigurations: [],
+    whitelist:{
+        token:null,
+        statusDatabase:{} //Account to Status  - null: dono, 0: good, 1: bad
+    }
 }
 
 let config = null
@@ -685,4 +689,81 @@ exports.getAllowPrerelease = function(def = false){
  */
 exports.setAllowPrerelease = function(allowPrerelease){
     config.settings.launcher.allowPrerelease = allowPrerelease
+}
+
+// Whitelist Settings
+
+/**
+ * Get the entire whitelist config
+ * 
+ * @returns {object} Whitelist config
+ */
+exports.getWhitelistData = function(){
+    return config.whitelist
+}
+
+/**
+ * Get the whitelist token
+ * 
+ * @returns {object} Whitelist Service Access Token
+ */
+exports.getWhitelistToken = function(){
+    return config.whitelist.token
+}
+
+/**
+ * Update the stored whitelist token
+ * 
+ * @param {object} token The new token to save
+ * 
+ * @returns {object} Whitelist Service Access Token
+ */
+exports.updateWhitelistToken = function(token){
+    config.whitelist.token = token
+    return config.whitelist.token
+}
+
+/**
+ * Get the currently selected authenticated account's whitelist status.
+ * 
+ * @param {string} uuid The uuid of the authenticated account.
+ * 
+ * @returns {number} Status for the current selected account
+ */
+exports.getWhitelistStatusForAccount = function(uuid){
+    return config.whitelist.statusDatabase.hasOwnProperty(uuid)? config.whitelist.statusDatabase[config.selectedAccount] : null;
+}
+
+/**
+ * Get the currently selected authenticated account's whitelist status.
+ * 
+ * @returns {number} Status for the current selected account
+ */
+exports.getWhitelistStatusForCurrentAccount = function(){
+    return exports.getWhitelistStatusForAccount(config.selectedAccount)
+}
+
+/**
+ * Update the status of an authenticated account.
+ * 
+ * @param {string} uuid The uuid of the authenticated account.
+ * @param {number} status The new status.
+ * 
+ * @returns {number} Status set
+ */
+exports.updateWhitelistStatus = function(uuid, status){
+    config.whitelist.statusDatabase[uuid] = status
+    return config.whitelist.statusDatabase[uuid]
+}
+
+/**
+ * Update the status of the current account.
+ * 
+ * @param {number} status The new status.
+ * 
+ * @returns {number} Status set
+ */
+exports.updateWhitelistStatusForCurrentAccount = function(status){
+    exports.updateWhitelistStatus(config.selectedAccount, status)
+    return config.whitelist.statusDatabase[config.selectedAccount]
 }
