@@ -160,6 +160,7 @@ class WhitelistStatusController {
                     if (ConfigManager.getWhitelistStatus().status === 0) {
                         document.getElementById("whitelist_login_status").innerText = "Whitelist successful! Completing login...";
                         switchView(getCurrentView(), VIEWS.landing);
+
                     } else {
                         document.getElementById("whitelist_login_status").innerText = "Account not permitted...";
                     }
@@ -210,11 +211,18 @@ class WhitelistStatusController {
             document.getElementById("whitelist_login_status").innerText = "Error logging into Discord";
         }
 
-        ConfigManager.save();
         if (ConfigManager.getWhitelistStatus() === null || ConfigManager.getWhitelistStatus().status !== 0) {
             this.loginButton.innerText = "Click here to try again";
             this.loginButton.style.display = "flex";
+
+        } else {
+            // Successfully Whitelisted. Timeout to allow the fade to landing to happen, then reset ui
+            setTimeout(()=>{
+                document.getElementById("whitelist_login_status").innerText = "";
+                this.loginButton.style.display = "flex";
+            },2000)
         }
+        ConfigManager.save();
     }
 }
 

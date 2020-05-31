@@ -62,13 +62,14 @@ class WhitelistService {
             authWindow.webContents.on("will-navigate", (event, newUrl) => {
                 whitelistServiceLogger.debug("User interaction complete. Resolving...");
 
-                authWindow.close();
-                authWindow = null;
-
                 const queryObject = url.parse(newUrl, true).query;
                 if (queryObject.code) {
+                    authWindow.close();
+                    authWindow = null;
                     access_code = queryObject.code;
-                } else {
+                } else if (queryObject.error) {
+                    authWindow.close();
+                    authWindow = null;
                     access_code = null;
                 }
             });
