@@ -227,7 +227,7 @@ function resolveError(err){
     }
 }
 
-let loginViewOnSuccess = VIEWS.landing
+let loginViewOnSuccess = VIEWS.whitelist
 let loginViewOnCancel = VIEWS.settings
 let loginViewCancelHandler
 
@@ -273,7 +273,7 @@ loginButton.addEventListener('click', () => {
                 if(loginViewOnSuccess === VIEWS.settings){
                     prepareSettings()
                 }
-                loginViewOnSuccess = VIEWS.landing // Reset this for good measure.
+                loginViewOnSuccess = VIEWS.whitelist // Reset this for good measure.
                 loginCancelEnabled(false) // Reset this for good measure.
                 loginViewCancelHandler = null // Reset this for good measure.
                 loginUsername.value = ''

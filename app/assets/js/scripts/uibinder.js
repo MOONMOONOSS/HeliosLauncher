@@ -17,6 +17,7 @@ let fatalStartupError = false
 const VIEWS = {
     landing: '#landingContainer',
     login: '#loginContainer',
+    whitelist: '#whitelistContainer',
     settings: '#settingsContainer',
     welcome: '#welcomeContainer'
 }
@@ -71,6 +72,10 @@ function showMainUI(data){
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
+        const isWhitelisted = ( ConfigManager.getWhitelistStatus() !== null && // status exists
+                                ConfigManager.getWhitelistStatus().status === 0 && // not banned
+                                ConfigManager.getWhitelistStatus().uuid === ConfigManager.getSelectedAccount().uuid) // uuids match
+
 
         // If this is enabled in a development environment we'll get ratelimited.
         // The relaunch frequency is usually far too high.
@@ -83,8 +88,13 @@ function showMainUI(data){
             $(VIEWS.welcome).fadeIn(1000)
         } else {
             if(isLoggedIn){
-                currentView = VIEWS.landing
-                $(VIEWS.landing).fadeIn(1000)
+                if(isWhitelisted){
+                    currentView = VIEWS.landing
+                    $(VIEWS.landing).fadeIn(1000)
+                } else {
+                    currentView = VIEWS.whitelist
+                    $(VIEWS.whitelist).fadeIn(1000)
+                }
             } else {
                 currentView = VIEWS.login
                 $(VIEWS.login).fadeIn(1000)

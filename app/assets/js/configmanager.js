@@ -103,7 +103,11 @@ const DEFAULT_CONFIG = {
     selectedServer: null, // Resolved
     selectedAccount: null,
     authenticationDatabase: {},
-    modConfigurations: []
+    modConfigurations: [],
+    whitelist:{
+        token:null,
+        status: null // {uuid, status} - Status 0 = Good, Status 1 = Bad
+    }
 }
 
 let config = null
@@ -686,3 +690,57 @@ exports.getAllowPrerelease = function(def = false){
 exports.setAllowPrerelease = function(allowPrerelease){
     config.settings.launcher.allowPrerelease = allowPrerelease
 }
+
+// Whitelist Settings
+
+/**
+ * Get the entire whitelist config
+ * 
+ * @returns {object} Whitelist config
+ */
+exports.getWhitelistData = function(){
+    return config.whitelist
+}
+
+/**
+ * Get the whitelist token
+ * 
+ * @returns {object} Whitelist Service Access Token
+ */
+exports.getWhitelistToken = function(){
+    return config.whitelist.token
+}
+
+/**
+ * Update the stored whitelist token
+ * 
+ * @param {object} token The new token to save
+ * 
+ * @returns {object} Whitelist Service Access Token
+ */
+exports.updateWhitelistToken = function(token){
+    config.whitelist.token = token
+    return config.whitelist.token
+}
+
+/**
+ * Get the currently selected authenticated account's whitelist status.
+ *  
+ * @returns {number} Status for the current selected account
+ */
+exports.getWhitelistStatus = function(){
+    return config.whitelist.status
+}
+
+/**
+ * Update the status of the current account.
+ * 
+ * @param {number} status The new status.
+ * 
+ * @returns {number} Status set
+ */
+exports.updateWhitelistStatus = function(status){
+    config.whitelist.status = status
+    return config.whitelist.status
+}
+
