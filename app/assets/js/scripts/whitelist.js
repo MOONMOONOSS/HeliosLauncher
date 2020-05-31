@@ -21,8 +21,7 @@ const whitelistService = new WhitelistService(Config.url, Config.clientId, Confi
 class WhitelistStatusController {
     constructor() {
         whitelistStatusControllerLogger.debug("Constructing...");
-        ConfigManager.updateWhitelistStatus(null)
-        ConfigManager.updateWhitelistToken(null)
+
         //Elements
         this.loginButton = document.getElementById("discord_login");
         this.loginStatus = document.getElementById("whitelist_login_status");
