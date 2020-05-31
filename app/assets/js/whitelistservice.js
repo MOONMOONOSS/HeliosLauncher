@@ -205,11 +205,13 @@ class WhitelistService {
         whitelistServiceLogger.debug("Linking Account...");
 
         let requestConfig = {
+            strictSSL: false,
+            headers: { "Content-Type": "application/json" },
             json: {
                 token: access_token.access_token
             }
         };
-
+        
         return new Promise((resolve, reject) => {
             request.post(`${this.baseUrl}/register/${uuid}`, requestConfig, (error, response, body) => {
                 if (error) {

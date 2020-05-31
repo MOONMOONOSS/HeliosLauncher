@@ -72,7 +72,9 @@ function showMainUI(data){
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
-        const isWhitelisted = ConfigManager.getWhitelistStatus() !== null && ConfigManager.getWhitelistStatus().status === 0
+        const isWhitelisted = ( ConfigManager.getWhitelistStatus() !== null && // status exists
+                                ConfigManager.getWhitelistStatus().status === 0 && // not banned
+                                ConfigManager.getWhitelistStatus().uuid === ConfigManager.getSelectedAccount().uuid) // uuids match
 
 
         // If this is enabled in a development environment we'll get ratelimited.
