@@ -1,0 +1,81 @@
+<style id="whitelistContianerStyles">
+    .whitelistContainer {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .whitelist_button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-shadow: 0px 0px 20px black;
+        font-size: 18px;
+        padding: 0px;
+        transition: 0.25s ease;
+        outline: none;
+        border: white 1px solid;
+        padding: 0.75rem;
+    }
+
+    .whitelist_button:hover {
+        box-shadow: 0rem 0rem 1rem rgba(255, 255, 255, 0.5);
+    }
+
+    .state_container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .spacer {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .underlined {
+        width: 100%;
+        border-bottom: white 1px solid;
+    }
+
+    p {
+        letter-spacing: 1px;
+        text-shadow: 0px 0px 20px black;
+    }
+
+    h1 {
+        letter-spacing: 2px;
+        text-shadow: 0px 0px 20px black;
+    }
+
+    .whitelist_status_line {
+        margin-top: 2rem;
+    }
+</style>
+<div id="whitelistContainer" class="whitelistContainer" style="display: none;">
+    <div class="state_container">
+        <div>
+            <h1 class="underlined">Whitelisting - Link Discord &amp; Minecraft</h1>
+            <p>In order to play you must:</p>
+            <ul>
+                <li><p>Authorize the launcher to retrieve information about your Discord account</p></li>
+                <li><p>Be in the MOONMOON subscriber Discord guild</p></li>
+                <li><p>Be in good standing on Discord</p></li>
+            </ul>
+        </div>
+        <div class="spacer underlined"></div>
+        <div>
+            <button id="discord_login" class="whitelist_button">Click here to link your account</button>
+            <div id="whitelist_login_status" class="whitelist_status_line" style="display: none;"><p>Continue on the pop-up window...</p></div>
+        </div>
+    </div>
+    <script src="./assets/js/scripts/whitelist.js"></script>
+</div>

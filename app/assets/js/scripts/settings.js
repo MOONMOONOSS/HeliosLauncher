@@ -314,14 +314,15 @@ settingsNavDone.onclick = () => {
  * Account Management Tab
  */
 
+ //TODO: Support Multiple Accounts in the Future
 // Bind the add account button.
-document.getElementById('settingsAddAccount').onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
-        loginViewOnCancel = VIEWS.settings
-        loginViewOnSuccess = VIEWS.settings
-        loginCancelEnabled(true)
-    })
-}
+// document.getElementById('settingsAddAccount').onclick = (e) => {
+//     switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
+//         loginViewOnCancel = VIEWS.settings
+//         loginViewOnSuccess = VIEWS.settings
+//         loginCancelEnabled(true)
+//     })
+// }
 
 /**
  * Bind functionality for the account selection buttons. If another account
