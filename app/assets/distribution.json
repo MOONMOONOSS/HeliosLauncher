@@ -1,5 +1,5 @@
 {
-  "version": "1.1.10",
+  "version": "1.1.11",
   "discord": {
     "clientId": "604009411928784917",
     "smallImageText": "Mooncraft",
@@ -385,6 +385,17 @@
             "size": 21668,
             "MD5": "e431fec0248132e5c4d03ad70bd4dc6b",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/Toast%2BControl-1.12.2-1.8.1.jar"
+          }
+        },
+        {
+          "id": "servers.dat",
+          "name": "Saved Client Servers",
+          "type": "File",
+          "artifact": {
+              "size": 76,
+              "MD5": "63d60239210f749ab369c217d9256cab",
+              "path": "servers.dat",
+              "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/servers-tilicum.dat" 
           }
         }
       ]
