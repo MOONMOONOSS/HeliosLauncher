@@ -72,7 +72,8 @@ function showMainUI(data){
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
-        const isWhitelisted = ( ConfigManager.getWhitelistStatus() !== null && // status exists
+        const isWhitelisted = ( isLoggedIn &&
+                                ConfigManager.getWhitelistStatus() !== null && // status exists
                                 ConfigManager.getWhitelistStatus().status === 0 && // not banned
                                 ConfigManager.getWhitelistStatus().uuid.replace(/-/g, "") === ConfigManager.getSelectedAccount().uuid.replace(/-/g, "")) // uuids match
 
