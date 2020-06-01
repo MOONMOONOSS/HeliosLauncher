@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.2",
   "discord": {
     "clientId": "643907806386454598",
     "largeImageText": "Mooncraft",
@@ -386,6 +386,236 @@
             "MD5": "e431fec0248132e5c4d03ad70bd4dc6b",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/Toast%2BControl-1.12.2-1.8.1.jar"
           }
+        }
+      ]
+    },
+    {
+      "id": "Vanilla-1.15.2",
+      "name": "Vanilla",
+      "description": "Just some good ol' Minecraft :)",
+      "icon": "https://moonmoon-live.s3.us-east-2.amazonaws.com/icon/moon.png",
+      "version": "1.0.0",
+      "address": "51.81.48.39:27060",
+      "minecraftVersion": "1.15.2",
+      "discord": {
+        "shortId": "vanilla",
+        "smallImageText": "Mooncraft",
+        "smallImageKey": "mcraft"
+      },
+      "mainServer": false,
+      "autoconnect": true,
+      "modules": [
+        {
+          "id": "net.minecraftforge:forge:1.15.2-31.2.5",
+          "name": "Minecraft Forge",
+          "type": "ForgeHosted",
+          "artifact": {
+            "size": 2207549,
+            "MD5": "e0923fb181fb00e50d7b78d153c000f6",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/forge-1.15.2-31.2.5-universal.jar"
+          },
+          "subModules": [
+            {
+              "id": "net.minecraft:launchwrapper:1.12",
+              "name": "Mojang (LaunchWrapper)",
+              "type": "Library",
+              "artifact": {
+                "size": 32999,
+                "MD5": "934b2d91c7c5be4a49577c9e6b40e8da",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/tilicum/launchwrapper-1.12.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm:7.2",
+              "name": "Mojang (ASM)",
+              "type": "Library",
+              "artifact": {
+                "size": 114873,
+                "MD5": "26cf10dfd4729fd22fcae0694e041167",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/asm-7.2.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-commons:7.2",
+              "name": "Mojang (ASM Commons)",
+              "type": "Library",
+              "artifact": {
+                "size": 70051,
+                "MD5": "321121317a6c6221cc26e8f9ee97022f",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/asm-commons-7.2.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-tree:7.2",
+              "name": "Mojang (ASM Tree)",
+              "type": "Library",
+              "artifact": {
+                "size": 50283,
+                "MD5": "c7214695c379f25861500e576a1f8cea",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/asm-tree-7.2.jar"
+              }
+            },
+            {
+              "id": "cpw.mods:modlauncher:5.1.0",
+              "name": "Forge Mod Launcher",
+              "type": "Library",
+              "artifact": {
+                "size": 115795,
+                "MD5": "ecbd0cf9eafb17ace92fb79b401c875d",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/modlauncher-5.1.0.jar"
+              }
+            },
+            {
+              "id": "cpw.mods:grossjava9hacks:1.3.0",
+              "name": "CPW's Gross Java 9 Hacks",
+              "type": "Library",
+              "artifact": {
+                "size": 1921,
+                "MD5": "c5c05d52fcef5479e0ea069f30c6ceb5",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/grossjava9hacks-1.3.0.jar"
+              }
+            },
+            {
+              "id": "net.minecraftforge:accesstransformers:2.1.1-shadowed",
+              "name": "Forge Access Transformers",
+              "type": "Library",
+              "artifact": {
+                "size": 444938,
+                "MD5": "b1c29c996339414a2eecb357064ad2e3",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/accesstransformers-2.1.1-shadowed.jar"
+              }
+            },
+            {
+              "id": "net.minecraftforge:eventbus:2.2.0-service",
+              "name": "Forge EventBus",
+              "type": "Library",
+              "artifact": {
+                "size": 39776,
+                "MD5": "5b09da0315a6307c0bf25026fbff23ab",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/eventbus-2.2.0-service.jar"
+              }
+            },
+            {
+              "id": "net.minecraftforge:forgespi:2.1.2",
+              "name": "Forge SPI",
+              "type": "Library",
+              "artifact": {
+                "size": 19445,
+                "MD5": "835b993fa5d23517836f09e28ce11f5a",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/forgespi-2.1.2.jar"
+              }
+            },
+            {
+              "id": "net.minecraftforge:coremods:2.0.3",
+              "name": "Forge Coremods",
+              "type": "Library",
+              "artifact": {
+                "size": 21802,
+                "MD5": "53aef4d28866ac1cc755b69e825d7878",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/coremods-2.0.3.jar"
+              }
+            },
+            {
+              "id": "net.minecraftforge:unsafe:0.2.0",
+              "name": "Forge Unsafe",
+              "type": "Library",
+              "artifact": {
+                "size": 2834,
+                "MD5": "2d1016ebe4c1a63dd50a59d26bd12db1",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/unsafe-0.2.0.jar"
+              }
+            },
+            {
+              "id": "com.electronwill.night-config:core:3.6.2",
+              "name": "Electronwill Night Config",
+              "type": "Library",
+              "artifact": {
+                "size": 199091,
+                "MD5": "243fc0b7f1e509aaca3550c14d8f60af",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/core-3.6.2.jar"
+              }
+            },
+            {
+              "id": "com.electronwill.night-config:toml:3.6.2",
+              "name": "Electronwill TOML",
+              "type": "Library",
+              "artifact": {
+                "size": 31152,
+                "MD5": "7b2339065e252b1c187d39351d84a09f",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/toml-3.6.2.jar"
+              }
+            },
+            {
+              "id": "org.jline:jline:3.12.1",
+              "name": "JLine",
+              "type": "Library",
+              "artifact": {
+                "size": 732926,
+                "MD5": "ffd8c9d6eb8a8456ef505c8ef9fc777d",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/jline-3.12.1.jar"
+              }
+            },
+            {
+              "id": "org.apache.maven:maven-artifact:3.6.0",
+              "name": "Maven Artifact",
+              "type": "Library",
+              "artifact": {
+                "size": 55051,
+                "MD5": "89e95013b11f347e48c0525965600404",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/maven-artiact-3.6.0.jar"
+              }
+            },
+            {
+              "id": "net.jodah:typetools:0.8.1",
+              "name": "Type Tools",
+              "type": "Library",
+              "artifact": {
+                "size": 15367,
+                "MD5": "0eb481e955b455e61bd5ea8f520f6009",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/typetools-0.8.1.jar"
+              }
+            },
+            {
+              "id": "org.apache.logging.log4j:log4j-api:2.11.2",
+              "name": "Log4J API",
+              "type": "Library",
+              "artifact": {
+                "size": 266283,
+                "MD5": "3f7ee51e3dd0830de799dae0b90243dd",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/log4j-api-2.11.2.jar"
+              }
+            },
+            {
+              "id": "org.apache.logging.log4j:log4j-core:2.11.2",
+              "name": "Log4J Core",
+              "type": "Library",
+              "artifact": {
+                "size": 1629585,
+                "MD5": "c8bd8b5c5aaaa07a3dcbf57de01c9266",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/log4j-core-2.11.2.jar"
+              }
+            },
+            {
+              "id": "net.minecrell:terminalconsoleappender:1.2.0",
+              "name": "Terminal/Console Appender",
+              "type": "Library",
+              "artifact": {
+                "size": 15977,
+                "MD5": "679363fa893293791e55a21f81342f87",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/terminalconsoleappender-1.2.0.jar"
+              }
+            },
+            {
+              "id": "net.sf.jopt-simple:jopt-simple:5.0.4",
+              "name": "JOpt Simple",
+              "type": "Library",
+              "artifact": {
+                "size": 78146,
+                "MD5": "eb0d9dffe9b0eddead68fe678be76c49",
+                "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/jopt-simple-5.0.4.jar"
+              }
+            }
+          ]
         }
       ]
     }
