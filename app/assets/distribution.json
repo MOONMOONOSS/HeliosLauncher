@@ -1,5 +1,5 @@
 {
-  "version": "1.1.8",
+  "version": "1.1.9",
   "discord": {
     "clientId": "643907806386454598",
     "largeImageText": "Mooncraft",
@@ -23,7 +23,7 @@
         "smallImageText": "Mystery of Lake Tilicum",
         "smallImageKey": "betweenlands"
       },
-      "mainServer": true,
+      "mainServer": false,
       "autoconnect": true,
       "modules": [
         {
@@ -402,7 +402,7 @@
         "smallImageText": "Mooncraft",
         "smallImageKey": "mcraft"
       },
-      "mainServer": false,
+      "mainServer": true,
       "autoconnect": true,
       "modules": [
         {
@@ -656,6 +656,17 @@
               }
             }
           ]
+        },
+        {
+          "id": "servers.dat",
+          "name": "Saved Client Servers",
+          "type": "File",
+          "artifact": {
+              "size": 69,
+              "MD5": "ebe219fe64d0d53921d778b5a88985f1",
+              "path": "servers.dat",
+              "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/vanilla/servers-vanilla.dat" 
+          }
         }
       ]
     }
