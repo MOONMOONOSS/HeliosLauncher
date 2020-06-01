@@ -1,9 +1,9 @@
 {
-  "version": "1.1.9",
+  "version": "1.1.10",
   "discord": {
-    "clientId": "643907806386454598",
-    "largeImageText": "Mooncraft",
-    "largeImageKey": "moon"
+    "clientId": "604009411928784917",
+    "smallImageText": "Mooncraft",
+    "smallImageKey": "moon"
   },
   "java": {
     "oracle": "http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html"
@@ -19,9 +19,9 @@
       "address": "51.81.48.39:27016",
       "minecraftVersion": "1.12.2",
       "discord": {
-        "shortId": "betweenlands",
-        "smallImageText": "Mystery of Lake Tilicum",
-        "smallImageKey": "betweenlands"
+        "shortId": "Betweenlands",
+        "largeImageText": "Mystery of Lake Tilicum",
+        "largeImageKey": "betweenlands"
       },
       "mainServer": false,
       "autoconnect": true,
@@ -398,9 +398,9 @@
       "address": "51.81.48.39:27060",
       "minecraftVersion": "1.15.2",
       "discord": {
-        "shortId": "vanilla",
-        "smallImageText": "Mooncraft",
-        "smallImageKey": "mcraft"
+        "shortId": "Vanilla",
+        "largeImageText": "Mooncraft",
+        "largeImageKey": "moon"
       },
       "mainServer": true,
       "autoconnect": true,
