@@ -94,7 +94,11 @@ class LotteryController {
 
     _onWsMessage(event) {
         lotteryControllerLogger.info("Message Received...");
+        
+
         const receiveMsg = JSON.parse(event.data);
+        lotteryControllerLogger.info("Data:",receiveMsg);
+        this.lotteryWs.send(JSON.stringify({messageId: receiveMsg.messageId}))
         const message = JSON.parse(new Buffer(receiveMsg.payload, "base64").toString());
         switch (message.type) {
             case "open":
@@ -115,14 +119,26 @@ class LotteryController {
 
     _onWsClose(event) {
         lotteryControllerLogger.info("Websocket Closing...");
-        this.lotteryWs = null;
+        if (this.lotteryWs) {
+            this.lotteryWs.close();
+            this.lotteryWs = null;
+        }
+        clearInterval(this.heartBeat);
+        this.checkStatus();
         this.inLottery = false;
+        this._updateUI();
     }
 
     _onWsError(event) {
         lotteryControllerLogger.info("Websocket Errored...");
-        this.lotteryWs = null;
+        if (this.lotteryWs) {
+            this.lotteryWs.close();
+            this.lotteryWs = null;
+        }
+        clearInterval(this.heartBeat);
+        this.checkStatus();
         this.inLottery = false;
+        this._updateUI();
     }
 
     _handleLotteryOpen() {
