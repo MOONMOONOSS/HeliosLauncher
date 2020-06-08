@@ -109,6 +109,7 @@ const DEFAULT_CONFIG = {
         token: null,
         status: null // {uuid, status} - Status 0 = Good, Status 1 = Bad
     },
+    lotterybeta:{},
     lottery:{}
 }
 
@@ -754,10 +755,10 @@ exports.updateWhitelistStatus = function(status){
  * @returns {number} Status for the current selected account
  */
 exports.getLotteryStatus = function(uuid){
-    if(!config.lottery.hasOwnProperty(uuid)){
-        config.lottery[uuid] = null
+    if(!config.lotterybeta.hasOwnProperty(uuid)){
+        config.lotterybeta[uuid] = null
     }
-    return config.lottery[uuid]
+    return config.lotterybeta[uuid]
 }
 
 /**
@@ -768,6 +769,6 @@ exports.getLotteryStatus = function(uuid){
  * @returns {number} Status set
  */
 exports.updateLotteryStatus = function(uuid, status){
-    config.lottery[uuid] = status
-    return config.lottery[uuid]
+    config.lotterybeta[uuid] = status
+    return config.lotterybeta[uuid]
 }

@@ -167,7 +167,7 @@ class LotteryController {
     _updateUI() {
         if (this.lotteryWin) {
             let status = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid)
-            displayMessage = status.msg.replace("#{}" , status.serverIp)
+            let displayMessage = status.msg.replace("#{}" , status.serverIp)
             this.lotteryWinEle.innerText = `${displayMessage}`;
             this.lotteryConnectEle.style.display = "none";
             this.lotteryClosedEle.style.display = "none";
