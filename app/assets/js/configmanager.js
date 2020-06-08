@@ -40,6 +40,7 @@ exports.setDataDirectory = function(dataDirectory){
 }
 
 const configPath = path.join(exports.getLauncherDirectory(), 'config.json')
+console.log(configPath)
 const configPathLEGACY = path.join(dataPath, 'config.json')
 const firstLaunch = !fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY)
 
@@ -105,9 +106,10 @@ const DEFAULT_CONFIG = {
     authenticationDatabase: {},
     modConfigurations: [],
     whitelist:{
-        token:null,
+        token: null,
         status: null // {uuid, status} - Status 0 = Good, Status 1 = Bad
-    }
+    },
+    lottery:{}
 }
 
 let config = null
@@ -744,3 +746,28 @@ exports.updateWhitelistStatus = function(status){
     return config.whitelist.status
 }
 
+// Lottery Settings
+
+/**
+ * Get the currently account's lottery status.
+ *  
+ * @returns {number} Status for the current selected account
+ */
+exports.getLotteryStatus = function(uuid){
+    if(!config.lottery.hasOwnProperty(uuid)){
+        config.lottery[uuid] = null
+    }
+    return config.lottery[uuid]
+}
+
+/**
+ * Update the status of the current account.
+ * 
+ * @param {number} status The new status.
+ * 
+ * @returns {number} Status set
+ */
+exports.updateLotteryStatus = function(uuid, status){
+    config.lottery[uuid] = status
+    return config.lottery[uuid]
+}
