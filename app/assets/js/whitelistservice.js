@@ -8,7 +8,7 @@ const BrowserWindow = electron.remote.BrowserWindow;
 
 class WhitelistService {
     constructor(baseUrl = "", client_id = "", redirect_uri = "", scopes = []) {
-        whitelistServiceLogger.debug("Constructing...");
+        whitelistServiceLogger.info("Constructing...");
         this.client_id = client_id;
         this.redirect_uri = redirect_uri;
         this.scopes = scopes;
@@ -29,7 +29,7 @@ class WhitelistService {
      * @returns {string} URL to begin discord OAuth flow
      */
     _getAuthUrl() {
-        whitelistServiceLogger.debug("Building Auth Url...");
+        whitelistServiceLogger.info("Building Auth Url...");
 
         const encodedClientId = encodeURIComponent(this.client_id);
         const encodedRedirectUri = encodeURIComponent(this.redirect_uri);
@@ -45,7 +45,7 @@ class WhitelistService {
      * @returns {string} access_code from the url
      */
     requestCode() {
-        whitelistServiceLogger.debug("Requesting auth code from Discord...");
+        whitelistServiceLogger.info("Requesting auth code from Discord...");
         return new Promise((resolve, reject) => {
             const authUrl = this._getAuthUrl();
             let access_code = null;
@@ -57,10 +57,10 @@ class WhitelistService {
                 authWindow.show();
             });
 
-            whitelistServiceLogger.debug("Awaiting user login and approval...");
+            whitelistServiceLogger.info("Awaiting user login and approval...");
 
             authWindow.webContents.on("will-navigate", (event, newUrl) => {
-                whitelistServiceLogger.debug("User interaction complete. Resolving...");
+                whitelistServiceLogger.info("User interaction complete. Resolving...");
 
                 const queryObject = url.parse(newUrl, true).query;
                 if (queryObject.code) {
@@ -75,7 +75,7 @@ class WhitelistService {
             });
 
             authWindow.on("closed", (e) => {
-                whitelistServiceLogger.debug("User closed window...");
+                whitelistServiceLogger.info("User closed window...");
                 authWindow = null;
                 if (access_code !== null) {
                     resolve(access_code);
@@ -95,7 +95,7 @@ class WhitelistService {
      * @returns {object} access_token returned by application service
      */
     requestToken(access_code) {
-        whitelistServiceLogger.debug("Requesting Token...");
+        whitelistServiceLogger.info("Requesting Token...");
 
         let requestConfig = {
             strictSSL: false,
@@ -106,16 +106,16 @@ class WhitelistService {
         return new Promise((resolve, reject) => {
             request.post(`${this.baseUrl}/login`, requestConfig, (error, response, body) => {
                 if (error) {
-                    whitelistServiceLogger.debug("error during get token...", error);
-                    whitelistServiceLogger.debug(response);
+                    whitelistServiceLogger.info("error during get token...", error);
+                    whitelistServiceLogger.info(response);
 
                     reject(error);
                 } else {
                     if (response.statusCode !== 200) {
-                        whitelistServiceLogger.debug("error during get token...", response.statusCode);
+                        whitelistServiceLogger.info("error during get token...", response.statusCode);
                         reject(response.statusCode);
                     } else {
-                        whitelistServiceLogger.debug("token request successful...");
+                        whitelistServiceLogger.info("token request successful...");
                         resolve(body);
                     }
                 }
@@ -132,7 +132,7 @@ class WhitelistService {
      * @returns {object} access_token returned by application service
      */
     refreshToken(access_token) {
-        whitelistServiceLogger.debug("Refreshing Token...");
+        whitelistServiceLogger.info("Refreshing Token...");
 
         let requestConfig = {
             strictSSL: false,
@@ -143,14 +143,14 @@ class WhitelistService {
         return new Promise((resolve, reject) => {
             request.post(`${this.baseUrl}/refresh`, requestConfig, (error, response, body) => {
                 if (error) {
-                    whitelistServiceLogger.debug("error during refresh...");
+                    whitelistServiceLogger.info("error during refresh...");
                     reject(error);
                 } else {
                     if (response.statusCode !== 200) {
-                        whitelistServiceLogger.debug("error during refresh...");
+                        whitelistServiceLogger.info("error during refresh...");
                         reject(response.statusCode);
                     } else {
-                        whitelistServiceLogger.debug("token refresh successful...");
+                        whitelistServiceLogger.info("token refresh successful...");
                         resolve(body);
                     }
                 }
@@ -167,7 +167,7 @@ class WhitelistService {
      * @returns {object} status of the current discord user
      */
     getWhitelistStatus(access_token) {
-        whitelistServiceLogger.debug("Getting Status...");
+        whitelistServiceLogger.info("Getting Status...");
 
         let requestConfig = {
             strictSSL: false,
@@ -178,14 +178,14 @@ class WhitelistService {
         return new Promise((resolve, reject) => {
             request.post(`${this.baseUrl}/whitelist/status`, requestConfig, (error, response, body) => {
                 if (error) {
-                    whitelistServiceLogger.debug("error getting status...");
+                    whitelistServiceLogger.info("error getting status...");
                     reject(error);
                 } else {
                     if (response.statusCode !== 200) {
-                        whitelistServiceLogger.debug("error getting status...");
+                        whitelistServiceLogger.info("error getting status...");
                         reject(response.statusCode);
                     } else {
-                        whitelistServiceLogger.debug("Get status successful...");
+                        whitelistServiceLogger.info("Get status successful...");
                         resolve(body);
                     }
                 }
@@ -202,7 +202,7 @@ class WhitelistService {
      * @param {string} uuid the minecraft account uuid
      */
     linkAccount(access_token, uuid) {
-        whitelistServiceLogger.debug("Linking Account...");
+        whitelistServiceLogger.info("Linking Account...");
 
         let requestConfig = {
             strictSSL: false,
@@ -215,14 +215,14 @@ class WhitelistService {
         return new Promise((resolve, reject) => {
             request.post(`${this.baseUrl}/register/${uuid}`, requestConfig, (error, response, body) => {
                 if (error) {
-                    whitelistServiceLogger.debug("error during linking...");
+                    whitelistServiceLogger.info("error during linking...");
                     reject(error);
                 } else {
                     if (response.statusCode !== 200) {
-                        whitelistServiceLogger.debug("error during linking...");
+                        whitelistServiceLogger.info("error during linking...");
                         reject(response.statusCode);
                     } else {
-                        whitelistServiceLogger.debug("link account successful...");
+                        whitelistServiceLogger.info("link account successful...");
                         resolve();
                     }
                 }
