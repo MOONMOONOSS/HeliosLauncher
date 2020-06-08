@@ -159,8 +159,8 @@ class WhitelistStatusController {
                 if (this._verifySameAccount(ConfigManager.getWhitelistStatus(), ConfigManager.getSelectedAccount())) {
                     if (ConfigManager.getWhitelistStatus().status === 0) {
                         document.getElementById("whitelist_login_status").innerText = "Whitelist successful! Completing login...";
+                        lotteryController._init()
                         switchView(getCurrentView(), VIEWS.landing);
-
                     } else {
                         document.getElementById("whitelist_login_status").innerText = "Account not permitted...";
                     }
