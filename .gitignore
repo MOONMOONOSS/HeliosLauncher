@@ -4,3 +4,5 @@
 /target/
 /logs/
 /dist/
+# Mac Junk
+.DS_Store
