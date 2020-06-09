@@ -44,9 +44,12 @@ class LotteryController {
     _setupListeners() {
         lotteryControllerLogger.info("Setting up Listeners...");
         document.getElementById("lotteryConnect").onclick = () => {
+            lotteryControllerLogger.info("Connect Clicked...");
             this._init();
         };
         document.getElementById("lotteryJoin").onclick = () => {
+            lotteryControllerLogger.info("Join Clicked...");
+            lotteryJoin.disabled = true
             this.join();
         };
     }
@@ -333,6 +336,7 @@ class LotteryController {
                 lotteryControllerLogger.info("Token exists, attempting to Join...");
                 await lotteryService.join(ConfigManager.getWhitelistToken());
                 this.inLottery = true;
+                lotteryJoin.disabled = false
                 this._updateUI();
             } catch (error) {
                 lotteryControllerLogger.info("Error trying to join, code:", error);
@@ -356,6 +360,7 @@ class LotteryController {
             lotteryControllerLogger.info("Error Getting Status");
         }
 
+        setTimeout(()=>{lotteryJoin.disabled = false}, 5000)
         ConfigManager.save();
     }
 
