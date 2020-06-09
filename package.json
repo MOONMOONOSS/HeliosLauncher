@@ -39,6 +39,7 @@
     "request": "^2.88.2",
     "semver": "^7.3.2",
     "tar-fs": "^2.1.0",
+    "toastr": "^2.1.4",
     "winreg": "^1.2.4"
   },
   "devDependencies": {

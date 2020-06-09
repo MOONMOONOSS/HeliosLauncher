@@ -1,4 +1,5 @@
 <style id="lotteryContainerStyle">
+
     .lotteryContainer {
         position: absolute;
         bottom: 7rem;
@@ -39,12 +40,63 @@
     .lotteryContainer button:hover {
         text-shadow: 0px 0px 20px #fff, 0px 0px 20px #fff;
     }
+    
+    /* Toast Notification  */
+    @import "../node_modules/toastr/build/toastr.min.css";
+    #toast-container {
+        margin-top: 1.5rem;
+    }
+    .meter {
+        height: 5px;
+        position: relative;
+        background: #ffffff;
+        overflow: hidden;
+        margin-top: 1rem;
+    }
+
+    .meter span {
+        display: block;
+        height: 100%;
+    }
+
+    .progress {
+        background-color: black;
+        -webkit-animation: progressBar 58s ease-in-out;
+        -webkit-animation-fill-mode: both;
+        -moz-animation: progressBar 58s ease-in-out;
+        -moz-animation-fill-mode: both;
+    }
+
+    @-webkit-keyframes progressBar {
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0%;
+        }
+    }
+
+    @-moz-keyframes progressBar {
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0%;
+        }
+    }
 </style>
 <div id="lotteryContainer" class="lotteryContainer">
+    <!-- View State Elements -->
     <div id="lotteryConnect" class="lotteryStatus" style="display: flex;"><button id="lotteryConnect">Connect To Lottery</button></div>
     <div id="lotteryClosed" class="lotteryStatus" style="display: none;">Lottery Closed</div>
     <div id="lotteryOpen" class="lotteryStatus" style="display: none;"><button id="lotteryJoin">Join Lottery</button></div>
     <div id="lotteryJoined" class="lotteryStatus" style="display: none;">In Lottery...</div>
     <div id="lotteryWin" class="lotteryStatus" style="display: none;">You're in! POGGERS!</div>
+
+    <!-- Audio Clips to play -->
+    <audio id="wakeUpAudio" preload="auto" src="./assets/sounds/501212_8807903-lq.mp3"></audio>
+
+    <!-- Imports -->
     <script src="./assets/js/scripts/lottery.js"></script>
+    <link href="../node_modules//toastr/build/toastr.css" rel="stylesheet" />
 </div>
