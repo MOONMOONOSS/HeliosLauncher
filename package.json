@@ -19,6 +19,8 @@
     "dist:win": "npm run dist -- WINDOWS",
     "dist:mac": "npm run dist -- MAC",
     "dist:linux": "npm run dist -- LINUX",
+    "dist:all": "npm run dist:mac && npm run dist:linux && npm run dist:win",
+    "dist:zipped": "npm run dist:all && pushd ./dist && zip -r mac.zip ./mac && zip -r linux.zip ./linux-unpacked && zip -r win.zip ./win-unpacked && popd",
     "lint": "eslint --config .eslintrc.json ."
   },
   "engines": {

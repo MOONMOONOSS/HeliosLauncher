@@ -1,6 +1,12 @@
-/node_modules/
+# Configuration
 /.vs/
 /.vscode/
+
+# Generated
+/node_modules/
 /target/
 /logs/
 /dist/
+
+# Mac Specific
+.DS_Store
