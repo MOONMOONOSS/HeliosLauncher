@@ -1,11 +1,12 @@
 // Using from global scope (documented for visibility)
 // const ConfigManager = require('../../assets/js/configmanager.js')
+// const { whitelistService } = require("./assets/js/whitelistservice");
 
 //Requires
 const { lotteryService } = require("./assets/js/lotteryapiservice");
-// const { whitelistService } = require("./assets/js/whitelistservice");
 
 const lotteryControllerLogger = LoggerUtil("%c[lotteryControllerLogger]", "color: #ff71ce; font-weight: bold");
+const toastr = require("toastr");
 
 class LotteryController {
     constructor() {
@@ -21,6 +22,7 @@ class LotteryController {
         this.lotteryOpenEle = document.getElementById("lotteryOpen");
         this.lotteryJoinedEle = document.getElementById("lotteryJoined");
         this.lotteryWinEle = document.getElementById("lotteryWin");
+        this.LotteryWakeUpAudioEle = document.getElementById("wakeUpAudio");
 
         //State Variables
         this.lotteryOpen = false;
@@ -49,7 +51,7 @@ class LotteryController {
         };
         document.getElementById("lotteryJoin").onclick = () => {
             lotteryControllerLogger.info("Join Clicked...");
-            lotteryJoin.disabled = true
+            lotteryJoin.disabled = true;
             this.join();
         };
     }
@@ -72,6 +74,7 @@ class LotteryController {
         this.inLottery = false;
         this.lotteryWin = false;
 
+        //Check if previously won
         this.lotteryWin = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid) !== null;
 
         //Connect to websocket
@@ -80,6 +83,7 @@ class LotteryController {
         //Initialize Status
         this.lotteryOpen = this.checkStatus();
 
+        //Update UI based on state
         this._updateUI();
     }
 
@@ -94,32 +98,6 @@ class LotteryController {
 
     _onWsOpen(event) {
         lotteryControllerLogger.info("Websocket Connected...");
-    }
-
-    _onWsMessage(event) {
-        lotteryControllerLogger.info("Websocket Message Received...");
-        const receiveMsg = JSON.parse(event.data);
-        lotteryControllerLogger.info("Data:",receiveMsg);
-        this.lotteryWs.send(JSON.stringify({messageId: receiveMsg.messageId}))
-        const message = JSON.parse(new Buffer(receiveMsg.payload, "base64").toString());
-        switch (message.type) {
-            case "open":
-                this._handleLotteryOpen();
-                break;
-            case "close":
-                this._handleLotteryClose();
-                break;
-            case "clearLotto":
-                this._handleLotteryClear();
-                break;
-            case "draw":
-                if (message.uuid === ConfigManager.getSelectedAccount().uuid) {
-                    this._handleLotteryPicked();
-                } else {
-                    this._handleLotteryNotPicked();
-                }
-                break;
-        }
     }
 
     _onWsClose(event) {
@@ -146,20 +124,92 @@ class LotteryController {
         this._updateUI();
     }
 
+    _onWsMessage(event) {
+        lotteryControllerLogger.info("Websocket Message Received...");
+        const receiveMsg = JSON.parse(event.data);
+        lotteryControllerLogger.info("Data:", receiveMsg);
+        this.lotteryWs.send(JSON.stringify({ messageId: receiveMsg.messageId }));
+        const message = JSON.parse(new Buffer(receiveMsg.payload, "base64").toString());
+        switch (message.type) {
+            case "open":
+                this._handleLotteryOpen();
+                break;
+            case "close":
+                this._handleLotteryClose();
+                break;
+            case "clearLotto":
+                this._handleLotteryClear();
+                break;
+            case "draw":
+                if (message.uuid === ConfigManager.getSelectedAccount().uuid) {
+                    this._handleLotteryPicked();
+                } else {
+                    this._handleLotteryNotPicked();
+                }
+                break;
+        }
+    }
+
     _handleLotteryOpen() {
         lotteryControllerLogger.info("Handling Lottery Opening...");
+
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: true,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        if (!this.lotteryWin) {
+            this.wakeUpAudioInterval = setInterval(() => {this.LotteryWakeUpAudioEle.play();}, 1000);
+            setTimeout(() => {clearInterval(this.wakeUpAudioInterval);}, 10000);
+        }
+        toastr.success("", "Lottery Open!");
+
+
         this.lotteryOpen = true;
         this._updateUI();
     }
 
     _handleLotteryClose() {
         lotteryControllerLogger.info("Handling Lottery Closing...");
+
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: true,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        toastr.error("", `Lottery Closed<audio autoplay src="./assets/sounds/close.mp3"></audio>`);
+
         this.inLottery = false;
         this.lotteryOpen = false;
         this._updateUI();
     }
 
-    _handleLotteryClear(){
+    _handleLotteryClear() {
         lotteryControllerLogger.info("Handling Lottery Clearing...");
         ConfigManager.updateLotteryStatus(ConfigManager.getSelectedAccount().uuid, null);
         ConfigManager.save();
@@ -168,21 +218,46 @@ class LotteryController {
         this._updateUI();
     }
 
-    async _handleLotteryPicked() {
+
+    _handleLotteryPicked() {
         lotteryControllerLogger.info("I WAS PICKED, POGGERS");
-        if (confirm("Yay, you were picked. Do you want to join?\n You have 1 minute to accept :moon2S:")) {
-            try {
-                let status = await this.ack();
-                this.lotteryWin = true;
-                ConfigManager.updateLotteryStatus(ConfigManager.getSelectedAccount().uuid, status);
-                ConfigManager.save();
-            } catch (error) {
-                lotteryControllerLogger.info("Errored, closing...");
-                this.lotteryWin = false;
-                this.inLottery = false;
-            }
-        } else {
-            lotteryControllerLogger.info("Denied...wha?");
+
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            newestOnTop: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            showDuration: "300",
+            hideDuration: "1000",
+            onclick: this._acceptLotteryPick.bind(this),
+            timeOut: 0,
+            extendedTimeOut: 0,
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: false
+        };
+        toastr.warning(`Click before the timer runs out to accept your prize! \
+        <div class="meter"><span><span class="progress"></span></span></div>`, 
+        `You Won! <img height=24 width=24 src="./assets/images/emotes/686823506633031681.gif" /><audio autoplay src="./assets/sounds/win.ogg"></audio>`);
+        setTimeout(() => {toastr.clear();}, 60000);
+    }
+
+
+    async _acceptLotteryPick() {
+        lotteryControllerLogger.info("Trying to accept your prize, m'lord");
+
+        try {
+            toastr.clear();
+            let status = await this.ack();
+            this.lotteryWin = true;
+            ConfigManager.updateLotteryStatus(ConfigManager.getSelectedAccount().uuid, status);
+            ConfigManager.save();
+        } catch (error) {
+            lotteryControllerLogger.info("Error, so close");
             this.lotteryWin = false;
             this.inLottery = false;
         }
@@ -190,15 +265,33 @@ class LotteryController {
     }
 
     _handleLotteryNotPicked() {
-        lotteryControllerLogger.info("Someone was picked....and it wasn't you...pepehands");
-        // alert("Sorry, you werent picked");
+        lotteryControllerLogger.info("I WAS NOT PICKED...pepehands");
+
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: true,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        toastr.info("", `<img height=24 width=24 src="./assets/images/emotes/687811504661200899.png" />Someone else has won...`);
     }
 
     _updateUI() {
         lotteryControllerLogger.info("Updating UI");
         if (this.lotteryWin) {
-            let status = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid)
-            let displayMessage = status.msg.replace("#{}" , status.serverIp)
+            let status = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid);
+            let displayMessage = status.msg.replace("#{}", status.serverIp);
             this.lotteryWinEle.innerText = `${displayMessage}`;
             this.lotteryConnectEle.style.display = "none";
             this.lotteryClosedEle.style.display = "none";
@@ -305,6 +398,7 @@ class LotteryController {
                         ConfigManager.updateWhitelistToken(null);
                         ConfigManager.updateWhitelistStatus(null);
                         this.lotteryOpen = false;
+                        throw "Too Many Failures";
                     } else {
                         this.checkStatus(++retries);
                     }
@@ -336,7 +430,7 @@ class LotteryController {
                 lotteryControllerLogger.info("Token exists, attempting to Join...");
                 await lotteryService.join(ConfigManager.getWhitelistToken());
                 this.inLottery = true;
-                lotteryJoin.disabled = false
+                lotteryJoin.disabled = false;
                 this._updateUI();
             } catch (error) {
                 lotteryControllerLogger.info("Error trying to join, code:", error);
@@ -347,8 +441,9 @@ class LotteryController {
                     if (retries > RETRY_LIMIT) {
                         ConfigManager.updateWhitelistToken(null);
                         ConfigManager.updateWhitelistStatus(null);
+                        throw "Too Many Failures";
                     } else {
-                        this.checkStatus(++retries);
+                        this.join(++retries);
                     }
                 } else if (error === LOTTERY_CLOSED) {
                     lotteryControllerLogger.info("Lottery is closed dummy...");
@@ -360,7 +455,9 @@ class LotteryController {
             lotteryControllerLogger.info("Error Getting Status");
         }
 
-        setTimeout(()=>{lotteryJoin.disabled = false}, 5000)
+        setTimeout(() => {
+            lotteryJoin.disabled = false;
+        }, 5000);
         ConfigManager.save();
     }
 
@@ -389,8 +486,9 @@ class LotteryController {
                     if (retries > RETRY_LIMIT) {
                         ConfigManager.updateWhitelistToken(null);
                         ConfigManager.updateWhitelistStatus(null);
+                        throw "Too Many Failures";
                     } else {
-                        this.checkStatus(++retries);
+                        return this.ack(++retries);
                     }
                 } else if (error === NOT_FOUND) {
                     lotteryControllerLogger.info("Ack failed - not found...");
