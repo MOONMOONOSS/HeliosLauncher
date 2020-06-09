@@ -284,7 +284,7 @@ class LotteryController {
             showMethod: "fadeIn",
             hideMethod: "fadeOut"
         };
-        toastr.info("", `<img height=24 width=24 src="./assets/images/emotes/687811504661200899.png" />Someone else has won...<audio autoplay src="./assets/sounds/loss.ogg"></audio>`);
+        toastr.info("", `<img height=24 width=24 src="./assets/images/emotes/687811504661200899.png" />Someone else has won...`);
     }
 
     _updateUI() {
