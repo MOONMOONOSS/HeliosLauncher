@@ -118,9 +118,7 @@ class LotteryApiService {
                 }
             });
         });
-    }
-
-    
+    }   
 }
-
-exports.lotteryService = new LotteryApiService();
+const lotteryService = new LotteryApiService();
+exports.lotteryService = lotteryService;
