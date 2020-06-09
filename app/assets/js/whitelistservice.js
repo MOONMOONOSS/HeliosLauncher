@@ -7,12 +7,12 @@ const whitelistServiceLogger = LoggerUtil("%c[WhitelistService]", "color: #fffff
 const BrowserWindow = electron.remote.BrowserWindow;
 
 class WhitelistService {
-    constructor(baseUrl = "", client_id = "", redirect_uri = "", scopes = []) {
+    constructor() {
         whitelistServiceLogger.info("Constructing...");
-        this.client_id = client_id;
-        this.redirect_uri = redirect_uri;
-        this.scopes = scopes;
-        this.baseUrl = baseUrl;
+        this.client_id = "604009411928784917";
+        this.redirect_uri = "https://localhost:8080/discord";
+        this.scopes = ["identify", "guilds"];
+        this.baseUrl = "https://panel.moonmoon.live:8000/v1";
         this.authWindowConfig = {
             width: 850,
             height: 800,
@@ -231,4 +231,6 @@ class WhitelistService {
     }
 }
 
-exports.WhitelistService = WhitelistService;
+const whitelistService = new WhitelistService();
+
+exports.whitelistService = whitelistService;

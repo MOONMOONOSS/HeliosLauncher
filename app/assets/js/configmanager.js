@@ -755,10 +755,10 @@ exports.updateWhitelistStatus = function(status){
  * @returns {number} Status for the current selected account
  */
 exports.getLotteryStatus = function(uuid){
-    if(!config.lotterybeta.hasOwnProperty(uuid)){
-        config.lotterybeta[uuid] = null
+    if(!config.lottery.hasOwnProperty(uuid)){
+        config.lottery[uuid] = null
     }
-    return config.lotterybeta[uuid]
+    return config.lottery[uuid]
 }
 
 /**
@@ -769,6 +769,6 @@ exports.getLotteryStatus = function(uuid){
  * @returns {number} Status set
  */
 exports.updateLotteryStatus = function(uuid, status){
-    config.lotterybeta[uuid] = status
-    return config.lotterybeta[uuid]
+    config.lottery[uuid] = status
+    return config.lottery[uuid]
 }

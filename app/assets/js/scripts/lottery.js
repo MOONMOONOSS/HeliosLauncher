@@ -3,6 +3,8 @@
 
 //Requires
 const { lotteryService } = require("./assets/js/lotteryapiservice");
+// const { whitelistService } = require("./assets/js/whitelistservice");
+
 const lotteryControllerLogger = LoggerUtil("%c[lotteryControllerLogger]", "color: #ff71ce; font-weight: bold");
 
 class LotteryController {
@@ -42,9 +44,12 @@ class LotteryController {
     _setupListeners() {
         lotteryControllerLogger.info("Setting up Listeners...");
         document.getElementById("lotteryConnect").onclick = () => {
+            lotteryControllerLogger.info("Connect Clicked...");
             this._init();
         };
         document.getElementById("lotteryJoin").onclick = () => {
+            lotteryControllerLogger.info("Join Clicked...");
+            lotteryJoin.disabled = true
             this.join();
         };
     }
@@ -54,6 +59,8 @@ class LotteryController {
     }
 
     async _init() {
+        lotteryControllerLogger.info("Initializing Lottery Controller...");
+
         //clear any existing socket connection
         if (this.lotteryWs) {
             this.lotteryWs.close();
@@ -64,8 +71,6 @@ class LotteryController {
         this.lotteryOpen = false;
         this.inLottery = false;
         this.lotteryWin = false;
-
-        lotteryControllerLogger.info("Connecting to Socket and Initalizing Status...");
 
         this.lotteryWin = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid) !== null;
 
@@ -89,13 +94,10 @@ class LotteryController {
 
     _onWsOpen(event) {
         lotteryControllerLogger.info("Websocket Connected...");
-        this.wsConnected = true;
     }
 
     _onWsMessage(event) {
-        lotteryControllerLogger.info("Message Received...");
-        
-
+        lotteryControllerLogger.info("Websocket Message Received...");
         const receiveMsg = JSON.parse(event.data);
         lotteryControllerLogger.info("Data:",receiveMsg);
         this.lotteryWs.send(JSON.stringify({messageId: receiveMsg.messageId}))
@@ -106,6 +108,9 @@ class LotteryController {
                 break;
             case "close":
                 this._handleLotteryClose();
+                break;
+            case "clearLotto":
+                this._handleLotteryClear();
                 break;
             case "draw":
                 if (message.uuid === ConfigManager.getSelectedAccount().uuid) {
@@ -142,13 +147,22 @@ class LotteryController {
     }
 
     _handleLotteryOpen() {
-        lotteryControllerLogger.info("lottery opening...");
+        lotteryControllerLogger.info("Handling Lottery Opening...");
         this.lotteryOpen = true;
         this._updateUI();
     }
 
     _handleLotteryClose() {
-        lotteryControllerLogger.info("lottery closing...");
+        lotteryControllerLogger.info("Handling Lottery Closing...");
+        this.inLottery = false;
+        this.lotteryOpen = false;
+        this._updateUI();
+    }
+
+    _handleLotteryClear(){
+        lotteryControllerLogger.info("Handling Lottery Clearing...");
+        ConfigManager.updateLotteryStatus(ConfigManager.getSelectedAccount().uuid, null);
+        ConfigManager.save();
         this.inLottery = false;
         this.lotteryOpen = false;
         this._updateUI();
@@ -163,7 +177,7 @@ class LotteryController {
                 ConfigManager.updateLotteryStatus(ConfigManager.getSelectedAccount().uuid, status);
                 ConfigManager.save();
             } catch (error) {
-                lotteryControllerLogger.info("Error, so close");
+                lotteryControllerLogger.info("Errored, closing...");
                 this.lotteryWin = false;
                 this.inLottery = false;
             }
@@ -176,11 +190,12 @@ class LotteryController {
     }
 
     _handleLotteryNotPicked() {
-        lotteryControllerLogger.info("I WAS NOT PICKED, pepehands");
+        lotteryControllerLogger.info("Someone was picked....and it wasn't you...pepehands");
         // alert("Sorry, you werent picked");
     }
 
     _updateUI() {
+        lotteryControllerLogger.info("Updating UI");
         if (this.lotteryWin) {
             let status = ConfigManager.getLotteryStatus(ConfigManager.getSelectedAccount().uuid)
             let displayMessage = status.msg.replace("#{}" , status.serverIp)
@@ -296,7 +311,7 @@ class LotteryController {
                 }
             }
         } else {
-            lotteryControllerLogger.info("Error Getting Status");
+            lotteryControllerLogger.info("Error Getting Status, assuming lottery closed for now...");
             this.lotteryOpen = false;
         }
 
@@ -310,7 +325,7 @@ class LotteryController {
      * @param {number} retries number of times we'll rerun before erroring out for too many attempts
      */
     async join(retries = 0) {
-        lotteryControllerLogger.info("Joining...");
+        lotteryControllerLogger.info("Joining Lottery...");
         const RETRY_LIMIT = 3;
         const STALE_TOKEN = 403;
         const LOTTERY_CLOSED = 410;
@@ -321,14 +336,13 @@ class LotteryController {
                 lotteryControllerLogger.info("Token exists, attempting to Join...");
                 await lotteryService.join(ConfigManager.getWhitelistToken());
                 this.inLottery = true;
+                lotteryJoin.disabled = false
                 this._updateUI();
             } catch (error) {
-                lotteryControllerLogger.info("Error checking status, code:", error);
+                lotteryControllerLogger.info("Error trying to join, code:", error);
 
                 if (error === STALE_TOKEN) {
                     lotteryControllerLogger.info("Updating token, then retrying...");
-                    document.getElementById("whitelist_login_status").innerText = "Refreshing Token...";
-
                     let refreshSuccessful = await this._refreshToken();
                     if (retries > RETRY_LIMIT) {
                         ConfigManager.updateWhitelistToken(null);
@@ -346,6 +360,7 @@ class LotteryController {
             lotteryControllerLogger.info("Error Getting Status");
         }
 
+        setTimeout(()=>{lotteryJoin.disabled = false}, 5000)
         ConfigManager.save();
     }
 
@@ -370,8 +385,6 @@ class LotteryController {
 
                 if (error === STALE_TOKEN) {
                     lotteryControllerLogger.info("Updating token, then retrying...");
-                    document.getElementById("whitelist_login_status").innerText = "Refreshing Token...";
-
                     let refreshSuccessful = await this._refreshToken();
                     if (retries > RETRY_LIMIT) {
                         ConfigManager.updateWhitelistToken(null);
@@ -380,7 +393,7 @@ class LotteryController {
                         this.checkStatus(++retries);
                     }
                 } else if (error === NOT_FOUND) {
-                    lotteryControllerLogger.info("ACK FAILED - NOT FOUND...");
+                    lotteryControllerLogger.info("Ack failed - not found...");
                     throw "Ack Failed - Not Found";
                 } else {
                     lotteryControllerLogger.info("some other error...");
@@ -388,7 +401,7 @@ class LotteryController {
                 }
             }
         } else {
-            lotteryControllerLogger.info("Error Getting Status");
+            lotteryControllerLogger.info("Error asserting token exists");
             throw "Ack Failed - No Token";
         }
 

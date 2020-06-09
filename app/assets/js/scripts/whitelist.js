@@ -3,24 +3,12 @@
 // switchView()
 
 //Requires
-const { WhitelistService } = require("./assets/js/whitelistservice");
+const { whitelistService } = require("./assets/js/whitelistservice");
 const whitelistStatusControllerLogger = LoggerUtil("%c[whitelistStatusController]", "color: #ff71ce; font-weight: bold");
-
-
-//Prod service config
-const prodConfig = {
-    url: "https://panel.moonmoon.live:8000/v1",
-    clientId: "604009411928784917",
-    redirect_uri: "https://localhost:8080/discord",
-    scopes: ["identify", "guilds"]
-};
-const Config = prodConfig;
-const whitelistService = new WhitelistService(Config.url, Config.clientId, Config.redirect_uri, Config.scopes);
-
 
 class WhitelistStatusController {
     constructor() {
-        whitelistStatusControllerLogger.debug("Constructing...");
+        whitelistStatusControllerLogger.info("Constructing...");
 
         //Elements
         this.loginButton = document.getElementById("discord_login");
@@ -36,7 +24,7 @@ class WhitelistStatusController {
      * Establishes event listeners
      */
     _setupListeners() {
-        whitelistStatusControllerLogger.debug("Setting up Listeners...");
+        whitelistStatusControllerLogger.info("Setting up Listeners...");
         document.getElementById("discord_login").onclick = () => {
             this.checkStatus();
         };
@@ -51,7 +39,7 @@ class WhitelistStatusController {
      * @returns {boolean} successful if request didn't error
      */
     async _ensureToken() {
-        whitelistStatusControllerLogger.debug("Checking that we have a token...");
+        whitelistStatusControllerLogger.info("Checking that we have a token...");
         let isSuccessful = true;
         if (ConfigManager.getWhitelistToken() === null) {
             try {
@@ -76,7 +64,7 @@ class WhitelistStatusController {
      * @returns {boolean} successful if request didn't error
      */
     async _refreshToken() {
-        whitelistStatusControllerLogger.debug("Trying to refresh token...");
+        whitelistStatusControllerLogger.info("Trying to refresh token...");
         let isSuccessful = true;
         try {
             ConfigManager.updateWhitelistToken(await whitelistService.refreshToken(ConfigManager.getWhitelistToken()));
@@ -96,7 +84,7 @@ class WhitelistStatusController {
      * @returns {boolean} successful if request didn't error
      */
     async _linkAccount() {
-        whitelistStatusControllerLogger.debug("Trying to link account...");
+        whitelistStatusControllerLogger.info("Trying to link account...");
         let isSuccessful = true;
         try {
             await whitelistService.linkAccount(ConfigManager.getWhitelistToken(), ConfigManager.getSelectedAccount().uuid);
@@ -140,7 +128,7 @@ class WhitelistStatusController {
      * @param {number} retries number of times we'll rerun before erroring out for too many attempts
      */
     async checkStatus(retries = 0) {
-        whitelistStatusControllerLogger.debug("Checking Status...");
+        whitelistStatusControllerLogger.info("Checking Status...");
         const RETRY_LIMIT = 3;
         const STALE_TOKEN = 403;
         const UNLINKED = 404;
@@ -151,7 +139,7 @@ class WhitelistStatusController {
         let tokenReady = await this._ensureToken();
         if (tokenReady) {
             try {
-                whitelistStatusControllerLogger.debug("Token exists, attempting to update status...");
+                whitelistStatusControllerLogger.info("Token exists, attempting to update status...");
                 document.getElementById("whitelist_login_status").innerText = "Attempting to get status...";
 
                 ConfigManager.updateWhitelistStatus(await whitelistService.getWhitelistStatus(ConfigManager.getWhitelistToken()));
@@ -165,7 +153,7 @@ class WhitelistStatusController {
                         document.getElementById("whitelist_login_status").innerText = "Account not permitted...";
                     }
                 } else {
-                    whitelistStatusControllerLogger.debug("Different Account Linked. Linking this one...");
+                    whitelistStatusControllerLogger.info("Different Account Linked. Linking this one...");
                     document.getElementById("whitelist_login_status").innerText = "Different Account Linked. Linking this account...";
 
                     let linkingSuccessful = await this._linkAccount();
@@ -178,10 +166,10 @@ class WhitelistStatusController {
                     }
                 }
             } catch (error) {
-                whitelistStatusControllerLogger.debug("Error checking status, code:", error);
+                whitelistStatusControllerLogger.info("Error checking status, code:", error);
 
                 if (error === STALE_TOKEN) {
-                    whitelistStatusControllerLogger.debug("Updating token, then retrying...");
+                    whitelistStatusControllerLogger.info("Updating token, then retrying...");
                     document.getElementById("whitelist_login_status").innerText = "Refreshing Token...";
 
                     let refreshSuccessful = await this._refreshToken();
@@ -194,7 +182,7 @@ class WhitelistStatusController {
                         this.checkStatus(++retries);
                     }
                 } else if (error === UNLINKED) {
-                    whitelistStatusControllerLogger.debug("Error checking status, linking account...");
+                    whitelistStatusControllerLogger.info("Error checking status, linking account...");
                     document.getElementById("whitelist_login_status").innerText = "Linking Account...";
 
                     let linkingSuccessful = await this._linkAccount();
