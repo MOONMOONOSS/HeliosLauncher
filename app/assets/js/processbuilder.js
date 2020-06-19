@@ -351,7 +351,14 @@ class ProcessBuilder {
         args = args.concat(ConfigManager.getJVMOptions())
 
         // Main Java Class
-        args.push(this.forgeData.mainClass)
+        
+        // This generally indicates that Forge is not present
+        // The mainClass will therefore be on versionData
+        // instead.
+        if (this.forgeData === null)
+            args.push(this.versionData.mainClass)
+        else
+            args.push(this.forgeData.mainClass)
 
         // Vanilla Arguments
         args = args.concat(this.versionData.arguments.game)

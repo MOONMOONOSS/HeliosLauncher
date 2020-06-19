@@ -530,7 +530,6 @@ function dlAsync(login = true){
 
     // Establish communications between the AssetExec and current process.
     aEx.on('message', (m) => {
-
         if(m.context === 'validate'){
             switch(m.data){
                 case 'distribution':
