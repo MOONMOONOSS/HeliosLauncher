@@ -469,7 +469,9 @@ class ProcessBuilder {
         }
 
         // Forge Specific Arguments
-        args = args.concat(this.forgeData.arguments.game)
+        // Ignore if not running Forge
+        if (this.forgeData !== null)
+            args = args.concat(this.forgeData.arguments.game)
 
         // Filter null values
         args = args.filter(arg => {
