@@ -129,7 +129,7 @@ class LotteryController {
         const receiveMsg = JSON.parse(event.data);
         lotteryControllerLogger.info("Data:", receiveMsg);
         this.lotteryWs.send(JSON.stringify({ messageId: receiveMsg.messageId }));
-        const message = JSON.parse(new Buffer(receiveMsg.payload, "base64").toString());
+        const message = JSON.parse(Buffer.from(receiveMsg.payload, "base64").toString());
         switch (message.type) {
             case "open":
                 this._handleLotteryOpen();
