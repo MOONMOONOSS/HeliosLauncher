@@ -1476,26 +1476,25 @@ class AssetGuard extends EventEmitter {
                         for(let sub of ob.getSubModules()){
                             if(sub.getType() === DistroManager.Types.VersionManifest){
                                 resolve(JSON.parse(fs.readFileSync(sub.getArtifact().getPath(), 'utf-8')))
-                                return
                             }
                         }
-                        reject('No forge version manifest found!')
-                        return
+                        console.warn('No forge version manifest found! Assuming we are running vanilla.')
+                        return resolve(null)
                     } else {
                         let obArtifact = ob.getArtifact()
                         let obPath = obArtifact.getPath()
                         let asset = new DistroModule(ob.getIdentifier(), obArtifact.getHash(), obArtifact.getSize(), obArtifact.getURL(), obPath, type)
                         try {
                             let forgeData = await AssetGuard._finalizeForgeAsset(asset, self.commonPath)
-                            resolve(forgeData)
+                            return resolve(forgeData)
                         } catch (err){
-                            reject(err)
+                            return reject(err)
                         }
-                        return
                     }
                 }
             }
-            reject('No forge module found!')
+            console.warn('No forge module found! Assuming we are running vanilla...')
+            return resolve(null)
         })
     }
 
