@@ -5,9 +5,9 @@
       <h2 id="welcomeHeader">WELCOME</h2>
       <p id="welcomeDescription">Thanks for downloading our fork of the Helios Launcher. This launcher was designed to make modded Minecraft as easy as 1-2-3. Be sure to whitelist your Mojang account in the Discord, or you will not be able to join!</p>
       <h5 id="welcomeDescCTA">You are just a few clicks away!</h5>
-      <button id="welcomeButton">
+      <router-link to="login" id="welcomeButton">
         CONTINUE <span>^</span>
-      </button>
+      </router-link>
     </div>
   </main>
 </template>
@@ -17,10 +17,6 @@ import {remote} from 'electron'; // eslint-disable-line
 
 export default {
   name: 'welcome-page',
-  data: () => ({
-  }),
-  methods: {
-  },
 };
 </script>
 
@@ -34,12 +30,13 @@ export default {
 #welcomeButton
   background none
   border none
-  cursor pointer
+  color white
   font-weight bold
   letter-spacing 2px
   margin 5% 0 -5% 0
   padding 15px 5px
   position relative
+  text-decoration none
   transition .5s ease
   &:active
     color #c7c7c7
@@ -57,8 +54,7 @@ export default {
 #welcomeContainer
   align-items center
   display flex
-  // Considers loader bar
-  height calc(100% - 22px)
+  height 100%
   justify-content center
   position relative
   width 100%
