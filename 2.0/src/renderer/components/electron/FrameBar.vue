@@ -78,9 +78,9 @@ export default {
   -webkit-app-region no-drag
 
 #frameBar
-  display fixed
+  display flex
   flex-direction column
-  position relative
+  position fixed
   transition background-color 1s ease
   user-select none
   width -webkit-fill-available
