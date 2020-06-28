@@ -6,10 +6,9 @@
 
 <script>
   export default {
-    name: 'helios-test',
+    name: 'launcher',
   };
 </script>
 
-<style>
-  /* CSS */
+<style lang="stylus">
 </style>

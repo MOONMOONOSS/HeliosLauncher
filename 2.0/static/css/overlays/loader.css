@@ -1,0 +1,26 @@
+/* Loading container, placed above everything. */
+#loadingContainer {
+  align-items: center;
+  display: flex;
+  height: calc(100% - 22px);
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 11;
+}
+
+/* Loading content container. */
+#loadingContent {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* Stationary image for the spinner. */
+#loadCenterImage {
+  border-radius: 50%;
+  height: auto;
+  width: 277px;
+}
