@@ -34,6 +34,14 @@ let mainConfig = {
         exclude: /node_modules/
       },
       {
+        test: /\.styl(us)?$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'stylus-loader'
+        ]
+      },
+      {
         test: /\.node$/,
         use: 'node-loader'
       }
