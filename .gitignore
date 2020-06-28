@@ -1,12 +1,12 @@
 # Configuration
-/.vs/
-/.vscode/
+.vs/
+.vscode/
 
 # Generated
-/node_modules/
-/target/
-/logs/
-/dist/
+node_modules/
+target/
+logs/
+dist/
 
 # Mac Specific
 .DS_Store
