@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import path from 'path';
 
 /**
  * Set `__static` path to static files in production
@@ -18,10 +19,20 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    width: 980,
+    height: 552,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'assets', 'js'),
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
     useContentSize: true,
-    width: 1000,
+    backgroundColor: '#171614',
   });
+
+  mainWindow.setMenuBarVisibility(false);
+  mainWindow.setResizable(true);
 
   mainWindow.loadURL(winURL);
 
@@ -29,6 +40,9 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+// https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = true;
 
 app.on('ready', createWindow);
 
