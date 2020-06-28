@@ -5,6 +5,7 @@
   height: calc(100% - 22px);
   justify-content: center;
   position: absolute;
+  top: 22px;
   width: 100%;
   z-index: 11;
 }
