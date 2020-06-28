@@ -83,13 +83,14 @@ export default {
   position relative
   transition background-color 1s ease
   user-select none
+  width -webkit-fill-available
   z-index 100
 
-#frameButton_close:active
-  background rgba(235, 0, 0, .61) !important
-
-#frameButton_close:hover, #frameButton_close:focus
-  background rgba(255, 53, 53, .61) !important
+#frameButton_close
+  &:active
+    background rgba(235, 0, 0, .61) !important
+  &:focus, &:hover
+    background rgba(255, 53, 53, .61) !important
 
 #frameButtonDock
   position relative
@@ -114,26 +115,26 @@ export default {
       margin-left 5px
       width 12px
       -webkit-app-region no-drag !important
-    > .frameButton:focus
+    &:focus
       outline 0
     > #frameButton_close
       background-color #e74c32
-    > #frameButton_close:active
-      background-color #ff8d7b
-    > #frameButton_close:focus, #frameButton_close:hover
-      background-color #ff9a8a
+      &:active
+        background-color #ff8d7b
+      &:focus, &:hover
+        background-color #ff9a8a
     > #frameButton_minimize
       background-color #fed045
-    > #frameButton_minimize:active
-      background-color #ffde7b
-    > #frameButton_minimize:focus, #frameButton_minimize:hover
-      background-color #ffe9a9
+      &:active
+        background-color #ffde7b
+      &:focus, &:hover
+        background-color #ffe9a9
     > #frameButton_restoredown
       background-color #96e734
-    > #frameButton_restoredown:active
-      background-color #bfff76
-    > #frameButton_restoredown:focus, #frameButton_restoredown:hover
-      background-color #d6ffa6
+      &:active
+        background-color #bfff76
+      &:focus, &:hover
+        background-color #d6ffa6
 
 #frameContent[platform='win32']
   justify-content space-between
@@ -141,20 +142,20 @@ export default {
     height 22px
     right -2px
     top -2px
-    > .frameButton:not(:first-child)
-      margin-left -4px
     .frameButton
       background none
       border none
       cursor pointer
       height 22px
       width 39px
-    .frameButton:active
-      background rgba(156, 156, 156, .43)
-    .frameButton:focus
-      outline 0
-    .frameButton:focus, .frameButton:hover
-      background rgba(189, 189, 189, .43)
+      &:active
+        background rgba(156, 156, 156, .43)
+      &:focus
+        outline 0
+      &:not(:first-child)
+        margin-left -4px
+      &:focus, &:hover
+        background rgba(189, 189, 189, .43)
 
 #frameMain
   display flex
