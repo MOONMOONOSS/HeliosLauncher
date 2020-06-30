@@ -5,7 +5,6 @@
         <img id="loginImageSeal" src="static/img/loading_seal.png"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
         <div class="loginFieldContainer">
-          <span class="loginErrorSpan">* Invalid Value</span>
           <div class="loginField">
             <svg class="loginSVG" viewBox="40 37 65.36 61.43">
               <g>
@@ -16,7 +15,6 @@
           </div>
         </div>
         <div class="loginFieldContainer">
-          <span class="loginErrorSpan">* Required</span>
           <div class="loginField">
             <svg class="loginSVG" viewBox="40 32 60.36 70.43">
               <g>
@@ -35,6 +33,21 @@
             <span id="loginRememberText" class="loginSpanDim">Remember me?</span>
             <span class="loginCheckmark"></span>
           </label>
+        </div>
+        <button id="loginButton">
+          <div id="loginButtonContent">
+            LOGIN <span>^</span>
+            <div class="circle-loader" hide>
+              <div class="checkmark draw"></div>
+            </div>
+          </div>
+        </button>
+        <div id="loginDisclaimer">
+          <span class="loginSpanDim" id="loginRegisterSpan">
+            <a @click="openLink('https://minecraft.net/en-us/store/minecraft/')">Need an Account?</a>
+          </span>
+          <p>Your password is sent directly to mojang and never stored.</p>
+          <p>MOON2 Launcher is not affiliated with Mojang AB.</p>
         </div>
       </form>
     </div>
@@ -60,6 +73,24 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@keyframes loader-spin
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(360deg)
+
+.circle-loader
+  animation 1s linear infinite loader-spin
+  border 2px solid rgba(255,255,255,.5)
+  border-left-color #fff
+  border-radius 50%
+  display inline-block
+  height 16px
+  margin-left 10px
+  width 16px
+  &[hide]
+    display none
+
 .loginCheckmark
   background none
   border 1px solid #848484
@@ -108,18 +139,6 @@ export default {
   position relative
   justify-content center
 
-.loginErrorSpan
-  color #ff1b0c
-  font-family 'Avenir Medium'
-  font-size 12px
-  // opacity 0
-  pointer-events none
-  position absolute
-  text-align right
-  top 7px
-  transition .25s ease
-  width 100%
-
 .loginSpanDim
   color #848484
   font-size 12px
@@ -165,6 +184,40 @@ export default {
     opacity 0
     position absolute
 
+#loginButton
+  background none
+  border none
+  cursor pointer
+  font-weight bold
+  letter-spacing 2px
+  padding 15px 5px
+  position relative
+  transition .5s ease
+  &:active
+    color #c7c7c7
+    text-shadow 0 0 20px #c7c7c7
+    #loginButtonContent > span
+      filter drop-shadow(0 0 2px #c7c7c7)
+  &:disabled
+    color rgba(255,255,255,.75)
+    pointer-events none
+  &:focus, &:hover
+    outline none
+    text-shadow 0 0 20px #fff
+    #loginButtonContent > span
+      filter drop-shadow(0 0 2px #fff)
+  &[loading]
+    color #fff
+
+#loginButtonContent
+  align-items center
+  display flex
+  span
+    display inline-block
+    transform rotate(90deg)
+    &[hide]
+      display none
+
 #loginContainer
   align-items center
   background rgba(0,0,0,.5)
@@ -181,6 +234,17 @@ export default {
   height 100%
   padding 0 25px
   justify-content center
+
+#loginDisclaimer
+  align-items center
+  display flex
+  flex-direction column
+  p
+    color #848484
+    font-size 12px
+    font-weight bold
+    margin 0
+    text-align center
 
 #loginForm
   align-items center
