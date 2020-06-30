@@ -33,9 +33,7 @@ export default {
   color white
   font-weight bold
   letter-spacing 2px
-  margin 5% 0 -5% 0
   padding 15px 5px
-  position relative
   text-decoration none
   transition .5s ease
   &:active
@@ -56,14 +54,12 @@ export default {
   display flex
   height 100%
   justify-content center
-  position relative
   width 100%
 
 #welcomeContent
   align-items center
   display flex
   flex-direction column
-  position relative
   top -10%
   width 50%
 
@@ -87,8 +83,6 @@ export default {
   border-radius 50%
   box-shadow 0 0 10px 0 rgb(0,0,0)
   height 125px
-  margin-bottom 5%
-  margin-top 10%
 
 #welcomeSVG
   height 10px
