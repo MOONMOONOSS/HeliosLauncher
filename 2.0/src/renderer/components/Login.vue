@@ -1,7 +1,7 @@
 <template>
   <main id="loginContainer">
     <div id="loginContent">
-      <form id="loginForm">
+      <form v-on:submit.prevent="onSubmit" id="loginForm">
         <img id="loginImageSeal" src="static/img/loading_seal.png"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
         <div class="loginFieldContainer">
@@ -65,6 +65,9 @@ export default {
     },
   }),
   methods: {
+    onSubmit() {
+      this.$router.push({ name: 'whitelisting' });
+    },
     openLink(url) {
       shell.openExternal(url);
     },
@@ -73,11 +76,46 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@keyframes checkmark
+  0%
+    height 0
+    opacity 1
+    width 0
+  20%
+    height 0
+    opacity 1
+    width 4px
+  40%
+    height 8px
+    opacity 1
+    width 4px
+  100%
+    height 8px
+    opacity 1
+    width 4px
+
 @keyframes loader-spin
   0%
     transform rotate(0deg)
   100%
     transform rotate(360deg)
+
+.checkmark
+  display none
+  &:after
+    border-right 2px solid #fff
+    border-top 2px solid #fff
+    content ''
+    height 8px
+    left 2px
+    opacity 1
+    position absolute
+    top 8px
+    transform-origin left top
+    width 4px
+  .draw:after
+    animation 800ms ease checkmark
+    transform scaleX(-1) rotate(135deg)
 
 .circle-loader
   animation 1s linear infinite loader-spin
