@@ -10,7 +10,7 @@
       </ul>
       <div class="spacer underlined"></div>
       <div>
-        <button class="whitelistButton">Link with Discord</button>
+        <button @click="finish" class="whitelistButton">Link with Discord</button>
       </div>
     </div>
   </main>
@@ -24,6 +24,9 @@ export default {
   data: () => ({
   }),
   methods: {
+    finish() {
+      this.$router.push({ name: 'overview' });
+    },
   },
 };
 </script>

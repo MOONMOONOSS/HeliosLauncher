@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Landing from '@/components/Landing';
 import Login from '@/components/Login';
 import Welcome from '@/components/Welcome';
 import Whitelist from '@/components/Whitelist';
@@ -23,6 +24,11 @@ export default new Router({
       path: '/whitelist',
       name: 'whitelisting',
       component: Whitelist,
+    },
+    {
+      path: '/overview',
+      name: 'overview',
+      component: Landing,
     },
     {
       path: '*',
