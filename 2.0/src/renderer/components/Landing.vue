@@ -13,9 +13,10 @@
       </div>
     </section>
     <section id="social">
-      <div class="mediaContainer">
+      <div class="mediaContainer" id="settings">
         <button>
           <img src="static/svg/settings.svg" type="image/svg+xml"/>
+          <div class="tooltip">Settings</div>
         </button>
       </div>
 
@@ -121,9 +122,13 @@ section
     transition .25s ease
     width 15px
   &:hover, &:focus
-    *
+    *:not(.tooltip)
       height 25px
       width 25px
+    .tooltip
+      opacity 1
+      right 180%
+      visibility visible
   // For settings icon
   // To remove excessive margin on divider
   &:first-child
@@ -140,9 +145,35 @@ section
     border none
     padding 0
 
+.tooltip
+  background-color rgba(0,0,0,.75)
+  border-radius 4px
+  opacity 0
+  height 20px
+  line-height 20px
+  position absolute
+  right 150%
+  top -20%
+  transition .25s ease
+  transition-property opacity, right
+  visibility hidden
+  width 75px
+  &::after
+    border-color transparent transparent transparent rgba(0,0,0,.75)
+    border-style solid
+    border-width 5px
+    content ' '
+    left 100%
+    margin-top -5px
+    position absolute
+    top 50%
+
 #divider
   height 15px
   width 15px
+
+#settings
+  position relative
 
 #social
   align-items flex-end
