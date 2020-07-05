@@ -2,7 +2,7 @@
   <main id="loginContainer">
     <div id="loginContent">
       <form v-on:submit.prevent="onSubmit" id="loginForm">
-        <img id="loginImageSeal" src="static/img/loading_seal.png"/>
+        <img id="loginImageSeal" src="static/img/logoAnim.gif"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
         <div class="loginFieldContainer">
           <div class="loginField">
