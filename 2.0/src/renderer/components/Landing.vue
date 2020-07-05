@@ -47,7 +47,11 @@
       <div id="news" class="grow">
         <button><span>^</span>NEWS</button>
       </div>
-      <div id="launchControls" class="grow">test</div>
+      <div id="launchControls" class="grow">
+        <button id="play">PLAY</button>
+        <div class="horiDivider"></div>
+        <button>• Nether Update</button>
+      </div>
     </section>
   </main>
 </template>
@@ -211,9 +215,15 @@ section
   flex-grow 1
 
 #launchControls
-  align-items flex-end
   display flex
-  flex-direction column
+  justify-content flex-end
+  button
+    background none
+    border none
+    font-size 20px
+    font-weight 900
+    letter-spacing 2px
+    padding 0
 
 #mojang
   font-size 12px
@@ -225,6 +235,8 @@ section
     margin-left 10px
 
 #news
+  display flex
+  justify-content center
   button
     background none
     border none
