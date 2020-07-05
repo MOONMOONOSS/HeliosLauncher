@@ -12,8 +12,22 @@
         </button>
       </div>
     </section>
-    <section class="float-right">
-      test
+    <section id="social">
+      <div class="mediaContainer">
+        <button>
+          <img src="static/svg/settings.svg" type="image/svg+xml"/>
+        </button>
+      </div>
+
+      <div id="divider" class="flex">
+        <div class="divider"></div>
+      </div>
+
+      <div v-for="obj in externalMedia" :key="obj.link" class="mediaContainer">
+        <a @click="openLink(obj.link)">
+          <img :src="`static/svg/${obj.svg}.svg`" type="image/svg+xml"/>
+        </a>
+      </div>
     </section>
   </main>
 </template>
@@ -26,13 +40,35 @@ export default {
   data: () => ({
     username: 'Dunkel is Dumb',
     uuid: 'ec91e5313da043c880b1dcfd0fa2dc18',
+    externalMedia: [
+      {
+        link: 'https://github.com/MOONMOONOSS/HeliosLauncher',
+        svg: 'link',
+      },
+      {
+        link: 'https://twitter.com/moonmoon_ow',
+        svg: 'twitter',
+      },
+      {
+        link: 'https://streamlabs.com/dunklheit/tip',
+        svg: 'donate',
+      },
+    ],
   }),
   methods: {
+    openLink(url) {
+      shell.openExternal(url);
+    },
   },
 };
 </script>
 
 <style scoped lang="stylus">
+a, button
+  &:hover, &:focus
+    cursor pointer
+    outline none
+
 main
   display flex
   flex-direction column
@@ -61,8 +97,58 @@ section
   border 2px solid #878787
   border-radius 50%
 
-.float-right
-  justify-content flex-end
+.divider
+  background white
+  display flex
+  height 1px
+  margin 10px 0
+  width 15px
+
+.flex
+  align-items center
+  display flex
+  justify-content center
+
+.mediaContainer
+  align-items center
+  display flex
+  height 15px
+  margin 5px 0
+  justify-content center
+  width 15px
+  *
+    height 15px
+    transition .25s ease
+    width 15px
+  &:hover, &:focus
+    *
+      height 25px
+      width 25px
+  // For settings icon
+  // To remove excessive margin on divider
+  &:first-child
+    margin-bottom 0
+  // For first icon in the media link section
+  // To remove excessive margin on divider
+  &:nth-child(2)
+    margin-top 0
+  // Removes excessive margin on last icon
+  &:last-child
+    margin-bottom 0
+  button
+    background none
+    border none
+    padding 0
+
+#divider
+  height 15px
+  width 15px
+
+#social
+  align-items flex-end
+  display flex
+  flex-direction column
+  margin-top 25px
 
 #user
   align-items center
@@ -87,5 +173,9 @@ section
         opacity 1
 
 #userText
+  font-weight 900
+  letter-spacing 1px
   margin-right 20px
+  text-shadow 0 0 20px white
+  user-select none
 </style>
