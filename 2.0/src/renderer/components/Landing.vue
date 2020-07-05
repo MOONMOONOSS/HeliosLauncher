@@ -30,6 +30,25 @@
         </a>
       </div>
     </section>
+    <div id="launcherSpacer"></div>
+    <section id="gameLaunch">
+      <div id="status" class="grow">
+        <div id="server">
+          PLAYERS <span>{{numPlayers}}/{{maxPlayers}}</span>
+        </div>
+        <div class="horiDivider"></div>
+        <div id="mojang">
+          MOJANG STATUS<span>•</span>
+          <div class="tooltip" id="services">
+            
+          </div>
+        </div>
+      </div>
+      <div id="news" class="grow">
+        <button><span>^</span>NEWS</button>
+      </div>
+      <div id="launchControls" class="grow">test</div>
+    </section>
   </main>
 </template>
 
@@ -55,6 +74,8 @@ export default {
         svg: 'donate',
       },
     ],
+    numPlayers: 12,
+    maxPlayers: 50,
   }),
   methods: {
     openLink(url) {
@@ -109,6 +130,15 @@ section
   align-items center
   display flex
   justify-content center
+
+.grow
+  flex-grow 1
+
+.horiDivider
+  background rgba(107,105,105,.7)
+  height 25px
+  margin 0 20px
+  width 2px
 
 .mediaContainer
   align-items center
@@ -172,6 +202,57 @@ section
   height 15px
   width 15px
 
+#gameLaunch
+  align-items center
+  margin-bottom 5rem
+
+#launcherSpacer
+  display flex
+  flex-grow 1
+
+#launchControls
+  align-items flex-end
+  display flex
+  flex-direction column
+
+#mojang
+  font-size 12px
+  font-weight 900
+  letter-spacing 1px
+  line-height 24px
+  position relative
+  span
+    margin-left 10px
+
+#news
+  button
+    background none
+    border none
+    font-weight 900
+    letter-spacing 2px
+    position relative
+    transition .25s ease
+    &:hover, &:focus
+      cursor pointer
+      outline none
+      text-shadow 0 0 20px white
+    span
+      font-size 24px
+      left calc(50% - 8px)
+      position absolute
+      top -100%
+
+#server
+  display flex
+  font-size 12px
+  font-weight 900
+  letter-spacing 1px
+  line-height 24px
+  span
+    color #949494
+    font-size 10px
+    margin-left 10px
+
 #settings
   position relative
 
@@ -180,6 +261,9 @@ section
   display flex
   flex-direction column
   margin-top 25px
+
+#status
+  display flex
 
 #user
   align-items center
