@@ -55,7 +55,6 @@ main
 #app
   background-image url('../../static/img/bgs/0.jpg')
   background-size cover
-  /* display none */
   height -webkit-fill-available
   opacity 0
   transition all .85s ease
