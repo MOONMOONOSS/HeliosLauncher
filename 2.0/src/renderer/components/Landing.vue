@@ -12,24 +12,7 @@
         </button>
       </div>
     </section>
-    <section id="social">
-      <div class="mediaContainer" id="settings">
-        <button>
-          <img src="static/svg/settings.svg" type="image/svg+xml"/>
-          <div class="tooltip">Settings</div>
-        </button>
-      </div>
-
-      <div id="divider" class="flex">
-        <div class="divider"></div>
-      </div>
-
-      <div v-for="obj in externalMedia" :key="obj.link" class="mediaContainer">
-        <a @click="openLink(obj.link)">
-          <img :src="`static/svg/${obj.svg}.svg`" type="image/svg+xml"/>
-        </a>
-      </div>
-    </section>
+    <Social/>
     <div id="launcherSpacer"></div>
     <section id="gameLaunch">
       <div id="status" class="grow">
@@ -59,25 +42,16 @@
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
 
+import Social from '@/components/landing/Social';
+
 export default {
   name: 'overview',
+  components: {
+    Social,
+  },
   data: () => ({
     username: 'Dunkel is Dumb',
     uuid: 'ec91e5313da043c880b1dcfd0fa2dc18',
-    externalMedia: [
-      {
-        link: 'https://github.com/MOONMOONOSS/HeliosLauncher',
-        svg: 'link',
-      },
-      {
-        link: 'https://twitter.com/moonmoon_ow',
-        svg: 'twitter',
-      },
-      {
-        link: 'https://streamlabs.com/dunklheit/tip',
-        svg: 'donate',
-      },
-    ],
     numPlayers: 12,
     maxPlayers: 50,
   }),
@@ -202,10 +176,6 @@ section
     position absolute
     top 50%
 
-#divider
-  height 15px
-  width 15px
-
 #gameLaunch
   align-items center
   margin-bottom 5rem
@@ -264,15 +234,6 @@ section
     color #949494
     font-size 10px
     margin-left 10px
-
-#settings
-  position relative
-
-#social
-  align-items flex-end
-  display flex
-  flex-direction column
-  margin-top 25px
 
 #status
   display flex
