@@ -6,12 +6,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import FrameBar from './components/electron/FrameBar.vue';
+
+const storage = window.localStorage;
 
 export default {
   name: 'launcher',
   components: { FrameBar },
   mounted() {
+    // Set first launch property if not present
+    // Suppresses the welcome screen
+    try {
+      storage.setItem('first-launch', 'false');
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Unable to access site storage!');
+    }
+
+    if (!this.firstLaunch) {
+      this.$router.push({ name: 'minecraft-login' });
+    }
+
     this.$nextTick(async () => {
       const loader = document.getElementById('loadingContainer');
       loader.style.opacity = 0;
@@ -25,6 +42,9 @@ export default {
 
       this.$el.style.opacity = 1;
     });
+  },
+  computed: {
+    ...mapGetters('Route', ['firstLaunch']),
   },
 };
 </script>
