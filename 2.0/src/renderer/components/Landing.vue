@@ -14,46 +14,25 @@
     </section>
     <Social/>
     <div id="launcherSpacer"></div>
-    <section id="gameLaunch">
-      <div id="status" class="grow">
-        <div id="server">
-          PLAYERS <span>{{numPlayers}}/{{maxPlayers}}</span>
-        </div>
-        <div class="horiDivider"></div>
-        <div id="mojang">
-          MOJANG STATUS<span>•</span>
-          <div class="tooltip" id="services">
-            
-          </div>
-        </div>
-      </div>
-      <div id="news" class="grow">
-        <button><span>^</span>NEWS</button>
-      </div>
-      <div id="launchControls" class="grow">
-        <button id="play">PLAY</button>
-        <div class="horiDivider"></div>
-        <button>• Nether Update</button>
-      </div>
-    </section>
+    <Launch/>
   </main>
 </template>
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
 
+import Launch from '@/components/landing/Launch';
 import Social from '@/components/landing/Social';
 
 export default {
   name: 'overview',
   components: {
+    Launch,
     Social,
   },
   data: () => ({
     username: 'Dunkel is Dumb',
     uuid: 'ec91e5313da043c880b1dcfd0fa2dc18',
-    numPlayers: 12,
-    maxPlayers: 50,
   }),
   methods: {
     openLink(url) {
@@ -109,15 +88,6 @@ section
   display flex
   justify-content center
 
-.grow
-  flex-grow 1
-
-.horiDivider
-  background rgba(107,105,105,.7)
-  height 25px
-  margin 0 20px
-  width 2px
-
 .mediaContainer
   align-items center
   display flex
@@ -130,13 +100,9 @@ section
     transition .25s ease
     width 15px
   &:hover, &:focus
-    *:not(.tooltip)
+    *
       height 25px
       width 25px
-    .tooltip
-      opacity 1
-      right 180%
-      visibility visible
   // For settings icon
   // To remove excessive margin on divider
   &:first-child
@@ -153,90 +119,14 @@ section
     border none
     padding 0
 
-.tooltip
-  background-color rgba(0,0,0,.75)
-  border-radius 4px
-  opacity 0
-  height 20px
-  line-height 20px
-  position absolute
-  right 150%
-  top -20%
-  transition .25s ease
-  transition-property opacity, right
-  visibility hidden
-  width 75px
-  &::after
-    border-color transparent transparent transparent rgba(0,0,0,.75)
-    border-style solid
-    border-width 5px
-    content ' '
-    left 100%
-    margin-top -5px
-    position absolute
-    top 50%
-
 #gameLaunch
   align-items center
   margin-bottom 5rem
 
+// Cannot be scoped into Launch.vue for some reason
 #launcherSpacer
   display flex
   flex-grow 1
-
-#launchControls
-  display flex
-  justify-content flex-end
-  button
-    background none
-    border none
-    font-size 20px
-    font-weight 900
-    letter-spacing 2px
-    padding 0
-
-#mojang
-  font-size 12px
-  font-weight 900
-  letter-spacing 1px
-  line-height 24px
-  position relative
-  span
-    margin-left 10px
-
-#news
-  display flex
-  justify-content center
-  button
-    background none
-    border none
-    font-weight 900
-    letter-spacing 2px
-    position relative
-    transition .25s ease
-    &:hover, &:focus
-      cursor pointer
-      outline none
-      text-shadow 0 0 20px white
-    span
-      font-size 24px
-      left calc(50% - 8px)
-      position absolute
-      top -100%
-
-#server
-  display flex
-  font-size 12px
-  font-weight 900
-  letter-spacing 1px
-  line-height 24px
-  span
-    color #949494
-    font-size 10px
-    margin-left 10px
-
-#status
-  display flex
 
 #user
   align-items center
