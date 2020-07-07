@@ -56,17 +56,24 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
+import AuthManager from '../js/authManager';
 
 export default {
   name: 'minecraft-login',
   data: () => ({
     loginData: {
       username: '',
+      password: '',
+      remember: true,
     },
   }),
   methods: {
-    onSubmit() {
-      this.$router.push({ name: 'whitelisting' });
+    async onSubmit() {
+      const { username, password } = this.loginData;
+
+      await AuthManager.addAccount(username, password).then(() => {
+        this.$router.push({ name: 'whitelisting' });
+      });
     },
     openLink(url) {
       shell.openExternal(url);
@@ -251,7 +258,6 @@ export default {
   align-items center
   display flex
   span
-    display inline-block
     transform rotate(90deg)
     &[hide]
       display none

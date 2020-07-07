@@ -26,9 +26,10 @@
     "postinstall": "npm run lint:fix"
   },
   "dependencies": {
-    "vue": "^2.6.11",
     "axios": "^0.19.2",
     "electron": "^9.0.5",
+    "request": "^2.88.2",
+    "vue": "^2.6.11",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.3.4",
     "vuex": "^3.4.0",
