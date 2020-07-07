@@ -46,8 +46,8 @@
           <span class="loginSpanDim" id="loginRegisterSpan">
             <a @click="openLink('https://minecraft.net/en-us/store/minecraft/')">Need an Account?</a>
           </span>
-          <p>Your password is sent directly to mojang and never stored.</p>
-          <p>MOON2 Launcher is not affiliated with Mojang AB.</p>
+          <p>Your password is sent directly to Mojang and never stored.</p>
+          <p>MOON2 Launcher is not affiliated with Mojang Synergies AB.</p>
         </div>
       </form>
     </div>
