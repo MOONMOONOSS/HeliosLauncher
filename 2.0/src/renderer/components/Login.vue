@@ -297,6 +297,7 @@ export default {
       color #8b8b8b
     &:focus, &:hover
       color #a2a2a2
+      cursor pointer
       outline none
 
 #loginImageSeal
