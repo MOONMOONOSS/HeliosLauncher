@@ -28,6 +28,7 @@ const mutations = {
 
 const getters = {
   clientToken: state => state.clientToken,
+  uuid: state => state.uuid,
 };
 
 const actions = {
