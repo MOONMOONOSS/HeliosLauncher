@@ -31,13 +31,20 @@ export default {
 
     this.$nextTick(async () => {
       const loader = document.getElementById('loadingContainer');
-      loader.style.opacity = 0;
+
+      // eslint-disable-next-line no-new
+      new Promise((resolve) => {
+        setTimeout(() => {
+          loader.style.opacity = 0;
+          resolve();
+        }, 500);
+      });
 
       await new Promise((resolve) => {
         setTimeout(() => {
           loader.style.visibility = 'hidden';
           resolve();
-        }, 500);
+        }, 1000);
       });
 
       this.$el.style.opacity = 1;
