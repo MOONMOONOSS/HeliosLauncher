@@ -4,7 +4,6 @@ const state = {
   accessToken: storage.getItem('mc-access-token'),
   clientToken: storage.getItem('mc-client-token'),
   displayName: storage.getItem('mc-name'),
-  username: storage.getItem('mc-username'),
   uuid: storage.getItem('mc-uuid'),
 };
 
@@ -20,10 +19,6 @@ const mutations = {
   displayName(state, val) {
     state.displayName = val;
     storage.setItem('mc-name', String(val));
-  },
-  username(state, val) {
-    state.username = val;
-    storage.setItem('mc-username', String(val));
   },
   uuid(state, val) {
     state.uuid = val;
@@ -41,11 +36,9 @@ const actions = {
       try {
         const { id, name } = apiData.session.selectedProfile;
         const { accessToken } = apiData.session;
-        const { username } = apiData.username;
 
         commit('accessToken', accessToken);
         commit('displayName', name);
-        commit('username', username);
         commit('uuid', id);
       } catch (err) {
         // eslint-disable-next-line no-console

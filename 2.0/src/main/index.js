@@ -1,5 +1,6 @@
-import { app, BrowserWindow, Menu } from 'electron' // eslint-disable-line
+import { app, BrowserWindow, Menu, ipcMain } from 'electron' // eslint-disable-line
 import path from 'path';
+import Mojang from '../renderer/js/mojang';
 
 /**
  * Set `__static` path to static files in production
@@ -129,4 +130,11 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+ipcMain.on('mojang-login', async (ev, arg) => {
+  const { username, password } = arg;
+  await Mojang.authenticate(username, password)
+    .then(data => ev.reply('mojang-request', data))
+    .catch(err => ev.reply('mojang-request', err));
 });

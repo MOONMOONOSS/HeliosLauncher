@@ -4,6 +4,7 @@
       <form @submit.prevent="onSubmit" id="loginForm">
         <img id="loginImageSeal" src="static/img/logoAnim.gif"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
+        <div id="loginError" :hidden="hasError">Replaced by a real error by Vue</div>
         <div class="loginFieldContainer">
           <div class="loginField">
             <svg class="loginSVG" viewBox="40 37 65.36 61.43">
@@ -11,7 +12,7 @@
                 <path d="M86.77,58.12A13.79,13.79,0,1,0,73,71.91,13.79,13.79,0,0,0,86.77,58.12M97,103.67a3.41,3.41,0,0,0,3.39-3.84,27.57,27.57,0,0,0-54.61,0,3.41,3.41,0,0,0,3.39,3.84Z"/>
               </g>
             </svg>
-            <input id="mcUsername" v-model="loginData.username" type="text" placeholder="EMAIL/USERNAME" required/>
+            <input id="mcUsername" v-model="loginData.username" type="text" placeholder="EMAIL/USERNAME" required :disabled="submitting"/>
           </div>
         </div>
         <div class="loginFieldContainer">
@@ -21,7 +22,7 @@
                 <path d="M86.16,54a16.38,16.38,0,1,0-32,0H44V102.7H96V54Zm-25.9-3.39a9.89,9.89,0,1,1,19.77,0A9.78,9.78,0,0,1,79.39,54H60.89A9.78,9.78,0,0,1,60.26,50.59ZM70,96.2a6.5,6.5,0,0,1-6.5-6.5,6.39,6.39,0,0,1,3.1-5.4V67h6.5V84.11a6.42,6.42,0,0,1,3.39,5.6A6.5,6.5,0,0,1,70,96.2Z"/>
               </g>
             </svg>
-            <input id="mcPassword" v-model="loginData.password" type="password" placeholder="PASSWORD" required/>
+            <input id="mcPassword" v-model="loginData.password" type="password" placeholder="PASSWORD" required :disabled="submitting"/>
           </div>
         </div>
         <div id="loginOptions">
@@ -29,15 +30,15 @@
             <a @click="openLink('https://my.minecraft.net/en-us/password/forgot/')">Forgot password?</a>
           </span>
           <label id="checkmarkContainer">
-            <input v-model="loginData.remember" id="loginRememberOption" type="checkbox" checked>
+            <input v-model="loginData.remember" id="loginRememberOption" type="checkbox" checked :disabled="submitting">
             <span id="loginRememberText" class="loginSpanDim">Remember me?</span>
             <span class="loginCheckmark"></span>
           </label>
         </div>
-        <button id="loginButton" @click="onSubmit">
+        <button id="loginButton" @submit="onSubmit" :disabled="submitting || hasError">
           <div id="loginButtonContent">
             LOGIN <span>^</span>
-            <div class="circle-loader" hide>
+            <div class="circle-loader" :hide="!submitting">
               <div class="checkmark draw"></div>
             </div>
           </div>
@@ -55,25 +56,52 @@
 </template>
 
 <script>
-import {remote, shell} from 'electron'; // eslint-disable-line
+import {remote, shell, ipcMain, ipcRenderer} from 'electron'; // eslint-disable-line
 import AuthManager from '../js/authManager';
 
 export default {
   name: 'minecraft-login',
   data: () => ({
+    hasError: false,
+    submitting: false,
     loginData: {
       username: '',
       password: '',
       remember: true,
     },
   }),
+  mounted() {
+    this.$nextTick(() => {
+      ipcRenderer.on('mojang-request', async (ev, arg) => {
+        if (arg.error) {
+          this.submitting = false;
+          this.hasError = true;
+
+          return;
+        }
+
+        await AuthManager.addAccount(arg)
+          .then(() => {
+            this.$router.push({ name: 'whitelisting' });
+          })
+          .catch(() => {
+            this.submitting = false;
+            this.hasError = true;
+          });
+      });
+    });
+  },
   methods: {
     async onSubmit() {
       const { username, password } = this.loginData;
 
       if (!!username.trim() && !!password.trim()) {
-        await AuthManager.addAccount(username, password).then(() => {
-          this.$router.push({ name: 'whitelisting' });
+        // Disable login button and form input
+        this.submitting = true;
+
+        ipcRenderer.send('mojang-login', {
+          username,
+          password,
         });
       }
     },

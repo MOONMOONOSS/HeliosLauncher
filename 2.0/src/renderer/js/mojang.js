@@ -57,6 +57,7 @@ export default class {
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'omit',
+        timeout: 5000,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -65,15 +66,20 @@ export default class {
         body: JSON.stringify(body),
       };
 
-      await fetchNode(`${this.authServer}/authenticate`, params)
-        .then(res => res.json())
-        .then((data) => {
-          if (data.error) {
-            reject(data);
-          } else {
-            resolve(data);
-          }
-        });
+      try {
+        let res = await fetchNode(`${this.authServer}/authenticate`, params);
+        res = await res.json();
+
+        if (res.error) {
+          reject(res);
+        } else {
+          resolve(res);
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('shits broke fam', err);
+        reject(err);
+      }
     });
   }
 }
