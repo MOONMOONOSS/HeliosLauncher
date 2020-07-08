@@ -33,8 +33,7 @@ a, button
 main
   display flex
   flex-direction column
-  height calc(100% - 22px)
-  margin-top 22px
+  height 100%
   overflow-y hidden
   padding 0 10px
   transition background 2s ease
