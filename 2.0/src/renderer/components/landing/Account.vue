@@ -15,14 +15,19 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'account',
   data: () => ({
-    username: 'Dunkel is Dumb',
-    uuid: 'ec91e5313da043c880b1dcfd0fa2dc18',
   }),
   methods: {
+  },
+  computed: {
+    ...mapGetters('Account', [
+      'username',
+      'uuid',
+    ]),
   },
 };
 </script>
