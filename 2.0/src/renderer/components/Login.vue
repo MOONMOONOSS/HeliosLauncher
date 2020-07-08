@@ -4,7 +4,7 @@
       <form @submit.prevent="onSubmit" id="loginForm">
         <img id="loginImageSeal" src="static/img/logoAnim.gif"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
-        <div id="loginError" :hidden="hasError">Replaced by a real error by Vue</div>
+        <div id="loginError" :hide="!hasError">{{ errorText }}</div>
         <div class="loginFieldContainer">
           <div class="loginField">
             <svg class="loginSVG" viewBox="40 37 65.36 61.43">
@@ -64,6 +64,7 @@ export default {
   data: () => ({
     hasError: false,
     submitting: false,
+    errorText: 'Replaced by a real error by Vue',
     loginData: {
       username: '',
       password: '',
@@ -74,8 +75,10 @@ export default {
     this.$nextTick(() => {
       ipcRenderer.on('mojang-request', async (ev, arg) => {
         if (arg.error) {
+          console.dir(arg);
           this.submitting = false;
           this.hasError = true;
+          this.errorText = arg.errorMessage;
 
           return;
         }
@@ -319,6 +322,14 @@ export default {
     font-weight bold
     margin 0
     text-align center
+
+#loginError
+  color red
+  text-shadow 0 0 20px red
+  transition all .85s ease
+  &[hide]
+    opacity 0
+    transform translateY(-20px)
 
 #loginForm
   align-items center
