@@ -1,7 +1,7 @@
 <template>
   <main id="loginContainer">
     <div id="loginContent">
-      <form v-on:submit.prevent="onSubmit" id="loginForm">
+      <form @submit.prevent="onSubmit" id="loginForm">
         <img id="loginImageSeal" src="static/img/logoAnim.gif"/>
         <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
         <div class="loginFieldContainer">
@@ -34,7 +34,7 @@
             <span class="loginCheckmark"></span>
           </label>
         </div>
-        <button id="loginButton">
+        <button id="loginButton" @click="onSubmit">
           <div id="loginButtonContent">
             LOGIN <span>^</span>
             <div class="circle-loader" hide>
@@ -71,9 +71,11 @@ export default {
     async onSubmit() {
       const { username, password } = this.loginData;
 
-      await AuthManager.addAccount(username, password).then(() => {
-        this.$router.push({ name: 'whitelisting' });
-      });
+      if (!!username.trim() && !!password.trim()) {
+        await AuthManager.addAccount(username, password).then(() => {
+          this.$router.push({ name: 'whitelisting' });
+        });
+      }
     },
     openLink(url) {
       shell.openExternal(url);
