@@ -36,22 +36,29 @@ const getters = {
 };
 
 const actions = {
-  addAccount({ commit }, apiData, username) {
+  addAccount({ commit }, apiData) {
     return new Promise((resolve, reject) => {
       try {
-        const { id, name } = apiData.selectedProfile;
-        const { accessToken } = apiData;
+        const { id, name } = apiData.session.selectedProfile;
+        const { accessToken } = apiData.session;
+        const { username } = apiData.username;
 
         commit('accessToken', accessToken);
         commit('displayName', name);
         commit('username', username);
         commit('uuid', id);
-        debugger;
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Problem committing account state', err);
         reject(err);
       }
+
+      resolve();
+    });
+  },
+  clientToken({ commit }, token) {
+    return new Promise((resolve) => {
+      commit('clientToken', token);
 
       resolve();
     });

@@ -1,4 +1,4 @@
-import request from 'request';
+import fetchNode from 'node-fetch';
 
 export default class {
   /**
@@ -34,7 +34,7 @@ export default class {
     requestUser = true,
     agent = this.minecraftAgent,
   ) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       /**
        * HTTP request body
        */
@@ -49,28 +49,31 @@ export default class {
         body.clientToken = clientToken;
       }
 
-      console.log('test');
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body),
+      };
 
-      request.post(
-        `${this.authServer}/authenticate`,
-        {
-          json: true,
-          body,
-        },
-        (err, res, httpBody) => {
-          console.dir(httpBody);
-          if (err) {
-            // eslint-disable-next-line no-console
-            console.error('Error during authentication', err);
-            reject(err);
-          }
-          if (res.statusCode === 200) {
-            resolve(httpBody);
+      await fetchNode(`${this.authServer}/authenticate`, params)
+        .then(res => res.json())
+        .then((data) => {
+          if (data.error) {
+            reject(data);
           } else {
-            reject(httpBody || { code: 'ENOTFOUND' });
+            resolve(data);
           }
-        },
-      );
+        });
     });
   }
 }
