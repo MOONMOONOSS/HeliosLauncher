@@ -13,6 +13,9 @@
         <button @click="finish" class="whitelistButton">Link with Discord</button>
       </div>
     </div>
+    <div id="overlay" v-if="linking">
+      Continue on pop-up window
+    </div>
   </main>
 </template>
 
@@ -22,10 +25,11 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 export default {
   name: 'whitelisting',
   data: () => ({
+    linking: false,
   }),
   methods: {
     finish() {
-      this.$router.push({ name: 'overview' });
+      this.linking = true;
     },
   },
 };
@@ -68,6 +72,17 @@ p
   transition .25s ease
   &:hover
     box-shadow 0 0 1rem rgba(255,255,255,.5)
+
+#overlay
+  align-items center
+  background rgba(0,0,0,.75)
+  display flex
+  font-size x-large
+  height 100%
+  justify-content center
+  position absolute
+  width 100%
+  z-index 2
 
 #stateContainer
   align-items center
