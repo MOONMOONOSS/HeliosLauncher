@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron' // eslint-disable-line
 import path from 'path';
 import Mojang from '../renderer/js/mojang';
+import Whitelist from './js/whitelist';
 
 /**
  * Set `__static` path to static files in production
@@ -137,4 +138,10 @@ ipcMain.on('mojang-login', async (ev, arg) => {
   await Mojang.authenticate(username, password)
     .then(data => ev.reply('mojang-request', data))
     .catch(err => ev.reply('mojang-request', err));
+});
+
+ipcMain.on('discord-oauth', async (ev) => {
+  await Whitelist.requestCode(ev)
+    .then(data => ev.reply('discord-code', data))
+    .catch(err => ev.reply('discord-code', err));
 });

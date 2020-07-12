@@ -5,6 +5,7 @@ const state = {
   clientToken: storage.getItem('mc-client-token'),
   displayName: storage.getItem('mc-name'),
   uuid: storage.getItem('mc-uuid'),
+  discordCode: storage.getItem('discord-code'),
 };
 
 const mutations = {
@@ -15,6 +16,10 @@ const mutations = {
   clientToken(state, val) {
     state.clientToken = val;
     storage.setItem('mc-client-token', String(val));
+  },
+  discordCode(state, val) {
+    state.discordCode = val;
+    storage.setItem('discord-code', String(val));
   },
   displayName(state, val) {
     state.displayName = val;
@@ -28,6 +33,7 @@ const mutations = {
 
 const getters = {
   clientToken: state => state.clientToken,
+  discordCode: state => state.discordCode,
   username: state => state.displayName,
   uuid: state => state.uuid,
 };
@@ -54,6 +60,13 @@ const actions = {
   clientToken({ commit }, token) {
     return new Promise((resolve) => {
       commit('clientToken', token);
+
+      resolve();
+    });
+  },
+  discordCode({ commit }, token) {
+    return new Promise((resolve) => {
+      commit('discordCode', token);
 
       resolve();
     });

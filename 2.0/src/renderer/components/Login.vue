@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import {remote, shell, ipcMain, ipcRenderer} from 'electron'; // eslint-disable-line
+import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
 import AuthManager from '../js/authManager';
 
 export default {

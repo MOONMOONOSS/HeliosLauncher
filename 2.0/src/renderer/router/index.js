@@ -17,10 +17,22 @@ function notMcAuthorized(to, from, next) {
 }
 
 function mcAuthorized(to, from, next) {
-  if (store.getters['Account/uuid']) {
+  if (store.getters['Account/uuid'] && !store.getters['Account/discordCode']) {
     next();
-  } else {
+  } else if (store.getters['Account/discordCode'] && !store.getters['Account/uuid']) {
     next({ name: 'minecraft-login' });
+  } else {
+    next({ name: 'overview' });
+  }
+}
+
+function fullyAuthorized(to, from, next) {
+  if (store.getters['Account/uuid'] && store.getters['Account/discordCode']) {
+    next();
+  } else if (!store.getters['Account/uuid']) {
+    next({ name: 'minecraft-login' });
+  } else if (!store.getters['Account/discordCode']) {
+    next({ name: 'whitelisting' });
   }
 }
 
@@ -52,6 +64,7 @@ export default new Router({
       path: '/overview',
       name: 'overview',
       component: Landing,
+      beforeEnter: fullyAuthorized,
     },
     {
       path: '*',

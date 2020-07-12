@@ -20,17 +20,34 @@
 </template>
 
 <script>
-import {remote, shell} from 'electron'; // eslint-disable-line
+import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
+import { mapActions } from 'vuex';
 
 export default {
   name: 'whitelisting',
   data: () => ({
     linking: false,
   }),
+  mounted() {
+    this.$nextTick(async () => {
+      ipcRenderer.on('discord-code', async (ev, data) => {
+        this.linking = false;
+
+        if (data.code) {
+          await this.discordCode(data.code);
+          this.$router.push({ name: 'overview' });
+        }
+      });
+    });
+  },
   methods: {
     finish() {
       this.linking = true;
+      ipcRenderer.send('discord-oauth', 'test');
     },
+    ...mapActions('Account', [
+      'discordCode',
+    ]),
   },
 };
 </script>
