@@ -5,7 +5,10 @@
     </div>
     <div class="spacer"></div>
     <div id="user">
-      <div id="userText">{{ username }}</div>
+      <aside>
+        <div id="userText">{{ username }}</div>
+        <div id="whitelisted">Whitelisted</div>
+      </aside>
       <button class="avatar border-circle" :style="`background-image: url('https://crafatar.com/renders/body/${uuid}?size=70&default=MHF_Steve');`">
         <div>Edit</div>
       </button>
@@ -59,6 +62,10 @@ section
 #user
   align-items center
   display flex
+  aside
+    display text
+    flex-direction column
+    text-align end
   button
     background-color transparent
     padding 0
@@ -84,4 +91,10 @@ section
   margin-right 20px
   text-shadow 0 0 20px white
   user-select none
+
+#whitelisted
+  color yellowgreen
+  font-weight 900
+  margin-right 20px
+  text-shadow 0 0 20px yellowgreen
 </style>
