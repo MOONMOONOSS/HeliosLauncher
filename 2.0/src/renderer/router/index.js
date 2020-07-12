@@ -71,15 +71,4 @@ export default new Router({
       redirect: '/',
     },
   ],
-  beforeEach: (to, from, next) => {
-    if (to.matched.some(record => record.meta.firstLaunchOnly)) {
-      if (store.getters['Route/firstLaunch']) {
-        next();
-      } else {
-        next({ path: '/login' });
-      }
-    } else {
-      next();
-    }
-  },
 });

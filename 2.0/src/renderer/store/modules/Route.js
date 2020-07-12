@@ -1,7 +1,9 @@
 const storage = window.localStorage;
 
+const firstLaunch = storage.getItem('first-launch');
+
 const state = {
-  firstLaunch: !storage.getItem('first-launch'),
+  firstLaunch: (firstLaunch === 'true' || !firstLaunch),
 };
 
 const mutations = {

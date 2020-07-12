@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 
@@ -30,6 +30,14 @@ export default {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Unable to access site storage!');
+    }
+
+    // Redirect to login screen if not first launch
+    if (
+      this.$router.currentRoute.name === 'welcome-page'
+      && !this.firstLaunch
+    ) {
+      this.$router.push({ name: 'minecraft-login' });
     }
 
     this.$nextTick(async () => {
@@ -57,6 +65,9 @@ export default {
     ...mapActions('Account', [
       'discordRefresh',
     ]),
+  },
+  computed: {
+    ...mapGetters('Route', ['firstLaunch']),
   },
 };
 </script>
