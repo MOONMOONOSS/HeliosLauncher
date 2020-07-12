@@ -1,7 +1,7 @@
 <template>
   <section id="social">
     <div class="mediaContainer" id="settings">
-      <button>
+      <button @click="settingsVisibility(true)">
         <img src="static/svg/settings.svg" type="image/svg+xml"/>
         <div class="tooltip">Settings</div>
       </button>
@@ -21,6 +21,7 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'social',
@@ -41,6 +42,7 @@ export default {
     ],
   }),
   methods: {
+    ...mapMutations('Landing', ['settingsVisibility']),
     openLink(url) {
       shell.openExternal(url);
     },

@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Settings/>
     <Account/>
     <Social/>
     <div id="launcherSpacer"></div>
@@ -12,6 +13,7 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 
 import Account from '@/components/landing/Account';
 import Launch from '@/components/landing/Launch';
+import Settings from '@/components/landing/Settings';
 import Social from '@/components/landing/Social';
 
 export default {
@@ -19,6 +21,7 @@ export default {
   components: {
     Account,
     Launch,
+    Settings,
     Social,
   },
 };

@@ -9,7 +9,7 @@
         <div id="userText">{{ username }}</div>
         <div id="whitelist-text" :class="wlStatus">{{ wlText }}</div>
       </aside>
-      <button class="avatar border-circle" :style="`background-image: url('https://crafatar.com/renders/body/${uuid}?size=70&default=MHF_Steve');`">
+      <button class="avatar border-circle" :style="`background-image: url('${crafatar});`">
         <div>Edit</div>
       </button>
     </div>
@@ -77,6 +77,7 @@ export default {
       'uuid',
       'whitelistStatus',
     ]),
+    ...mapGetters('Landing', ['crafatar']),
   },
 };
 </script>
