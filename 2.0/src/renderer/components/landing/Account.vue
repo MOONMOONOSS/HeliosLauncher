@@ -32,11 +32,21 @@ export default {
         await this.whitelistStatus
           .then(result => this.updateWl(result))
           .catch(async (err) => {
-            if (err.message === 'Error invoking remote method \'whitelist-status\': Error: REFRESH') {
-              console.log('Refreshing Discord token');
-              await this.discordRefresh()
-                .then(() => this.getWlStatus())
-                .catch(() => this.$router.push({ name: 'whitelisting' }));
+            switch (err.message) {
+              case 'Error invoking remote method \'whitelist-status\': Error: REFRESH':
+                console.log('Refreshing Discord token');
+                await this.discordRefresh()
+                  .then(() => this.getWlStatus())
+                  .catch(() => this.$router.push({ name: 'whitelisting' }));
+                break;
+              case 'Error invoking remote method \'whitelist-status\': Error: Not Found':
+                // eslint-disable-next-line no-console
+                console.warn('User is not in database!');
+                await this.discordReset()
+                  .then(() => this.$router.push({ name: 'whitelisting' }));
+                break;
+              default:
+                throw new Error(err.message);
             }
           });
       }, 3000);
@@ -45,6 +55,7 @@ export default {
   methods: {
     ...mapActions('Account', [
       'discordRefresh',
+      'discordReset',
     ]),
     updateWl(result) {
       if (result.status === 0) {

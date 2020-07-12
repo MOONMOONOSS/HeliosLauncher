@@ -128,6 +128,14 @@ const actions = {
       }
     });
   },
+  discordReset({ commit }) {
+    return new Promise((resolve) => {
+      commit('discordToken', null);
+      commit('discordRefresh', null);
+
+      resolve();
+    });
+  },
 };
 
 export default {
