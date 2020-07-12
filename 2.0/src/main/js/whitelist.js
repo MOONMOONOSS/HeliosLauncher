@@ -235,4 +235,47 @@ export default class Whitelist {
       }
     });
   }
+
+  /**
+   * Gets the current whitelist status for the current discord user
+   *
+   * @static
+   * @param {string} token Discord Access Token
+   * @param {string} uuid Minecraft account UUID without hyphens
+   * @memberof Whitelist
+   */
+  static link(token, uuid) {
+    return new Promise(async (resolve, reject) => {
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        cache: 'no-cache',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        body: JSON.stringify({ token }),
+        agent: this.agent,
+      };
+
+      try {
+        let res = await fetchNode(`${Whitelist.baseUri}/register/${uuid}`, params);
+
+        if (res.status !== 200 && res.status !== 403) {
+          return reject(Error(res.statusText));
+        } else if (res.status === 403) {
+          return reject(Error('REFRESH'));
+        }
+
+        res = await res.json();
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
 }

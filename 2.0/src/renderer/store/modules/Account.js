@@ -140,6 +140,26 @@ const actions = {
       resolve();
     });
   },
+  registerMcAccount({ state }) {
+    return new Promise((resolve, reject) => {
+      if (state.discordToken && state.discordRefresh && state.uuid) {
+        const payload = JSON.stringify({
+          token: state.discordToken,
+          uuid: state.uuid,
+        });
+
+        ipcRenderer.invoke('whitelist-register', payload)
+          .then(() => resolve())
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.error('Unable to link Minecraft account', err);
+            reject(err);
+          });
+      } else {
+        reject(Error('Not signed into Discord'));
+      }
+    });
+  },
 };
 
 export default {

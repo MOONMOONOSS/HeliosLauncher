@@ -11,11 +11,11 @@
       <div class="spacer underlined"></div>
       <div id="error" :hide="!hasError">{{ errorText }}</div>
       <div>
-        <button @click="finish" class="whitelistButton">Link with Discord</button>
+        <button @click="finish" :disabled="linking" class="whitelistButton">Link with Discord</button>
       </div>
     </div>
     <div id="overlay" v-if="linking">
-      Continue on pop-up window
+      {{ overlayText }}
     </div>
   </main>
 </template>
@@ -29,17 +29,21 @@ export default {
   data: () => ({
     errorText: 'Failed to whitelist your account!',
     hasError: false,
+    overlayText: 'Continue on pop-up window',
     linking: false,
   }),
   mounted() {
     this.$nextTick(async () => {
       ipcRenderer.on('discord-code', (ev, data) => {
-        this.linking = false;
-
         if (data.code) {
-          this.discordCode(`${data.code}`)
+          this.discordCode(data.code)
+            .then(() => {
+              this.overlayText = 'Contacting MOON2 Services';
+              this.registerMcAccount();
+            })
             .then(() => this.$router.push({ name: 'overview' }))
             .catch(() => {
+              this.overlayText = 'Continue on pop-up window';
               this.hasError = true;
             });
         } else {
@@ -55,6 +59,7 @@ export default {
     },
     ...mapActions('Account', [
       'discordCode',
+      'registerMcAccount',
     ]),
   },
 };
