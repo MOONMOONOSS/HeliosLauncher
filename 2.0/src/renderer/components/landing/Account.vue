@@ -27,16 +27,19 @@ export default {
     wlStatus: 'checking',
   }),
   mounted() {
-    this.$nextTick(async () => {
-      await this.whitelistStatus
-        .then(result => this.updateWl(result))
-        .catch(async (err) => {
-          if (err.message === 'Error invoking remote method \'whitelist-status\': Error: REFRESH') {
-            await this.discordRefresh()
-              .then(() => this.getWlStatus())
-              .catch(() => this.$router.push({ name: 'whitelisting' }));
-          }
-        });
+    this.$nextTick(() => {
+      setTimeout(async () => {
+        await this.whitelistStatus
+          .then(result => this.updateWl(result))
+          .catch(async (err) => {
+            if (err.message === 'Error invoking remote method \'whitelist-status\': Error: REFRESH') {
+              console.log('Refreshing Discord token');
+              await this.discordRefresh()
+                .then(() => this.getWlStatus())
+                .catch(() => this.$router.push({ name: 'whitelisting' }));
+            }
+          });
+      }, 3000);
     });
   },
   methods: {
