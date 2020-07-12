@@ -15,10 +15,22 @@ const state = {
 const mutations = {
   accessToken(state, val) {
     state.accessToken = val;
+
+    if (!val) {
+      storage.removeItem('mc-access-token');
+      return;
+    }
+
     storage.setItem('mc-access-token', String(val));
   },
   clientToken(state, val) {
     state.clientToken = val;
+
+    if (!val) {
+      storage.removeItem('mc-client-token');
+      return;
+    }
+
     storage.setItem('mc-client-token', String(val));
   },
   discordCode(state, val) {
@@ -26,23 +38,48 @@ const mutations = {
   },
   discordToken(state, val) {
     state.discordToken = val;
+
+    if (!val) {
+      storage.removeItem('discord-token');
+      return;
+    }
+
     storage.setItem('discord-token', String(val));
   },
   discordRefresh(state, val) {
     state.discordRefresh = val;
+
+    if (!val) {
+      storage.removeItem('discord-refresh');
+      return;
+    }
+
     storage.setItem('discord-refresh', String(val));
   },
   displayName(state, val) {
     state.displayName = val;
+
+    if (!val) {
+      storage.removeItem('mc-name');
+      return;
+    }
+
     storage.setItem('mc-name', String(val));
   },
   uuid(state, val) {
     state.uuid = val;
+
+    if (!val) {
+      storage.removeItem('mc-uuid');
+      return;
+    }
+
     storage.setItem('mc-uuid', String(val));
   },
 };
 
 const getters = {
+  accessToken: state => state.accessToken,
   clientToken: state => state.clientToken,
   discordToken: state => state.discordToken,
   discordRefresh: state => state.discordRefresh,
@@ -134,8 +171,18 @@ const actions = {
   },
   discordReset({ commit }) {
     return new Promise((resolve) => {
-      commit('discordToken', null);
-      commit('discordRefresh', null);
+      commit('discordToken');
+      commit('discordRefresh');
+
+      resolve();
+    });
+  },
+  minecraftReset({ commit }) {
+    return new Promise((resolve) => {
+      commit('accessToken');
+      commit('clientToken');
+      commit('displayName');
+      commit('uuid');
 
       resolve();
     });

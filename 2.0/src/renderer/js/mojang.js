@@ -82,4 +82,62 @@ export default class {
       }
     });
   }
+
+  /**
+   * Invalidates an access token. The clientToken must match the
+   * token used to create the provided accessToken.
+   *
+   * @param {string} accessToken The access token to invalidate.
+   * @param {string} clientToken The launcher's client token.
+   *
+   * @see http://wiki.vg/Authentication#Invalidate
+   * @returns {Promise<object>}
+   */
+  static invalidate(accessToken, clientToken) {
+    return new Promise(async (resolve, reject) => {
+      // Return immediately if missing data
+      if (!accessToken || !clientToken) {
+        return reject(Error('Missing required values'));
+      }
+
+      /**
+       * HTTP request body
+       */
+      const body = {
+        accessToken,
+        clientToken,
+      };
+
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body),
+      };
+
+      try {
+        let res = await fetchNode(`${this.authServer}/refresh`, params);
+
+        if (res.status !== 200) {
+          return reject(res);
+        }
+
+        res = await res.json();
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
 }

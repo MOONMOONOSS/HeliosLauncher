@@ -152,6 +152,13 @@ ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
 ipcMain.handle('discord-refresh', (_ev, token) => Whitelist.refreshToken(token)
   .then(data => JSON.stringify(data)));
 
+ipcMain.handle('minecraft-logout', (_ev, payload) => {
+  payload = JSON.parse(payload);
+
+  Mojang.invalidate(payload.accessToken, payload.clientToken)
+    .then(data => JSON.stringify(data));
+});
+
 ipcMain.handle('whitelist-register', (_ev, payload) => {
   payload = JSON.parse(payload);
 
