@@ -193,4 +193,46 @@ export default class Whitelist {
       }
     });
   }
+
+  /**
+   * Gets the whitelist status for token
+   *
+   * @static
+   * @param {string} token discord access token
+   * @memberof Whitelist
+   */
+  static whitelistStatus(token) {
+    return new Promise(async (resolve, reject) => {
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        cache: 'no-cache',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        body: JSON.stringify({ token }),
+        agent: this.agent,
+      };
+
+      try {
+        let res = await fetchNode(`${Whitelist.baseUri}/whitelist/status`, params);
+
+        if (res.status !== 200 && res.status !== 403) {
+          return reject(Error(res.statusText));
+        } else if (res.status === 403) {
+          return reject(Error('REFRESH'));
+        }
+
+        res = await res.json();
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
 }

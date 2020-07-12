@@ -151,3 +151,6 @@ ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
 
 ipcMain.handle('discord-refresh', (_ev, token) => Whitelist.refreshToken(token)
   .then(data => JSON.stringify(data)));
+
+ipcMain.handle('whitelist-status', (_ev, token) => Whitelist.whitelistStatus(token)
+  .then(data => JSON.stringify(data)));

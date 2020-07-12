@@ -48,6 +48,14 @@ const getters = {
   discordRefresh: state => state.discordRefresh,
   username: state => state.displayName,
   uuid: state => state.uuid,
+  whitelistStatus(state) {
+    return new Promise((resolve, reject) => {
+      ipcRenderer.invoke('whitelist-status', state.discordToken)
+        .then(result => JSON.parse(result))
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
 };
 
 const actions = {

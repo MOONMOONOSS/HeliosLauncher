@@ -7,7 +7,7 @@
     <div id="user">
       <aside>
         <div id="userText">{{ username }}</div>
-        <div id="whitelisted">Whitelisted</div>
+        <div id="whitelist-text" :class="wlStatus">{{ wlText }}</div>
       </aside>
       <button class="avatar border-circle" :style="`background-image: url('https://crafatar.com/renders/body/${uuid}?size=70&default=MHF_Steve');`">
         <div>Edit</div>
@@ -18,24 +18,64 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'account',
   data: () => ({
+    wlText: 'Checking Status...',
+    wlStatus: 'checking',
   }),
+  mounted() {
+    this.$nextTick(async () => {
+      await this.whitelistStatus
+        .then(result => this.updateWl(result))
+        .catch(async (err) => {
+          if (err.message === 'Error invoking remote method \'whitelist-status\': Error: REFRESH') {
+            await this.discordRefresh()
+              .then(() => this.getWlStatus())
+              .catch(() => this.$router.push({ name: 'whitelisting' }));
+          }
+        });
+    });
+  },
   methods: {
+    ...mapActions('Account', [
+      'discordRefresh',
+    ]),
+    updateWl(result) {
+      if (result.status === 0) {
+        this.wlText = 'Whitelisted';
+        this.wlStatus = 'whitelisted';
+      } else {
+        this.wlText = 'Suspended';
+        this.wlStatus = 'suspended';
+      }
+    },
+    async getWlStatus() {
+      await this.whitelistStatus
+        .then(result => this.updateWl(result));
+    },
   },
   computed: {
     ...mapGetters('Account', [
       'username',
       'uuid',
+      'whitelistStatus',
     ]),
   },
 };
 </script>
 
 <style scoped lang="stylus">
+@keyframes red-glow
+  0%
+    text-shadow 0 0 0 none
+  50%
+    text-shadow 0 0 10px red
+  0%
+    text-shadow 0 0 0 none
+
 a, button
   &:hover, &:focus
     cursor pointer
@@ -58,6 +98,18 @@ section
 .border-circle
   border 2px solid #878787
   border-radius 50%
+
+.checking
+  color darkgray
+  text-shadow 0 0 10px darkgray
+
+.suspended
+  animation 2s ease infinite running red-glow
+  color red
+
+.whitelisted
+  color yellowgreen
+  text-shadow 0 0 10px yellowgreen
 
 #user
   align-items center
@@ -92,9 +144,8 @@ section
   text-shadow 0 0 20px white
   user-select none
 
-#whitelisted
-  color yellowgreen
+#whitelist-text
   font-weight 900
   margin-right 20px
-  text-shadow 0 0 20px yellowgreen
+  transition .85s ease
 </style>
