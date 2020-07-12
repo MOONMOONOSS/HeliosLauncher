@@ -1,5 +1,7 @@
 import { BrowserWindow } from 'electron';
 import Url from 'url';
+import fetchNode from 'node-fetch';
+import https from 'https';
 
 export default class Whitelist {
   /**
@@ -33,8 +35,9 @@ export default class Whitelist {
    *
    * Manages the window for Discord OAuth flow login and parses access code from the url
    *
-   * @argument {Electron.IpcMainEvent} ev Event sent from Electron to our function
-   *
+   * @static
+   * @param {Electron.IpcMainEvent} ev Event sent from Electron to our function
+   * @memberof Whitelist
    * @returns {Promise<string>} access_code from the url
    */
   static requestCode(ev) {
@@ -70,7 +73,12 @@ export default class Whitelist {
       console.log('Awaiting Discord user approval');
 
       authWindow.webContents.on('will-navigate', (_ev, to) => {
-        const currentUrl = Url.parse(to);
+        let currentUrl;
+        if (!to) {
+          currentUrl = null;
+        } else {
+          currentUrl = Url.parse(to);
+        }
         if (currentUrl.hostname === 'localhost') {
           authWindow.webContents.navigatingUrl = to;
           authWindow.close();
@@ -78,6 +86,9 @@ export default class Whitelist {
       });
 
       authWindow.on('close', () => {
+        if (!authWindow.webContents.navigatingUrl) {
+          return reject(new Error('Discord OAuth2 failed to authenticate'));
+        }
         /**
          * Query parameters returned from Discord.
          * Does not indicate successful authentication
@@ -86,11 +97,61 @@ export default class Whitelist {
          */
         const queryObject = Url.parse(authWindow.webContents.navigatingUrl, true).query;
         if (queryObject.code) {
-          resolve({ code: queryObject.code });
-        } else {
-          reject(new Error('Discord OAuth2 failed to authenticate'));
+          return resolve({ code: queryObject.code });
         }
+
+        return reject(new Error('Discord OAuth2 failed to authenticate'));
       });
+    });
+  }
+
+  /**
+   * Exchanges an access code for an access token from MOON2 Services
+   *
+   * @static
+   * @param {string} code OAuth 2 authorization code
+   * @memberof Whitelist
+   * @returns {Promise<Object>} a promise to an accessToken as returned by MOON2 Services
+   */
+  static requestToken(code) {
+    return new Promise(async (resolve, reject) => {
+      /**
+       * Proof of why we can't have nice things
+       */
+      const agent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        cache: 'no-cache',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        body: JSON.stringify({ token: code }),
+        agent,
+      };
+
+      try {
+        let res = await fetchNode(`${Whitelist.baseUri}/login`, params);
+
+        if (res.status !== 200) {
+          return reject(Error(res.statusText));
+        }
+
+        res = await res.json();
+
+        console.dir(res);
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
     });
   }
 }

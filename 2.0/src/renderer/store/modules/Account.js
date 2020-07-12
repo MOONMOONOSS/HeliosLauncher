@@ -1,3 +1,5 @@
+import { ipcRenderer } from 'electron'; // eslint-disable-line
+
 const storage = window.localStorage;
 
 const state = {
@@ -5,7 +7,9 @@ const state = {
   clientToken: storage.getItem('mc-client-token'),
   displayName: storage.getItem('mc-name'),
   uuid: storage.getItem('mc-uuid'),
-  discordCode: storage.getItem('discord-code'),
+  discordCode: null,
+  discordToken: storage.getItem('discord-token'),
+  discordRefresh: storage.getItem('discord-refresh'),
 };
 
 const mutations = {
@@ -19,7 +23,14 @@ const mutations = {
   },
   discordCode(state, val) {
     state.discordCode = val;
-    storage.setItem('discord-code', String(val));
+  },
+  discordToken(state, val) {
+    state.discordToken = val;
+    storage.setItem('discord-token', String(val));
+  },
+  discordRefresh(state, val) {
+    state.discordRefresh = val;
+    storage.setItem('discord-refresh', String(val));
   },
   displayName(state, val) {
     state.displayName = val;
@@ -33,7 +44,8 @@ const mutations = {
 
 const getters = {
   clientToken: state => state.clientToken,
-  discordCode: state => state.discordCode,
+  discordToken: state => state.discordToken,
+  discordRefresh: state => state.discordRefresh,
   username: state => state.displayName,
   uuid: state => state.uuid,
 };
@@ -64,9 +76,25 @@ const actions = {
       resolve();
     });
   },
-  discordCode({ commit }, token) {
+  discordCode({ commit }, code) {
+    return new Promise((resolve, reject) => {
+      commit('discordCode', code);
+
+      ipcRenderer.invoke('discord-exchange', code)
+        .then((result) => {
+          result = JSON.parse(result);
+          commit('discordRefresh', result.refresh_token);
+          commit('discordToken', result.access_token);
+          commit('discordCode', null);
+
+          resolve();
+        })
+        .catch(() => reject(Error('Failed to exchange Discord token')));
+    });
+  },
+  discordToken({ commit }, token) {
     return new Promise((resolve) => {
-      commit('discordCode', token);
+      commit('discordToken', token);
 
       resolve();
     });

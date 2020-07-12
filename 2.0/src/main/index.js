@@ -145,3 +145,6 @@ ipcMain.on('discord-oauth', async (ev) => {
     .then(data => ev.reply('discord-code', data))
     .catch(err => ev.reply('discord-code', err));
 });
+
+ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
+  .then(data => JSON.stringify(data)));

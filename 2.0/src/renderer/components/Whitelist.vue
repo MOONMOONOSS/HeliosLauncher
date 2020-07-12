@@ -9,6 +9,7 @@
         <li>Not have the BACK TO THE PIT role on Discord</li>
       </ul>
       <div class="spacer underlined"></div>
+      <div id="error" :hide="!hasError">{{ errorText }}</div>
       <div>
         <button @click="finish" class="whitelistButton">Link with Discord</button>
       </div>
@@ -26,16 +27,23 @@ import { mapActions } from 'vuex';
 export default {
   name: 'whitelisting',
   data: () => ({
+    errorText: 'Failed to whitelist your account!',
+    hasError: false,
     linking: false,
   }),
   mounted() {
     this.$nextTick(async () => {
-      ipcRenderer.on('discord-code', async (ev, data) => {
+      ipcRenderer.on('discord-code', (ev, data) => {
         this.linking = false;
 
         if (data.code) {
-          await this.discordCode(data.code);
-          this.$router.push({ name: 'overview' });
+          this.discordCode(`${data.code}`)
+            .then(() => this.$router.push({ name: 'overview' }))
+            .catch(() => {
+              this.hasError = true;
+            });
+        } else {
+          this.hasError = true;
         }
       });
     });
@@ -89,6 +97,15 @@ p
   transition .25s ease
   &:hover
     box-shadow 0 0 1rem rgba(255,255,255,.5)
+
+#error
+  color red
+  margin-bottom 10px
+  text-shadow 0 0 20px red
+  transition all .85s ease
+  &[hide]
+    opacity 0
+    transform translateY(-20px)
 
 #overlay
   align-items center

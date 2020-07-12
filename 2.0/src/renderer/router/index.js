@@ -17,9 +17,9 @@ function notMcAuthorized(to, from, next) {
 }
 
 function mcAuthorized(to, from, next) {
-  if (store.getters['Account/uuid'] && !store.getters['Account/discordCode']) {
+  if (store.getters['Account/uuid'] && !store.getters['Account/discordToken']) {
     next();
-  } else if (store.getters['Account/discordCode'] && !store.getters['Account/uuid']) {
+  } else if (store.getters['Account/discordToken'] && !store.getters['Account/uuid']) {
     next({ name: 'minecraft-login' });
   } else {
     next({ name: 'overview' });
@@ -27,11 +27,11 @@ function mcAuthorized(to, from, next) {
 }
 
 function fullyAuthorized(to, from, next) {
-  if (store.getters['Account/uuid'] && store.getters['Account/discordCode']) {
+  if (store.getters['Account/uuid'] && store.getters['Account/discordToken']) {
     next();
   } else if (!store.getters['Account/uuid']) {
     next({ name: 'minecraft-login' });
-  } else if (!store.getters['Account/discordCode']) {
+  } else if (!store.getters['Account/discordToken']) {
     next({ name: 'whitelisting' });
   }
 }
