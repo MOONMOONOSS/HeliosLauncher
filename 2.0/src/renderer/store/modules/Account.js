@@ -50,10 +50,14 @@ const getters = {
   uuid: state => state.uuid,
   whitelistStatus(state) {
     return new Promise((resolve, reject) => {
-      ipcRenderer.invoke('whitelist-status', state.discordToken)
-        .then(result => JSON.parse(result))
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+      if (state.discordToken && state.discordRefresh) {
+        ipcRenderer.invoke('whitelist-status', state.discordToken)
+          .then(result => JSON.parse(result))
+          .then(data => resolve(data))
+          .catch(err => reject(err));
+      } else {
+        resolve(null);
+      }
     });
   },
 };
