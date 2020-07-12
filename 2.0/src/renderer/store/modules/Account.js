@@ -92,11 +92,32 @@ const actions = {
         .catch(() => reject(Error('Failed to exchange Discord token')));
     });
   },
-  discordToken({ commit }, token) {
-    return new Promise((resolve) => {
-      commit('discordToken', token);
+  discordRefresh({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      if (state.discordToken && state.discordRefresh) {
+        ipcRenderer.invoke('discord-refresh', state.discordRefresh)
+          .then((result) => {
+            result = JSON.parse(result);
 
-      resolve();
+            commit('discordToken', result.access_token);
+            commit('discordRefresh', result.refresh_token);
+
+            resolve();
+          })
+          .catch((err) => {
+            commit('discordToken', null);
+            commit('discordRefresh', null);
+
+            storage.removeItem('discord-token');
+            storage.removeItem('discord-refresh');
+
+            // eslint-disable-next-line no-console
+            console.error('Unable to refresh Discord token!', err);
+            reject(err);
+          });
+      } else {
+        reject(Error('Not signed into Discord'));
+      }
     });
   },
 };

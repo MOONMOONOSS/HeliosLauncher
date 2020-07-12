@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 
@@ -15,7 +15,14 @@ const storage = window.localStorage;
 export default {
   name: 'launcher',
   components: { FrameBar },
-  mounted() {
+  async mounted() {
+    // Refresh access token on launch
+    await this.discordRefresh()
+      .catch(() => {
+        if (this.$router.currentRoute.name !== 'whitelisting') {
+          this.$router.push({ name: 'whitelisting' });
+        }
+      });
     // Set first launch property if not present
     // Suppresses the welcome screen
     try {
@@ -23,10 +30,6 @@ export default {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Unable to access site storage!');
-    }
-
-    if (!this.firstLaunch) {
-      this.$router.push({ name: 'minecraft-login' });
     }
 
     this.$nextTick(async () => {
@@ -50,8 +53,10 @@ export default {
       this.$el.style.opacity = 1;
     });
   },
-  computed: {
-    ...mapGetters('Route', ['firstLaunch']),
+  methods: {
+    ...mapActions('Account', [
+      'discordRefresh',
+    ]),
   },
 };
 </script>

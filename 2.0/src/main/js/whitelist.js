@@ -31,6 +31,13 @@ export default class Whitelist {
   static oauthUri = `https://discord.com/api/oauth2/authorize?client_id=${encodeURIComponent(Whitelist.clientId)}&redirect_uri=${encodeURIComponent(Whitelist.redirectUri)}&response_type=code&scope=${encodeURIComponent(Whitelist.scopes.join(' '))}`;
 
   /**
+   * Proof of why we can't have nice things
+   */
+  static agent = new https.Agent({
+    rejectUnauthorized: false,
+  });
+
+  /**
    * requestCode
    *
    * Manages the window for Discord OAuth flow login and parses access code from the url
@@ -116,13 +123,6 @@ export default class Whitelist {
   static requestToken(code) {
     return new Promise(async (resolve, reject) => {
       /**
-       * Proof of why we can't have nice things
-       */
-      const agent = new https.Agent({
-        rejectUnauthorized: false,
-      });
-
-      /**
        * Options for Fetch API call
        */
       const params = {
@@ -134,7 +134,7 @@ export default class Whitelist {
         },
         redirect: 'error',
         body: JSON.stringify({ token: code }),
-        agent,
+        agent: this.agent,
       };
 
       try {
@@ -146,7 +146,46 @@ export default class Whitelist {
 
         res = await res.json();
 
-        console.dir(res);
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
+
+  /**
+   * Exchanges a refresh token for a new access token from MOON2 Services
+   *
+   * @static
+   * @param {string} token discord refresh token
+   * @memberof Whitelist
+   * @returns {object} access_token returned by application service
+   */
+  static refreshToken(token) {
+    return new Promise(async (resolve, reject) => {
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        cache: 'no-cache',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        body: JSON.stringify({ token }),
+        agent: this.agent,
+      };
+
+      try {
+        let res = await fetchNode(`${Whitelist.baseUri}/refresh`, params);
+
+        if (res.status !== 200) {
+          return reject(Error(res.statusText));
+        }
+
+        res = await res.json();
 
         return resolve(res);
       } catch (err) {

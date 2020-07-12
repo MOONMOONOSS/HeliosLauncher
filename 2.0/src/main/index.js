@@ -148,3 +148,6 @@ ipcMain.on('discord-oauth', async (ev) => {
 
 ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
   .then(data => JSON.stringify(data)));
+
+ipcMain.handle('discord-refresh', (_ev, token) => Whitelist.refreshToken(token)
+  .then(data => JSON.stringify(data)));
