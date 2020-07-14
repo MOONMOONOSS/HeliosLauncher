@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 
@@ -16,13 +16,6 @@ export default {
   name: 'launcher',
   components: { FrameBar },
   async mounted() {
-    // Refresh access token on launch
-    await this.discordRefresh()
-      .catch(() => {
-        if (this.$router.currentRoute.name !== 'whitelisting') {
-          this.$router.push({ name: 'whitelisting' });
-        }
-      });
     // Set first launch property if not present
     // Suppresses the welcome screen
     try {
@@ -60,11 +53,6 @@ export default {
 
       this.$el.style.opacity = 1;
     });
-  },
-  methods: {
-    ...mapActions('Account', [
-      'discordRefresh',
-    ]),
   },
   computed: {
     ...mapGetters('Route', ['firstLaunch']),
