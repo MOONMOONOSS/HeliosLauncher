@@ -9,7 +9,7 @@
         <div id="userText">{{ username }}</div>
         <div id="whitelist-text" :class="wlStatus">{{ wlText }}</div>
       </aside>
-      <button class="avatar border-circle" :style="`background-image: url('${crafatar});`">
+      <button @click="skinVisibility(true)" class="avatar border-circle" :style="`background-image: url('${crafatar});`">
         <div>Edit</div>
       </button>
     </div>
@@ -18,7 +18,7 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'account',
@@ -56,6 +56,9 @@ export default {
     ...mapActions('Account', [
       'discordRefresh',
       'discordReset',
+    ]),
+    ...mapMutations('Landing', [
+      'skinVisibility',
     ]),
     updateWl(result) {
       if (result.status === 0) {
