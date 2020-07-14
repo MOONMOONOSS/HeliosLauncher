@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, ipcMain } from 'electron' // eslint-disable-l
 import path from 'path';
 import Mojang from '../renderer/js/mojang';
 import Whitelist from './js/whitelist';
+import Minecraft from './js/minecraft';
 
 /**
  * Set `__static` path to static files in production
@@ -168,3 +169,11 @@ ipcMain.handle('whitelist-register', (_ev, payload) => {
 
 ipcMain.handle('whitelist-status', (_ev, token) => Whitelist.whitelistStatus(token)
   .then(data => JSON.stringify(data)));
+
+ipcMain.handle('minecraft-server', async (_ev, payload) => {
+  payload = JSON.parse(payload);
+  const server = new Minecraft(payload.address, payload.port);
+
+  const data = await server.getStatus();
+  return JSON.stringify(data);
+});

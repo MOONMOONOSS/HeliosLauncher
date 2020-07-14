@@ -25,13 +25,34 @@
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'launch',
   data: () => ({
-    numPlayers: 12,
-    maxPlayers: 50,
+    numPlayers: 0,
+    maxPlayers: 0,
+    serverIntervalId: null,
   }),
+  computed: {
+    ...mapGetters('Landing', ['serverStatus']),
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.updatePlayerCount();
+      this.serverIntervalId = window.setInterval(this.updatePlayerCount, 30000);
+    });
+  },
+  methods: {
+    async updatePlayerCount() {
+      const status = await this.serverStatus({
+        address: '51.81.48.39',
+        port: 27060,
+      });
+      this.numPlayers = status.onlinePlayers;
+      this.maxPlayers = status.maxPlayers;
+    },
+  },
 };
 </script>
 
