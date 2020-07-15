@@ -3,7 +3,7 @@
     <div id="container">
       <header>
         <div id="windowTitle">Minecraft Skin Selector</div>
-        <button id="close" @click="skinVisibility(false)">
+        <button id="close" @click="closeWindow()">
           <svg name="titleBarClose" width="10" height="10" viewBox="0 0 12 12">
             <polygon stroke="#ffffff" fill="#ffffff" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon>
           </svg>
@@ -13,10 +13,10 @@
         <div id="editorContents">
           <img :src="crafatar"/>
           <img id="arrow" src="static/svg/arrow_right.svg" type="image/svg+xml"/>
-          <img src="static/img/UnknownSkin.png"/>
+          <img :src="imageBlobUrl" :selected="filePicked"/>
         </div>
         <div id="fileSelector">
-          <button>Choose Skin</button>
+          <button @click="openFileSelector()">Choose Skin</button>
           <button :disabled="!filePicked">Upload Skin</button>
         </div>
       </main>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {remote, shell} from 'electron'; // eslint-disable-line
+import { ipcRenderer } from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -35,12 +35,33 @@ export default {
       'crafatar',
       'isSkinEditOpen',
     ]),
+    imageBlobUrl() {
+      if (this.blobbedContents) {
+        return URL.createObjectURL(this.blobbedContents);
+      }
+      // Return default image if null
+      return 'static/img/UnknownSkin.png';
+    },
   },
   data: () => ({
     filePicked: false,
+    blobbedContents: null,
+    contents: null,
   }),
   methods: {
     ...mapMutations('Landing', ['skinVisibility']),
+    async openFileSelector() {
+      this.contents = await ipcRenderer.invoke('file-selector');
+      this.blobbedContents = new Blob([new Uint8Array(this.contents)]);
+      this.filePicked = true;
+    },
+    closeWindow() {
+      this.filePicked = null;
+      this.contents = null;
+      this.blobbedContents = null;
+
+      this.skinVisibility(false);
+    },
   },
 };
 </script>
@@ -125,6 +146,10 @@ main
   max-height calc(100% - 50px)
   img
     object-fit contain
+    &[selected]
+      // Fixes layout when a picture is selected (ugh)
+      height 50%
+      margin auto 0
 
 #fileSelector
   display flex

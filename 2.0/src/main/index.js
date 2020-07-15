@@ -1,4 +1,5 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron' // eslint-disable-line
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
+import fs from 'fs';
 import path from 'path';
 import Mojang from '../renderer/js/mojang';
 import Whitelist from './js/whitelist';
@@ -177,3 +178,28 @@ ipcMain.handle('minecraft-server', async (_ev, payload) => {
   const data = await server.getStatus();
   return JSON.stringify(data);
 });
+
+ipcMain.handle('file-selector', () => new Promise((resolve, reject) => {
+  const curWin = BrowserWindow.getFocusedWindow();
+
+  const res = dialog.showOpenDialogSync(curWin, {
+    title: 'Select your Minecraft Skin!',
+    buttonLabel: 'Select Skin',
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'png', 'jpeg'] },
+    ],
+    properties: ['openFile', 'dontAddToRecent'],
+  });
+
+  if (res.length === 1) {
+    fs.readFile(res[0], (err, data) => {
+      if (err) {
+        reject(Error('Unable to open selected file!'));
+      }
+
+      resolve(data);
+    });
+  } else {
+    reject(Error('No file selected!'));
+  }
+}));
