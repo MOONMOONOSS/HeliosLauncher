@@ -2,14 +2,23 @@
   <dialog id="editor" :hide="!isSkinEditOpen">
     <div id="container">
       <header>
-        <button @click="skinVisibility(false)">
+        <div id="windowTitle">Minecraft Skin Selector</div>
+        <button id="close" @click="skinVisibility(false)">
           <svg name="titleBarClose" width="10" height="10" viewBox="0 0 12 12">
             <polygon stroke="#ffffff" fill="#ffffff" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon>
           </svg>
         </button>
       </header>
       <main>
-        <div>Hello World!</div>
+        <div id="editorContents">
+          <img :src="crafatar"/>
+          <img id="arrow" src="static/svg/arrow_right.svg" type="image/svg+xml"/>
+          <img src="static/img/UnknownSkin.png"/>
+        </div>
+        <div id="fileSelector">
+          <button>Choose Skin</button>
+          <button :disabled="!filePicked">Upload Skin</button>
+        </div>
       </main>
     </div>
   </dialog>
@@ -22,8 +31,14 @@ import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: 'skin-editor',
   computed: {
-    ...mapGetters('Landing', ['isSkinEditOpen']),
+    ...mapGetters('Landing', [
+      'crafatar',
+      'isSkinEditOpen',
+    ]),
   },
+  data: () => ({
+    filePicked: false,
+  }),
   methods: {
     ...mapMutations('Landing', ['skinVisibility']),
   },
@@ -34,15 +49,8 @@ export default {
 button
   background none
   border none
-  border-top-right-radius 8px
-  height 22px
-  position relative
-  right -5px
-  top -6px
   transition .85s ease
-  width 39px
   &:focus, &:hover
-    background rgba(255,53,53,.61)
     color #c1c1c1
     cursor pointer
     outline none
@@ -52,14 +60,46 @@ dialog
   color white
 
 header
-  align-self flex-end
+  background rgba(0,0,0,.5)
+  display flex
+  justify-content space-between
+  position relative
+  top -6px
+  // Pesky borders!
+  width calc(100% + 10px)
 
 main
-  align-items center
   // Remove styling from App.vue
   background none
   display flex
-  flex-grow 1
+  flex-direction column
+  // 100% of the overlay container div
+  // minus the size of the close button
+  height calc(100% - 23px)
+  justify-content space-around
+  width 100%
+
+#arrow
+  height 90px
+  margin auto 0
+
+#close
+  border-top-right-radius 8px
+  height 22px
+  position relative
+  width 39px
+  &:focus, &:hover
+    background rgba(255,53,53,.61)
+
+#container
+  align-items center
+  background-color #36393f
+  border 5px solid #36393f
+  border-radius 8px
+  display flex
+  flex-direction column
+  height 50vh
+  width 70vw
 
 #editor
   align-items center
@@ -78,13 +118,31 @@ main
     pointer-events none
     transform scale(1.5)
 
-#container
-  align-items center
-  background-color #36393f
-  border 5px solid #36393f
-  border-radius 8px
+#editorContents
   display flex
-  flex-direction column
-  height 50vh
-  width 70vw
+  justify-content space-around
+  // Give those buttons some breathing room!
+  max-height calc(100% - 50px)
+  img
+    object-fit contain
+
+#fileSelector
+  display flex
+  justify-content space-evenly
+  width 100%
+  button
+    border 2px solid rgba(255,255,255,.65)
+    border-radius 8px
+    padding 5px
+    &:focus, &:hover
+      background rgba(0,0,0,.65)
+      &[disabled]
+        background none
+        color white
+        cursor unset
+    &[disabled]
+      border none
+
+#windowTitle
+  margin-left 5px
 </style>
