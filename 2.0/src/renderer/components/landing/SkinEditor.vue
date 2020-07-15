@@ -46,19 +46,20 @@ export default {
   data: () => ({
     filePicked: false,
     blobbedContents: null,
-    contents: null,
+    fileName: null,
   }),
   methods: {
     ...mapMutations('Landing', ['skinVisibility']),
     async openFileSelector() {
-      this.contents = await ipcRenderer.invoke('file-selector');
-      this.blobbedContents = new Blob([new Uint8Array(this.contents)]);
+      const contents = await ipcRenderer.invoke('file-selector');
+      this.blobbedContents = new Blob([new Uint8Array(contents.data)]);
+      this.fileName = contents.fileName;
       this.filePicked = true;
     },
     closeWindow() {
       this.filePicked = null;
-      this.contents = null;
       this.blobbedContents = null;
+      this.fileName = null;
 
       this.skinVisibility(false);
     },

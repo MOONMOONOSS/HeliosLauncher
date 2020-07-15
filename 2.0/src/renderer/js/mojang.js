@@ -1,4 +1,5 @@
 import fetchNode from 'node-fetch';
+import fs from 'fs';
 
 export default class {
   /**
@@ -13,6 +14,12 @@ export default class {
    * The server used to authenticate Minecraft credentials with
    */
   static authServer = 'https://authserver.mojang.com';
+
+  /**
+   * The server used to perform Minecraft related requests with
+   * @static
+   */
+  static apiServer = 'https://api.mojang.com/';
 
   /**
    * Authenticate a user with their Mojang credentials.
@@ -131,6 +138,62 @@ export default class {
         if (res.status !== 200) {
           return reject(res);
         }
+
+        res = await res.json();
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
+
+  /**
+   * Uploads a raw image buffer to Mojang as an account skin.
+   *
+   * @static
+   * @param {string} clientToken The client access token used to authorize this request
+   * @param {string} uuid The account's UUID
+   * @param {string} skinType The chosen skin type
+   * @param {string} filePath Path to file to be uploaded
+   */
+  static uploadSkin(clientToken, uuid, skinType, filePath) {
+    return new Promise(async (resolve, reject) => {
+      // Return immediately if missing data
+      if (!clientToken) {
+        return reject(Error('Missing required values'));
+      }
+
+      const formData = new FormData();
+      formData.append('model', skinType);
+      formData.append('file', fs.createReadStream(filePath));
+
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: clientToken,
+        },
+        redirect: 'error',
+        referrerPolicy: 'no-referrer',
+        body: formData,
+      };
+
+      try {
+        let res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
+
+        if (res.status !== 200) {
+          return reject(res);
+        }
+
+        console.dir(res);
 
         res = await res.json();
 

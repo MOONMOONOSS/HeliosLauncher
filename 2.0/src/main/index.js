@@ -197,9 +197,24 @@ ipcMain.handle('file-selector', () => new Promise((resolve, reject) => {
         reject(Error('Unable to open selected file!'));
       }
 
-      resolve(data);
+      resolve({
+        data,
+        fileName: res[0],
+      });
     });
   } else {
     reject(Error('No file selected!'));
   }
+}));
+
+ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) => {
+  payload = JSON.parse(payload);
+
+  const {
+    token, uuid, skinType, filePath,
+  } = payload;
+
+  Mojang.uploadSkin(token, uuid, skinType, filePath)
+    .then(data => resolve(data))
+    .catch(() => reject(Error('Failure!')));
 }));
