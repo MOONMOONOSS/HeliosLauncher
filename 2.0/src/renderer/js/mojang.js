@@ -199,4 +199,48 @@ export default class {
       }
     });
   }
+
+  /**
+   * Resets a user's Minecraft skin back to Steve.
+   *
+   * @static
+   * @param {string} clientToken The client access token used to authorize this request
+   * @param {string} uuid The account's UUID
+   */
+  static resetSkin(clientToken, uuid) {
+    return new Promise(async (resolve, reject) => {
+      // Return immediately if missing data
+      if (!clientToken) {
+        return reject(Error('Missing required values'));
+      }
+
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        timeout: 5000,
+        headers: {
+          Authorization: `Bearer ${clientToken}`,
+        },
+        redirect: 'error',
+        referrerPolicy: 'no-referrer',
+      };
+
+      try {
+        const res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
+
+        if (res.status !== 200) {
+          return reject(res);
+        }
+
+        return resolve(res);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  }
 }
