@@ -17,7 +17,7 @@
         </div>
         <div id="fileSelector">
           <button @click="openFileSelector()">Choose Skin</button>
-          <button :disabled="!filePicked">Upload Skin</button>
+          <button @click="uploadSkin()" :disabled="!filePicked">Upload Skin</button>
         </div>
       </main>
     </div>
@@ -31,6 +31,10 @@ import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: 'skin-editor',
   computed: {
+    ...mapGetters('Account', [
+      'accessToken',
+      'uuid',
+    ]),
     ...mapGetters('Landing', [
       'crafatar',
       'isSkinEditOpen',
@@ -49,6 +53,7 @@ export default {
     fileName: null,
   }),
   methods: {
+    ...mapMutations('Account', ['skinChangeTime']),
     ...mapMutations('Landing', ['skinVisibility']),
     async openFileSelector() {
       const contents = await ipcRenderer.invoke('file-selector');
@@ -62,6 +67,25 @@ export default {
       this.fileName = null;
 
       this.skinVisibility(false);
+    },
+    uploadSkin() {
+      if (
+        this.accessToken
+        && this.uuid
+        && this.fileName
+      ) {
+        ipcRenderer.invoke('skin-upload', {
+          token: this.accessToken,
+          uuid: this.uuid,
+          filePath: this.fileName,
+          skinType: '',
+        })
+          .then(() => {
+            this.closeWindow();
+            this.skinChangeTime(Date.now());
+          })
+          .catch(err => console.error('Failed to upload skin!', err));
+      }
     },
   },
 };

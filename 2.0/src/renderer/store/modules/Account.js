@@ -10,6 +10,7 @@ const state = {
   discordCode: null,
   discordToken: storage.getItem('discord-token'),
   discordRefresh: storage.getItem('discord-refresh'),
+  skinChangeTime: storage.getItem('skin-change-time'),
 };
 
 const mutations = {
@@ -76,6 +77,16 @@ const mutations = {
 
     storage.setItem('mc-uuid', String(val));
   },
+  skinChangeTime(state, val) {
+    state.skinChangeTime = val;
+
+    if (!val) {
+      storage.removeItem('skin-change-time');
+      return;
+    }
+
+    storage.setItem('skin-change-time', String(val));
+  },
 };
 
 const getters = {
@@ -83,6 +94,7 @@ const getters = {
   clientToken: state => state.clientToken,
   discordToken: state => state.discordToken,
   discordRefresh: state => state.discordRefresh,
+  skinChangeTime: state => state.skinChangeTime,
   username: state => state.displayName,
   uuid: state => state.uuid,
   whitelistStatus(state) {

@@ -208,13 +208,11 @@ ipcMain.handle('file-selector', () => new Promise((resolve, reject) => {
 }));
 
 ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) => {
-  payload = JSON.parse(payload);
-
   const {
     token, uuid, skinType, filePath,
   } = payload;
 
   Mojang.uploadSkin(token, uuid, skinType, filePath)
     .then(data => resolve(data))
-    .catch(() => reject(Error('Failure!')));
+    .catch(err => reject(err));
 }));

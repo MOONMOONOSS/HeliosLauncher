@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "electron": "^9.0.5",
+    "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "vue": "^2.6.11",
     "vue-electron": "^1.0.6",

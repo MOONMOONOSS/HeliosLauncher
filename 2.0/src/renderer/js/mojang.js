@@ -1,4 +1,5 @@
 import fetchNode from 'node-fetch';
+import FormData from 'form-data';
 import fs from 'fs';
 
 export default class {
@@ -178,8 +179,7 @@ export default class {
         credentials: 'omit',
         timeout: 5000,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: clientToken,
+          Authorization: `Bearer ${clientToken}`,
         },
         redirect: 'error',
         referrerPolicy: 'no-referrer',
@@ -187,15 +187,11 @@ export default class {
       };
 
       try {
-        let res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
+        const res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
 
         if (res.status !== 200) {
           return reject(res);
         }
-
-        console.dir(res);
-
-        res = await res.json();
 
         return resolve(res);
       } catch (err) {
