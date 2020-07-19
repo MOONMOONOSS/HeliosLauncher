@@ -1,23 +1,35 @@
 <template>
   <section>
-    <div id="status" class="grow">
+    <div
+      id="status"
+      class="grow"
+    >
       <div id="server">
-        PLAYERS <span>{{numPlayers}}/{{maxPlayers}}</span>
+        PLAYERS <span>{{ numPlayers }}/{{ maxPlayers }}</span>
       </div>
-      <div class="horiDivider"></div>
+      <div class="horiDivider" />
       <div id="mojang">
         MOJANG STATUS<span>•</span>
-        <div class="tooltip" id="services">
-          
-        </div>
+        <div
+          id="services"
+          class="tooltip"
+        />
       </div>
     </div>
-    <div id="news" class="grow">
+    <div
+      id="news"
+      class="grow"
+    >
       <button><span>^</span>NEWS</button>
     </div>
-    <div id="launchControls" class="grow">
-      <button id="play">PLAY</button>
-      <div class="horiDivider"></div>
+    <div
+      id="launchControls"
+      class="grow"
+    >
+      <button id="play">
+        PLAY
+      </button>
+      <div class="horiDivider" />
       <button>• Nether Update</button>
     </div>
   </section>
@@ -28,7 +40,7 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'launch',
+  name: 'Launch',
   data: () => ({
     numPlayers: 0,
     maxPlayers: 0,

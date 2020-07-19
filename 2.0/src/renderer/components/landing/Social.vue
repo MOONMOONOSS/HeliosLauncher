@@ -1,19 +1,37 @@
 <template>
   <section id="social">
-    <div class="mediaContainer" id="settings">
+    <div
+      id="settings"
+      class="mediaContainer"
+    >
       <button @click="settingsVisibility(true)">
-        <img src="static/svg/settings.svg" type="image/svg+xml"/>
-        <div class="tooltip">Settings</div>
+        <img
+          src="static/svg/settings.svg"
+          type="image/svg+xml"
+        >
+        <div class="tooltip">
+          Settings
+        </div>
       </button>
     </div>
 
-    <div id="divider" class="flex">
-      <div class="divider"></div>
+    <div
+      id="divider"
+      class="flex"
+    >
+      <div class="divider" />
     </div>
 
-    <div v-for="obj in externalMedia" :key="obj.link" class="mediaContainer">
+    <div
+      v-for="obj in externalMedia"
+      :key="obj.link"
+      class="mediaContainer"
+    >
       <a @click="openLink(obj.link)">
-        <img :src="`static/svg/${obj.svg}.svg`" type="image/svg+xml"/>
+        <img
+          :src="`static/svg/${obj.svg}.svg`"
+          type="image/svg+xml"
+        >
       </a>
     </div>
   </section>
@@ -24,7 +42,7 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapMutations } from 'vuex';
 
 export default {
-  name: 'social',
+  name: 'Social',
   data: () => ({
     externalMedia: [
       {

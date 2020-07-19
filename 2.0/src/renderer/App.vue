@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <FrameBar/>
-    <router-view></router-view>
+    <FrameBar />
+    <router-view />
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import FrameBar from './components/electron/FrameBar.vue';
 const storage = window.localStorage;
 
 export default {
-  name: 'launcher',
+  name: 'Launcher',
   components: { FrameBar },
   async mounted() {
     // Set first launch property if not present

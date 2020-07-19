@@ -1,11 +1,25 @@
 <template>
   <main id="welcomeContainer">
     <div id="welcomeContent">
-      <img id="welcomeImageSeal" src="static/img/loading_seal.png"/>
-      <h2 id="welcomeHeader">WELCOME</h2>
-      <p id="welcomeDescription">Thanks for downloading our fork of the Helios Launcher. This launcher was designed to make modded Minecraft as easy as 1-2-3. Be sure to whitelist your Mojang account in the Discord, or you will not be able to join!</p>
-      <h5 id="welcomeDescCTA">You are just a few clicks away!</h5>
-      <router-link to="login" id="welcomeButton">
+      <img
+        id="welcomeImageSeal"
+        src="static/img/loading_seal.png"
+      >
+      <h2 id="welcomeHeader">
+        WELCOME
+      </h2>
+      <p id="welcomeDescription">
+        Thanks for downloading our fork of the Helios Launcher.
+        This launcher was designed to make modded Minecraft as easy as 1-2-3.
+        Be sure to whitelist your Mojang account in the Discord, or you will not be able to join!
+      </p>
+      <h5 id="welcomeDescCTA">
+        You are just a few clicks away!
+      </h5>
+      <router-link
+        id="welcomeButton"
+        to="login"
+      >
         CONTINUE <span>^</span>
       </router-link>
     </div>
@@ -16,7 +30,7 @@
 import {remote} from 'electron'; // eslint-disable-line
 
 export default {
-  name: 'welcome-page',
+  name: 'WelcomePage',
 };
 </script>
 

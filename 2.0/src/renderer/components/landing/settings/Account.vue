@@ -4,20 +4,29 @@
     <summary>Manage your existing account.</summary>
     <div id="mcInfo">
       <div id="skin">
-        <img :alt="username" :src="crafatar"/>
+        <img
+          :alt="username"
+          :src="crafatar"
+        >
       </div>
       <div id="metadata">
         <div class="flex-col">
-          <div class="head-text">Username</div>
+          <div class="head-text">
+            Username
+          </div>
           <div>{{ username }}</div>
         </div>
         <div class="flex-col">
-          <div class="head-text">UUID</div>
+          <div class="head-text">
+            UUID
+          </div>
           <div>{{ uuid }}</div>
         </div>
       </div>
       <div id="logout">
-        <button @click="logoff()">Log Out</button>
+        <button @click="logoff()">
+          Log Out
+        </button>
       </div>
     </div>
   </div>
@@ -28,7 +37,7 @@ import { ipcRenderer } from 'electron'; // eslint-disable-line
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'tab-account',
+  name: 'TabAccount',
   computed: {
     ...mapGetters('Landing', ['crafatar']),
     ...mapGetters('Account', [
@@ -54,7 +63,7 @@ export default {
         .then(() => this.minecraftReset())
         .then(() => this.discordReset())
         .then(() => this.$router.push({ name: 'minecraft-login' }))
-        .catch(err => new Error(err));
+        .catch((err) => new Error(err));
     },
   },
 };

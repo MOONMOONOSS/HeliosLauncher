@@ -1,23 +1,56 @@
 <template>
-  <dialog id="editor" :hide="!isSkinEditOpen">
+  <dialog
+    id="editor"
+    :hide="!isSkinEditOpen"
+  >
     <div id="container">
       <header>
-        <div id="windowTitle">Minecraft Skin Selector</div>
-        <button id="close" @click="closeWindow()">
-          <svg name="titleBarClose" width="10" height="10" viewBox="0 0 12 12">
-            <polygon stroke="#ffffff" fill="#ffffff" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon>
+        <div id="windowTitle">
+          Minecraft Skin Selector
+        </div>
+        <button
+          id="close"
+          @click="closeWindow()"
+        >
+          <svg
+            name="titleBarClose"
+            width="10"
+            height="10"
+            viewBox="0 0 12 12"
+          >
+            <polygon
+              stroke="#ffffff"
+              fill="#ffffff"
+              fill-rule="evenodd"
+              points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11
+                1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"
+            />
           </svg>
         </button>
       </header>
       <main>
         <div id="editorContents">
-          <img :src="crafatar"/>
-          <img id="arrow" src="static/svg/arrow_right.svg" type="image/svg+xml"/>
-          <img :src="imageBlobUrl" :selected="filePicked"/>
+          <img :src="crafatar">
+          <img
+            id="arrow"
+            src="static/svg/arrow_right.svg"
+            type="image/svg+xml"
+          >
+          <img
+            :src="imageBlobUrl"
+            :selected="filePicked"
+          >
         </div>
         <div id="fileSelector">
-          <button @click="openFileSelector()">Choose Skin</button>
-          <button @click="uploadSkin()" :disabled="!filePicked">Upload Skin</button>
+          <button @click="openFileSelector()">
+            Choose Skin
+          </button>
+          <button
+            :disabled="!filePicked"
+            @click="uploadSkin()"
+          >
+            Upload Skin
+          </button>
         </div>
       </main>
     </div>
@@ -29,7 +62,7 @@ import { ipcRenderer } from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'skin-editor',
+  name: 'SkinEditor',
   computed: {
     ...mapGetters('Account', [
       'accessToken',
@@ -84,7 +117,7 @@ export default {
             this.closeWindow();
             this.skinChangeTime(Date.now());
           })
-          .catch(err => console.error('Failed to upload skin!', err));
+          .catch((err) => console.error('Failed to upload skin!', err));
       }
     },
   },

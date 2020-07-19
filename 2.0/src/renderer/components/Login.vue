@@ -1,44 +1,70 @@
 <template>
   <main id="loginContainer">
     <div id="loginContent">
-      <form @submit.prevent="onSubmit" id="loginForm">
-        <img id="loginImageSeal" src="static/img/logoAnim.gif"/>
-        <h1 id="loginSubheader">MINECRAFT LOGIN</h1>
-        <div id="loginError" :hide="!hasError">{{ errorText }}</div>
+      <form
+        id="loginForm"
+        @submit.prevent="onSubmit"
+      >
+        <img
+          id="loginImageSeal"
+          src="static/img/logoAnim.gif"
+        >
+        <h1 id="loginSubheader">
+          MINECRAFT LOGIN
+        </h1>
+        <div
+          id="loginError"
+          :hide="!hasError"
+        >
+          {{ errorText }}
+        </div>
         <div class="loginFieldContainer">
           <div class="loginField">
-            <svg class="loginSVG" viewBox="40 37 65.36 61.43">
+            <svg
+              class="loginSVG"
+              viewBox="40 37 65.36 61.43"
+            >
               <g>
-                <path d="M86.77,58.12A13.79,13.79,0,1,0,73,71.91,13.79,13.79,0,0,0,86.77,58.12M97,103.67a3.41,3.41,0,0,0,3.39-3.84,27.57,27.57,0,0,0-54.61,0,3.41,3.41,0,0,0,3.39,3.84Z"/>
+                <path d="M86.77,58.12A13.79,13.79,0,1,0,73,71.91,13.79,13.79,0,0,0,86.77,58.12M97,
+                  103.67a3.41,3.41,0,0,0,3.39-3.84,27.57,27.57,0,0,0-54.61,0,3.41,3.41,0,0,0,3.39,
+                  3.84Z"
+                />
               </g>
             </svg>
             <input
-              @input="clearError"
               id="mcUsername"
               v-model="loginData.username"
               type="text"
               placeholder="EMAIL/USERNAME"
               required
               :disabled="submitting"
-            />
+              @input="clearError"
+            >
           </div>
         </div>
         <div class="loginFieldContainer">
           <div class="loginField">
-            <svg class="loginSVG" viewBox="40 32 60.36 70.43">
+            <svg
+              class="loginSVG"
+              viewBox="40 32 60.36 70.43"
+            >
               <g>
-                <path d="M86.16,54a16.38,16.38,0,1,0-32,0H44V102.7H96V54Zm-25.9-3.39a9.89,9.89,0,1,1,19.77,0A9.78,9.78,0,0,1,79.39,54H60.89A9.78,9.78,0,0,1,60.26,50.59ZM70,96.2a6.5,6.5,0,0,1-6.5-6.5,6.39,6.39,0,0,1,3.1-5.4V67h6.5V84.11a6.42,6.42,0,0,1,3.39,5.6A6.5,6.5,0,0,1,70,96.2Z"/>
+                <path d="M86.16,54a16.38,16.38,0,1,0-32,0H44V102.7H96V54Zm-25.9-3.39a9.89,9.89,0,1,
+                  1,19.77,0A9.78,9.78,0,0,1,79.39,54H60.89A9.78,9.78,0,0,1,60.26,50.59ZM70,96.2a6.5,
+                  6.5,0,0,1-6.5-6.5,6.39,6.39,0,0,1,3.1-5.4V67h6.5V84.11a6.42,6.42,0,0,1,3.39,
+                  5.6A6.5,6.5,0,0,1,70,96.2Z"
+                />
               </g>
             </svg>
             <input
-              @input="clearError"
               id="mcPassword"
               v-model="loginData.password"
               type="password"
               placeholder="PASSWORD"
               required
               :disabled="submitting"
-            />
+              @input="clearError"
+            >
           </div>
         </div>
         <div id="loginOptions">
@@ -46,21 +72,40 @@
             <a @click="openLink('https://my.minecraft.net/en-us/password/forgot/')">Forgot password?</a>
           </span>
           <label id="checkmarkContainer">
-            <input v-model="loginData.remember" id="loginRememberOption" type="checkbox" checked :disabled="submitting">
-            <span id="loginRememberText" class="loginSpanDim">Remember me?</span>
-            <span class="loginCheckmark"></span>
+            <input
+              id="loginRememberOption"
+              v-model="loginData.remember"
+              type="checkbox"
+              checked
+              :disabled="submitting"
+            >
+            <span
+              id="loginRememberText"
+              class="loginSpanDim"
+            >Remember me?</span>
+            <span class="loginCheckmark" />
           </label>
         </div>
-        <button id="loginButton" @submit="onSubmit" :disabled="submitting || hasError">
+        <button
+          id="loginButton"
+          :disabled="submitting || hasError"
+          @submit="onSubmit"
+        >
           <div id="loginButtonContent">
             LOGIN <span>^</span>
-            <div class="circle-loader" :hide="!submitting">
-              <div class="checkmark draw"></div>
+            <div
+              class="circle-loader"
+              :hide="!submitting"
+            >
+              <div class="checkmark draw" />
             </div>
           </div>
         </button>
         <div id="loginDisclaimer">
-          <span class="loginSpanDim" id="loginRegisterSpan">
+          <span
+            id="loginRegisterSpan"
+            class="loginSpanDim"
+          >
             <a @click="openLink('https://minecraft.net/en-us/store/minecraft/')">Need an Account?</a>
           </span>
           <p>Your password is sent directly to Mojang and never stored.</p>
@@ -76,7 +121,7 @@ import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
 import AuthManager from '../js/authManager';
 
 export default {
-  name: 'minecraft-login',
+  name: 'MinecraftLogin',
   data: () => ({
     hasError: false,
     submitting: false,

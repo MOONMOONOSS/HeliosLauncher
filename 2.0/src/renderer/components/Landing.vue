@@ -1,11 +1,11 @@
 <template>
   <main>
-    <Settings/>
-    <SkinEditor/>
-    <Account/>
-    <Social/>
-    <div id="launcherSpacer"></div>
-    <Launch/>
+    <Settings />
+    <SkinEditor />
+    <Account />
+    <Social />
+    <div id="launcherSpacer" />
+    <Launch />
   </main>
 </template>
 
@@ -19,7 +19,7 @@ import Social from '@/components/landing/Social';
 import SkinEditor from '@/components/landing/SkinEditor';
 
 export default {
-  name: 'overview',
+  name: 'Overview',
   components: {
     Account,
     Launch,

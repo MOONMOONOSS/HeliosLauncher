@@ -1,20 +1,36 @@
 <template>
   <main>
     <div id="stateContainer">
-      <h1 class="underlined">Whitelisting</h1>
+      <h1 class="underlined">
+        Whitelisting
+      </h1>
       <p>In order to play you must:</p>
       <ul>
         <li>Authorize the launcher to retrieve information about your Discord account</li>
         <li>Be in the MOONMOON subscriber Discord guild</li>
         <li>Not have the BACK TO THE PIT role on Discord</li>
       </ul>
-      <div class="spacer underlined"></div>
-      <div id="error" :hide="!hasError">{{ errorText }}</div>
+      <div class="spacer underlined" />
+      <div
+        id="error"
+        :hide="!hasError"
+      >
+        {{ errorText }}
+      </div>
       <div>
-        <button @click="finish" :disabled="linking" class="whitelistButton">Link with Discord</button>
+        <button
+          :disabled="linking"
+          class="whitelistButton"
+          @click="finish"
+        >
+          Link with Discord
+        </button>
       </div>
     </div>
-    <div id="overlay" v-if="linking">
+    <div
+      v-if="linking"
+      id="overlay"
+    >
       {{ overlayText }}
     </div>
   </main>
@@ -25,7 +41,7 @@ import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'whitelisting',
+  name: 'Whitelisting',
   data: () => ({
     errorText: 'Failed to whitelist your account!',
     hasError: false,

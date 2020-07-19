@@ -1,15 +1,29 @@
 <template>
   <section>
     <div id="seal">
-      <img class="avatar border-circle" src="static/img/loading_seal.png"/>
+      <img
+        class="avatar border-circle"
+        src="static/img/loading_seal.png"
+      >
     </div>
-    <div class="spacer"></div>
+    <div class="spacer" />
     <div id="user">
       <aside>
-        <div id="userText">{{ username }}</div>
-        <div id="whitelist-text" :class="wlStatus">{{ wlText }}</div>
+        <div id="userText">
+          {{ username }}
+        </div>
+        <div
+          id="whitelist-text"
+          :class="wlStatus"
+        >
+          {{ wlText }}
+        </div>
       </aside>
-      <button @click="skinVisibility(true)" class="avatar border-circle" :style="`background-image: url('${crafatar});`">
+      <button
+        class="avatar border-circle"
+        :style="`background-image: url('${crafatar});`"
+        @click="skinVisibility(true)"
+      >
         <div>Edit</div>
       </button>
     </div>
@@ -21,7 +35,7 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'account',
+  name: 'Account',
   data: () => ({
     wlText: 'Checking Status...',
     wlStatus: 'checking',
@@ -30,7 +44,7 @@ export default {
     this.$nextTick(() => {
       setTimeout(async () => {
         await this.whitelistStatus
-          .then(result => this.updateWl(result))
+          .then((result) => this.updateWl(result))
           .catch(async (err) => {
             switch (err.message) {
               case 'Error invoking remote method \'whitelist-status\': Error: REFRESH':
@@ -71,7 +85,7 @@ export default {
     },
     async getWlStatus() {
       await this.whitelistStatus
-        .then(result => this.updateWl(result));
+        .then((result) => this.updateWl(result));
     },
   },
   computed: {

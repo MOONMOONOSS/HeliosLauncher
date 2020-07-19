@@ -1,38 +1,112 @@
 <template>
   <div id="frameBar">
-    <div id="frameResizableTop"></div>
+    <div id="frameResizableTop" />
     <div id="frameMain">
-      <div class="frameResizableVert"></div>
-      <div v-if="platform === 'darwin'" id="frameContent" platform="darwin">
+      <div class="frameResizableVert" />
+      <div
+        v-if="platform === 'darwin'"
+        id="frameContent"
+        platform="darwin"
+      >
         <div id="frameButtonDock">
-          <button class="frameButton" id="frameButton_close" tabIndex="-1" @click="close"></button>
-          <button class="frameButton" id="frameButton_minimize" tabIndex="-1" @click="minimize"></button>
-          <button class="frameButton" id="frameButton_restoredown" tabIndex="-1" @click="restoreDown"></button>
+          <button
+            id="frameButton_close"
+            class="frameButton"
+            tabIndex="-1"
+            @click="close"
+          />
+          <button
+            id="frameButton_minimize"
+            class="frameButton"
+            tabIndex="-1"
+            @click="minimize"
+          />
+          <button
+            id="frameButton_restoredown"
+            class="frameButton"
+            tabIndex="-1"
+            @click="restoreDown"
+          />
         </div>
       </div>
-      <div v-else id="frameContent" platform="win32">
+      <div
+        v-else
+        id="frameContent"
+        platform="win32"
+      >
         <div id="frameTitleDock">
           <span id="frameTitleText">MOON2 Launcher</span>
         </div>
         <div id="frameButtonDock">
-          <button class="frameButton" id="frameButton_minimize" tabIndex="-1" @click="minimize">
-            <svg name="titleBarMinimize" width="10" height="10" viewBox="0 0 12 12">
-              <rect stroke="#ffffff" fill="#ffffff" width="10" height="1" x="1" y="6"></rect>
+          <button
+            id="frameButton_minimize"
+            class="frameButton"
+            tabIndex="-1"
+            @click="minimize"
+          >
+            <svg
+              name="titleBarMinimize"
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+            >
+              <rect
+                stroke="#ffffff"
+                fill="#ffffff"
+                width="10"
+                height="1"
+                x="1"
+                y="6"
+              />
             </svg>
           </button>
-          <button class="frameButton" id="frameButton_restoredown" tabIndex="-1" @click="restoreDown">
-            <svg name="titleBarMaximize" width="10" height="10" viewBox="0 0 12 12">
-              <rect width="9" height="9" x="1.5" y="1.5" fill="none" stroke="#ffffff" stroke-width="1.4px"></rect>
+          <button
+            id="frameButton_restoredown"
+            class="frameButton"
+            tabIndex="-1"
+            @click="restoreDown"
+          >
+            <svg
+              name="titleBarMaximize"
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+            >
+              <rect
+                width="9"
+                height="9"
+                x="1.5"
+                y="1.5"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="1.4px"
+              />
             </svg>
           </button>
-          <button class="frameButton" id="frameButton_close" tabIndex="-1" @click="close">
-            <svg name="titleBarClose" width="10" height="10" viewBox="0 0 12 12">
-              <polygon stroke="#ffffff" fill="#ffffff" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon>
+          <button
+            id="frameButton_close"
+            class="frameButton"
+            tabIndex="-1"
+            @click="close"
+          >
+            <svg
+              name="titleBarClose"
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+            >
+              <polygon
+                stroke="#ffffff"
+                fill="#ffffff"
+                fill-rule="evenodd"
+                points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583
+                  1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"
+              />
             </svg>
           </button>
         </div>
       </div>
-      <div class="frameResizableVert"></div>
+      <div class="frameResizableVert" />
     </div>
   </div>
 </template>
@@ -41,7 +115,7 @@
 import {remote} from 'electron'; // eslint-disable-line
 
 export default {
-  name: 'frame-bar',
+  name: 'FrameBar',
   data: () => ({
     platform: process.platform,
   }),

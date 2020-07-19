@@ -1,20 +1,33 @@
 <template>
-  <dialog id="container" :hide="!isSettingsOpen">
+  <dialog
+    id="container"
+    :hide="!isSettingsOpen"
+  >
     <aside>
       <header>Settings</header>
-      <div class="spacer"></div>
-      <button :selected="currentTab === 'AccountTab'" @click="currentTab = 'AccountTab'">Account</button>
+      <div class="spacer" />
+      <button
+        :selected="currentTab === 'AccountTab'"
+        @click="currentTab = 'AccountTab'"
+      >
+        Account
+      </button>
       <button>Minecraft</button>
       <button>Mods</button>
       <button>Java</button>
       <button>Launcher</button>
-      <div class="spacer"></div>
+      <div class="spacer" />
       <button>About</button>
-      <div class="divider"></div>
-      <button @click="settingsVisibility(false)">Done</button>
+      <div class="divider" />
+      <button @click="settingsVisibility(false)">
+        Done
+      </button>
     </aside>
     <keep-alive>
-      <component :is="currentTab" class="tab"></component>
+      <component
+        :is="currentTab"
+        class="tab"
+      />
     </keep-alive>
   </dialog>
 </template>
@@ -25,7 +38,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import AccountTab from './settings/Account';
 
 export default {
-  name: 'settings',
+  name: 'Settings',
   components: {
     AccountTab,
   },
