@@ -6,7 +6,8 @@
         ["env", {
           "targets": { "node": 7 }
         }],
-        "stage-0"
+        "stage-0",
+        "@babel/preset-flow"
       ],
       "plugins": ["istanbul"]
     },
@@ -15,7 +16,8 @@
         ["env", {
           "targets": { "node": 7 }
         }],
-        "stage-0"
+        "stage-0",
+        "@babel/preset-flow"
       ]
     },
     "renderer": {
@@ -23,7 +25,8 @@
         ["env", {
           "modules": false
         }],
-        "stage-0"
+        "stage-0",
+        "@babel/preset-flow"
       ]
     },
     "web": {
@@ -31,7 +34,8 @@
         ["env", {
           "modules": false
         }],
-        "stage-0"
+        "stage-0",
+        "@babel/preset-flow"
       ]
     }
   },

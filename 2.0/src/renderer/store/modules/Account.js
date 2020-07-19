@@ -1,8 +1,21 @@
+// @flow
+
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 
 const storage = window.localStorage;
 
-const state = {
+type VueState = {|
+  accessToken: ?string,
+  clientToken: ?string,
+  displayName: ?string,
+  uuid: ?string,
+  discordCode: ?string,
+  discordToken: ?string,
+  discordRefresh: ?string,
+  skinChangeTime: ?number,
+|};
+
+const state: VueState = {
   accessToken: storage.getItem('mc-access-token'),
   clientToken: storage.getItem('mc-client-token'),
   displayName: storage.getItem('mc-name'),
@@ -14,7 +27,7 @@ const state = {
 };
 
 const mutations = {
-  accessToken(state, val) {
+  accessToken(state: VueState, val: ?string) {
     state.accessToken = val;
 
     if (!val) {
@@ -22,9 +35,9 @@ const mutations = {
       return;
     }
 
-    storage.setItem('mc-access-token', String(val));
+    storage.setItem('mc-access-token', val);
   },
-  clientToken(state, val) {
+  clientToken(state: VueState, val: ?string) {
     state.clientToken = val;
 
     if (!val) {
