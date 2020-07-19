@@ -42,7 +42,7 @@ export default class {
     requestUser = true,
     agent = this.minecraftAgent,
   ) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       /**
        * HTTP request body
        */
@@ -75,14 +75,15 @@ export default class {
       };
 
       try {
-        let res = await fetchNode(`${this.authServer}/authenticate`, params);
-        res = await res.json();
-
-        if (res.error) {
-          reject(res);
-        } else {
-          resolve(res);
-        }
+        fetchNode(`${this.authServer}/authenticate`, params)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              reject(data);
+            } else {
+              resolve(data);
+            }
+          });
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('shits broke fam', err);
@@ -102,10 +103,10 @@ export default class {
    * @returns {Promise<object>}
    */
   static invalidate(accessToken, clientToken) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // Return immediately if missing data
       if (!accessToken || !clientToken) {
-        return reject(Error('Missing required values'));
+        reject(Error('Missing required values'));
       }
 
       /**
@@ -134,17 +135,16 @@ export default class {
       };
 
       try {
-        let res = await fetchNode(`${this.authServer}/refresh`, params);
-
-        if (res.status !== 200) {
-          return reject(res);
-        }
-
-        res = await res.json();
-
-        return resolve(res);
+        fetchNode(`${this.authServer}/refresh`, params)
+          .then((res) => {
+            if (res.status !== 200) {
+              reject(res);
+            }
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
@@ -159,10 +159,10 @@ export default class {
    * @param {string} filePath Path to file to be uploaded
    */
   static uploadSkin(clientToken, uuid, skinType, filePath) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // Return immediately if missing data
       if (!clientToken) {
-        return reject(Error('Missing required values'));
+        reject(Error('Missing required values'));
       }
 
       const formData = new FormData();
@@ -187,15 +187,16 @@ export default class {
       };
 
       try {
-        const res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
-
-        if (res.status !== 200) {
-          return reject(res);
-        }
-
-        return resolve(res);
+        fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params)
+          .then((res) => {
+            if (res.status !== 200) {
+              reject(res);
+            }
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
@@ -208,10 +209,10 @@ export default class {
    * @param {string} uuid The account's UUID
    */
   static resetSkin(clientToken, uuid) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // Return immediately if missing data
       if (!clientToken) {
-        return reject(Error('Missing required values'));
+        reject(Error('Missing required values'));
       }
 
       /**
@@ -231,15 +232,16 @@ export default class {
       };
 
       try {
-        const res = await fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params);
-
-        if (res.status !== 200) {
-          return reject(res);
-        }
-
-        return resolve(res);
+        fetchNode(`${this.apiServer}/user/profile/${uuid}/skin`, params)
+          .then((res) => {
+            if (res.status !== 200) {
+              reject(res);
+            }
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }

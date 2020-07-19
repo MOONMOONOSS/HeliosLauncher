@@ -125,7 +125,7 @@ export default class Whitelist {
    * @returns {Promise<Object>} a promise to an accessToken as returned by MOON2 Services
    */
   static requestToken(code) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       /**
        * Options for Fetch API call
        */
@@ -142,17 +142,16 @@ export default class Whitelist {
       };
 
       try {
-        let res = await fetchNode(`${Whitelist.baseUri}/login`, params);
-
-        if (res.status !== 200) {
-          return reject(Error(res.statusText));
-        }
-
-        res = await res.json();
-
-        return resolve(res);
+        fetchNode(`${Whitelist.baseUri}/login`, params)
+          .then((res) => {
+            if (res.status !== 200) {
+              reject(res);
+            }
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
@@ -166,7 +165,7 @@ export default class Whitelist {
    * @returns {object} access_token returned by application service
    */
   static refreshToken(token) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       /**
        * Options for Fetch API call
        */
@@ -183,17 +182,16 @@ export default class Whitelist {
       };
 
       try {
-        let res = await fetchNode(`${Whitelist.baseUri}/refresh`, params);
-
-        if (res.status !== 200) {
-          return reject(Error(res.statusText));
-        }
-
-        res = await res.json();
-
-        return resolve(res);
+        fetchNode(`${Whitelist.baseUri}/refresh`, params)
+          .then((res) => {
+            if (res.status !== 200) {
+              reject(res);
+            }
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
@@ -206,7 +204,7 @@ export default class Whitelist {
    * @memberof Whitelist
    */
   static whitelistStatus(token) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       /**
        * Options for Fetch API call
        */
@@ -223,19 +221,19 @@ export default class Whitelist {
       };
 
       try {
-        let res = await fetchNode(`${Whitelist.baseUri}/whitelist/status`, params);
+        fetchNode(`${Whitelist.baseUri}/whitelist/status`, params)
+          .then((res) => {
+            if (res.status !== 200 && res.status !== 403) {
+              reject(Error(res.statusText));
+            } if (res.status === 403) {
+              reject(Error('REFRESH'));
+            }
 
-        if (res.status !== 200 && res.status !== 403) {
-          return reject(Error(res.statusText));
-        } if (res.status === 403) {
-          return reject(Error('REFRESH'));
-        }
-
-        res = await res.json();
-
-        return resolve(res);
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
@@ -249,7 +247,7 @@ export default class Whitelist {
    * @memberof Whitelist
    */
   static link(token, uuid) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       /**
        * Options for Fetch API call
        */
@@ -266,19 +264,19 @@ export default class Whitelist {
       };
 
       try {
-        let res = await fetchNode(`${Whitelist.baseUri}/register/${uuid}`, params);
+        fetchNode(`${Whitelist.baseUri}/register/${uuid}`, params)
+          .then((res) => {
+            if (res.status !== 200 && res.status !== 403) {
+              reject(Error(res.statusText));
+            } if (res.status === 403) {
+              reject(Error('REFRESH'));
+            }
 
-        if (res.status !== 200 && res.status !== 403) {
-          return reject(Error(res.statusText));
-        } if (res.status === 403) {
-          return reject(Error('REFRESH'));
-        }
-
-        res = await res.json();
-
-        return resolve(res);
+            return res.json();
+          })
+          .then((data) => resolve(data));
       } catch (err) {
-        return reject(err);
+        reject(err);
       }
     });
   }
