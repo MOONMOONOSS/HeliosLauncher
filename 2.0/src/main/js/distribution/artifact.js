@@ -64,4 +64,8 @@ export default class Artifact {
   get path() {
     return this.path;
   }
+
+  set path(val) {
+    this.path = val;
+  }
 }
