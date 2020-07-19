@@ -2,7 +2,7 @@
 
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 
-const storage = window.localStorage;
+const storage: Storage = window.localStorage;
 
 type VueState = {|
   accessToken: ?string,
@@ -12,8 +12,28 @@ type VueState = {|
   discordCode: ?string,
   discordToken: ?string,
   discordRefresh: ?string,
-  skinChangeTime: ?number,
+  skinChangeTime: ?string,
 |};
+
+type MojangProfile = {|
+  id: string,
+  name: string,
+|};
+
+type MojangUser = {|
+  id: string,
+  username: string,
+|};
+
+type MojangLogin = {
+  accessToken?: string,
+  availableProfiles?: Array<MojangProfile>,
+  clientToken?: string,
+  error?: string,
+  errorMessage?: string,
+  selectedProfile?: MojangProfile,
+  user?: MojangUser,
+}
 
 const state: VueState = {
   accessToken: storage.getItem('mc-access-token'),
@@ -47,10 +67,10 @@ const mutations = {
 
     storage.setItem('mc-client-token', String(val));
   },
-  discordCode(state, val) {
+  discordCode(state: VueState, val: ?string) {
     state.discordCode = val;
   },
-  discordToken(state, val) {
+  discordToken(state: VueState, val: ?string) {
     state.discordToken = val;
 
     if (!val) {
@@ -60,7 +80,7 @@ const mutations = {
 
     storage.setItem('discord-token', String(val));
   },
-  discordRefresh(state, val) {
+  discordRefresh(state: VueState, val: ?string) {
     state.discordRefresh = val;
 
     if (!val) {
@@ -70,7 +90,7 @@ const mutations = {
 
     storage.setItem('discord-refresh', String(val));
   },
-  displayName(state, val) {
+  displayName(state: VueState, val: ?string) {
     state.displayName = val;
 
     if (!val) {
@@ -80,7 +100,7 @@ const mutations = {
 
     storage.setItem('mc-name', String(val));
   },
-  uuid(state, val) {
+  uuid(state: VueState, val: ?string) {
     state.uuid = val;
 
     if (!val) {
@@ -90,7 +110,7 @@ const mutations = {
 
     storage.setItem('mc-uuid', String(val));
   },
-  skinChangeTime(state, val) {
+  skinChangeTime(state: VueState, val: ?string) {
     state.skinChangeTime = val;
 
     if (!val) {
@@ -103,14 +123,14 @@ const mutations = {
 };
 
 const getters = {
-  accessToken: (state) => state.accessToken,
-  clientToken: (state) => state.clientToken,
-  discordToken: (state) => state.discordToken,
-  discordRefresh: (state) => state.discordRefresh,
-  skinChangeTime: (state) => state.skinChangeTime,
-  username: (state) => state.displayName,
-  uuid: (state) => state.uuid,
-  whitelistStatus(state) {
+  accessToken: (state: VueState) => state.accessToken,
+  clientToken: (state: VueState) => state.clientToken,
+  discordToken: (state: VueState) => state.discordToken,
+  discordRefresh: (state: VueState) => state.discordRefresh,
+  skinChangeTime: (state: VueState) => state.skinChangeTime,
+  username: (state: VueState) => state.displayName,
+  uuid: (state: VueState) => state.uuid,
+  whitelistStatus(state: VueState): Promise<?boolean> {
     return new Promise((resolve, reject) => {
       if (state.discordToken && state.discordRefresh) {
         ipcRenderer.invoke('whitelist-status', state.discordToken)
@@ -125,15 +145,15 @@ const getters = {
 };
 
 const actions = {
-  addAccount({ commit }, apiData) {
+  addAccount({ commit }: {commit: Function}, apiData: MojangLogin): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        const { id, name } = apiData.session.selectedProfile;
-        const { accessToken } = apiData.session;
+        const { accessToken, selectedProfile }:
+          { accessToken: any, selectedProfile: any } = apiData; // fuck off Flow
 
         commit('accessToken', accessToken);
-        commit('displayName', name);
-        commit('uuid', id);
+        commit('displayName', selectedProfile.name);
+        commit('uuid', selectedProfile.id);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Problem committing account state', err);
@@ -143,14 +163,14 @@ const actions = {
       resolve();
     });
   },
-  clientToken({ commit }, token) {
+  clientToken({ commit }: {commit: Function}, token: string): Promise<void> {
     return new Promise((resolve) => {
       commit('clientToken', token);
 
       resolve();
     });
   },
-  discordCode({ commit }, code) {
+  discordCode({ commit }: {commit: Function}, code: string): Promise<void> {
     return new Promise((resolve, reject) => {
       commit('discordCode', code);
 
@@ -166,7 +186,7 @@ const actions = {
         .catch(() => reject(Error('Failed to exchange Discord token')));
     });
   },
-  discordRefresh({ commit, state }) {
+  discordRefresh({ commit, state }: {commit: Function, state: VueState}): Promise<void> {
     return new Promise((resolve, reject) => {
       if (state.discordToken && state.discordRefresh) {
         ipcRenderer.invoke('discord-refresh', state.discordRefresh)
@@ -194,7 +214,7 @@ const actions = {
       }
     });
   },
-  discordReset({ commit }) {
+  discordReset({ commit }: {commit: Function}): Promise<void> {
     return new Promise((resolve) => {
       commit('discordToken');
       commit('discordRefresh');
@@ -202,7 +222,7 @@ const actions = {
       resolve();
     });
   },
-  minecraftReset({ commit }) {
+  minecraftReset({ commit }: {commit: Function}): Promise<void> {
     return new Promise((resolve) => {
       commit('accessToken');
       commit('clientToken');
@@ -212,7 +232,7 @@ const actions = {
       resolve();
     });
   },
-  registerMcAccount({ state }) {
+  registerMcAccount({ state }: {state: VueState}): Promise<void> {
     return new Promise((resolve, reject) => {
       if (state.discordToken && state.discordRefresh && state.uuid) {
         const payload = JSON.stringify({
