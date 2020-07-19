@@ -138,38 +138,38 @@ app.on('activate', () => {
 ipcMain.on('mojang-login', async (ev, arg) => {
   const { username, password } = arg;
   await Mojang.authenticate(username, password)
-    .then(data => ev.reply('mojang-request', data))
-    .catch(err => ev.reply('mojang-request', err));
+    .then((data) => ev.reply('mojang-request', data))
+    .catch((err) => ev.reply('mojang-request', err));
 });
 
 ipcMain.on('discord-oauth', async (ev) => {
   await Whitelist.requestCode(ev)
-    .then(data => ev.reply('discord-code', data))
-    .catch(err => ev.reply('discord-code', err));
+    .then((data) => ev.reply('discord-code', data))
+    .catch((err) => ev.reply('discord-code', err));
 });
 
 ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
-  .then(data => JSON.stringify(data)));
+  .then((data) => JSON.stringify(data)));
 
 ipcMain.handle('discord-refresh', (_ev, token) => Whitelist.refreshToken(token)
-  .then(data => JSON.stringify(data)));
+  .then((data) => JSON.stringify(data)));
 
 ipcMain.handle('minecraft-logout', (_ev, payload) => {
   payload = JSON.parse(payload);
 
   Mojang.invalidate(payload.accessToken, payload.clientToken)
-    .then(data => JSON.stringify(data));
+    .then((data) => JSON.stringify(data));
 });
 
 ipcMain.handle('whitelist-register', (_ev, payload) => {
   payload = JSON.parse(payload);
 
   Whitelist.link(payload.token, payload.uuid)
-    .then(data => JSON.stringify(data));
+    .then((data) => JSON.stringify(data));
 });
 
 ipcMain.handle('whitelist-status', (_ev, token) => Whitelist.whitelistStatus(token)
-  .then(data => JSON.stringify(data)));
+  .then((data) => JSON.stringify(data)));
 
 ipcMain.handle('minecraft-server', async (_ev, payload) => {
   payload = JSON.parse(payload);
@@ -213,6 +213,6 @@ ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) =>
   } = payload;
 
   Mojang.uploadSkin(token, uuid, skinType, filePath)
-    .then(data => resolve(data))
-    .catch(err => reject(err));
+    .then((data) => resolve(data))
+    .catch((err) => reject(err));
 }));

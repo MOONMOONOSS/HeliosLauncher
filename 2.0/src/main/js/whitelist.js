@@ -9,21 +9,25 @@ export default class Whitelist {
    * @static
    */
   static clientId = '604009411928784917';
+
   /**
    * Redirect URI for Discord Application
    * @static
    */
   static redirectUri = 'https://localhost:8080/discord';
+
   /**
    * Array of scopes to request from Discord
    * @static
    */
   static scopes = ['identify', 'guilds'];
+
   /**
    * Base MOON2 API URI
    * @static
    */
   static baseUri = 'https://panel.moonmoon.live:8000/v1';
+
   /**
    * The computed Discord OAuth2 URI
    * @static
@@ -223,7 +227,7 @@ export default class Whitelist {
 
         if (res.status !== 200 && res.status !== 403) {
           return reject(Error(res.statusText));
-        } else if (res.status === 403) {
+        } if (res.status === 403) {
           return reject(Error('REFRESH'));
         }
 
@@ -266,7 +270,7 @@ export default class Whitelist {
 
         if (res.status !== 200 && res.status !== 403) {
           return reject(Error(res.statusText));
-        } else if (res.status === 403) {
+        } if (res.status === 403) {
           return reject(Error('REFRESH'));
         }
 

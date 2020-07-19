@@ -103,20 +103,20 @@ const mutations = {
 };
 
 const getters = {
-  accessToken: state => state.accessToken,
-  clientToken: state => state.clientToken,
-  discordToken: state => state.discordToken,
-  discordRefresh: state => state.discordRefresh,
-  skinChangeTime: state => state.skinChangeTime,
-  username: state => state.displayName,
-  uuid: state => state.uuid,
+  accessToken: (state) => state.accessToken,
+  clientToken: (state) => state.clientToken,
+  discordToken: (state) => state.discordToken,
+  discordRefresh: (state) => state.discordRefresh,
+  skinChangeTime: (state) => state.skinChangeTime,
+  username: (state) => state.displayName,
+  uuid: (state) => state.uuid,
   whitelistStatus(state) {
     return new Promise((resolve, reject) => {
       if (state.discordToken && state.discordRefresh) {
         ipcRenderer.invoke('whitelist-status', state.discordToken)
-          .then(result => JSON.parse(result))
-          .then(data => resolve(data))
-          .catch(err => reject(err));
+          .then((result) => JSON.parse(result))
+          .then((data) => resolve(data))
+          .catch((err) => reject(err));
       } else {
         resolve(null);
       }

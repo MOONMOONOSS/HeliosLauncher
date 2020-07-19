@@ -10,7 +10,7 @@ const mutations = {
 };
 
 const getters = {
-  firstLaunch: state => state.firstLaunch,
+  firstLaunch: (state) => state.firstLaunch,
 };
 
 const actions = {
