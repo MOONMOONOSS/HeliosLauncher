@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :overlay="isServerSelectOpen || isSettingsOpen || isSkinEditOpen"
+  >
     <FrameBar />
     <router-view />
   </div>
@@ -58,6 +61,11 @@ export default {
   },
   computed: {
     ...mapGetters('Route', ['firstLaunch']),
+    ...mapGetters('Landing', [
+      'isSettingsOpen',
+      'isSkinEditOpen',
+      'isServerSelectOpen',
+    ]),
   },
   methods: {
     ...mapActions('Distribution', ['pullDistro']),
@@ -94,10 +102,9 @@ main
   height -webkit-fill-available
   opacity 0
   transition all .85s ease
-  transition-delay .5s
+  transition-delay opacity .5s
   width 100%
   z-index 0
-
-#app[overlay]
-  filter blur(3px) contrast(.9) brightness(1.0)
+  &[overlay] section
+    filter blur(3px) contrast(.9) brightness(1.0)
 </style>
