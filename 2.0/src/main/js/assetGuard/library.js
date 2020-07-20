@@ -1,3 +1,5 @@
+// @flow
+
 import Asset from './asset';
 
 type Os = {
