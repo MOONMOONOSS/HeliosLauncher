@@ -44,7 +44,7 @@ export default class Server {
   resolveModules(json: any): void {
     const arr: Array<Module> = [];
 
-    json.forEach((mod) => new Module(this.id, mod));
+    json.forEach((mod) => arr.push(new Module(this.id, mod)));
 
     this.modules = arr;
   }
