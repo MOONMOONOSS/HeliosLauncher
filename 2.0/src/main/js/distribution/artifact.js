@@ -6,17 +6,15 @@
  * @class Artifact
  */
 export default class Artifact {
-  /**
-   * Constructs a new Artifact object from a JSON object
-   *
-   * @static
-   * @param {Object} json
-   * @memberof Artifact
-   *
-   * @returns {Artifact} The newly constructed Artifact
-   */
-  static fromJson(json) {
-    return Object.assign(new Artifact(), json);
+  constructor(json) {
+    if (!json) {
+      throw new Error('Cannot instantiate class Artifact without an object');
+    }
+
+    this.size = json.size;
+    this.MD5 = json.MD5;
+    this.url = json.url;
+    this.path = json.path || null;
   }
 
   /**
@@ -29,43 +27,10 @@ export default class Artifact {
    * @memberof Artifact
    */
   get hash() {
-    return this.hash ? this.hash.toLowerCase : null;
+    return this.MD5;
   }
 
-  /**
-   * Gets the download size of the current Artifact
-   *
-   * @readonly
-   * @returns {number} The size in bytes of the Artifact
-   * @memberof Artifact
-   */
-  get size() {
-    return this.size;
-  }
-
-  /**
-   * Gets the Url of the Artifact
-   *
-   * @readonly
-   * @returns {string} The location at which the Artifact resides.
-   * @memberof Artifact
-   */
-  get url() {
-    return this.url;
-  }
-
-  /**
-   * Gets the file path of the Artifact relative to the local working directory.
-   *
-   * @readonly
-   * @returns {string} The file path where the Artifact will be placed.
-   * @memberof Artifact
-   */
-  get path() {
-    return this.path;
-  }
-
-  set path(val) {
-    this.path = val;
+  set hash(val) {
+    this.MD5 = val.toLowerCase();
   }
 }

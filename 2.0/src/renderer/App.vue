@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 
@@ -34,6 +34,8 @@ export default {
     }
 
     this.$nextTick(async () => {
+      this.pullDistro();
+
       const loader = document.getElementById('loadingContainer');
 
       // eslint-disable-next-line no-new
@@ -56,6 +58,9 @@ export default {
   },
   computed: {
     ...mapGetters('Route', ['firstLaunch']),
+  },
+  methods: {
+    ...mapActions('Distribution', ['pullDistro']),
   },
 };
 </script>

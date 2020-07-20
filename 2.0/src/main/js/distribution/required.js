@@ -25,28 +25,4 @@ export default class Required {
       this.default = true;
     }
   }
-
-  /**
-   * Get the default value for a required object. If a module
-   * is not required, this value determines whether or not
-   * it is enabled by default.
-   *
-   * @readonly
-   * @returns {boolean} The default load status for an object.
-   * @memberof Required
-   */
-  get default() {
-    return this.default;
-  }
-
-  /**
-   * The requirement status of a module
-   *
-   * @readonly
-   * @returns {boolean} Whether or not the module is required.
-   * @memberof Required
-   */
-  get required() {
-    return this.required;
-  }
 }

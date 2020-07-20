@@ -4,6 +4,7 @@ import path from 'path';
 import Mojang from '../renderer/js/mojang';
 import Whitelist from './js/whitelist';
 import Minecraft from './js/minecraft';
+import DistroManager from './js/distroManager';
 
 /**
  * Set `__static` path to static files in production
@@ -216,3 +217,5 @@ ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) =>
     .then((data) => resolve(data))
     .catch((err) => reject(err));
 }));
+
+ipcMain.handle('distro-pull', () => DistroManager.pullRemote());

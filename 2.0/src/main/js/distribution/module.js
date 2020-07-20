@@ -1,7 +1,5 @@
-// @flow
-
 import path from 'path';
-import { remote } from 'electron'; // eslint-ignore-line
+import { app } from 'electron'; // eslint-ignore-line
 
 import Artifact from './artifact';
 import Required from './required';
@@ -18,8 +16,6 @@ import Types from './types';
  */
 export default class Module {
   artifact: Artifact;
-
-  artifactClassifier: ?string;
 
   artifactVersion: ?string;
 
@@ -77,9 +73,10 @@ export default class Module {
       this.resolveMetadata();
       this.name = json.name;
       this.required = new Required(json.required);
-      this.artifact = Artifact.fromJson(json.artifact);
 
-      this.resolveArtifactPath(json.artifact.path, json.serverId);
+      this.artifact = new Artifact(json.artifact);
+
+      this.resolveArtifactPath(serverId);
       this.resolveSubModules(json.subModules, serverId);
     }
   }
@@ -92,15 +89,12 @@ export default class Module {
    */
   resolveMetadata(): void {
     try {
-      console.log(this.id);
       const m0: Array<string> = this.id.split('@');
-      console.log(m0);
 
       const m1: Array<string> = m0[0].split(':');
 
       this.extension = m0[1] || Module.resolveExtension(this.type);
 
-      this.artifactClassifier = m1[3] || null;
       this.artifactVersion = m1[2] || null;
       this.artifactId = m1[1] || null;
       this.artifactGroup = m1[0] || null;
@@ -110,37 +104,36 @@ export default class Module {
     }
   }
 
-  resolveArtifactPath(artifactPath: ?string, serverId: string): void {
-    const classifier: string = this.artifactClassifier ? `-${this.artifactClassifier}` : '';
+  resolveArtifactPath(serverId: string): void {
     let pth: string;
 
-    if (!artifactPath) {
-      pth = path.join(
-        ...String(this.artifactGroup).split('.'),
-        String(this.artifactId),
-        String(this.artifactVersion),
-        `${String(this.artifactId)}-${String(this.artifactVersion)}${classifier}.${this.extension}`,
-      );
+    if (this.type === Types.File) {
+      pth = this.artifact.path;
     } else {
-      pth = artifactPath;
+      pth = path.join(
+        ...this.artifactGroup.split('.'),
+        this.artifactId,
+        this.artifactVersion,
+        `${this.artifactId}-${this.artifactVersion}.${this.extension}`,
+      );
     }
 
     switch (this.type) {
       case Types.Library:
       case Types.ForgeHosted:
       case Types.FabricHosted:
-        this.artifact.path = path.join(remote.app.getPath('userData'), 'common', 'libraries', pth);
+        this.artifact.path = path.join(app.getPath('userData'), 'common', 'libraries', pth);
         break;
       case Types.ForgeMod:
       case Types.FabricMod:
-        this.artifact.path = path.join(remote.app.getPath('userData'), 'common', 'modstore', pth);
+        this.artifact.path = path.join(app.getPath('userData'), 'common', 'modstore', pth);
         break;
       case Types.VersionManifest:
-        this.artifact.path = path.join(remote.app.getPath('userData'), 'common', 'versions', String(this.artifactId), `${String(this.artifactId)}.json`);
+        this.artifact.path = path.join(app.getPath('userData'), 'common', 'versions', String(this.artifactId), `${String(this.artifactId)}.json`);
         break;
       case Types.File:
       default:
-        this.artifact.path = path.join(remote.app.getPath('userData'), 'instances', serverId, pth);
+        this.artifact.path = path.join(app.getPath('userData'), 'instances', serverId, pth);
     }
   }
 
