@@ -47,7 +47,17 @@ export default {
   }),
   computed: {
     ...mapGetters('Landing', ['serverStatus']),
-    ...mapGetters('Distribution', ['selectedServerName']),
+    ...mapGetters('Distribution', [
+      'selectedServer',
+      'selectedServerName',
+      'selectedServerAddress',
+      'selectedServerPort',
+    ]),
+  },
+  watch: {
+    selectedServer() {
+      this.updatePlayerCount();
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -59,8 +69,8 @@ export default {
     ...mapMutations('Landing', ['serverVisibility']),
     async updatePlayerCount() {
       const status = await this.serverStatus({
-        address: '51.81.48.39',
-        port: 27060,
+        address: this.selectedServerAddress,
+        port: this.selectedServerPort,
       });
       this.numPlayers = status.onlinePlayers;
       this.maxPlayers = status.maxPlayers;

@@ -59,6 +59,22 @@ const getters = {
 
     return '';
   },
+  selectedServerAddress: (state, getters) => {
+    if (getters.selectedServer) {
+      const s = getters.selectedServer.address.split(':');
+      return s[0];
+    }
+
+    return '';
+  },
+  selectedServerPort: (state, getters) => {
+    if (getters.selectedServer) {
+      const s = getters.selectedServer.address.split(':');
+      return Number(s[1]);
+    }
+
+    return '';
+  },
 };
 
 const actions = {
