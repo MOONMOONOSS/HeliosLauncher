@@ -82,6 +82,16 @@ export default {
   font-family 'Avenir Medium'
   src url(../../static/fonts/Avenir-Medium.ttf)
 
+::-webkit-scrollbar
+  width 2px
+
+::-webkit-scrollbar-track
+  display none
+
+::-webkit-scrollbar-thumb
+  border-radius 10px
+  box-shadow inset 0 0 10px rgba(255,255,255,.5)
+
 body
   height 100vh
   margin 0
