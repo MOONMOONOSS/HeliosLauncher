@@ -17,12 +17,6 @@
       </div>
     </div>
     <div
-      id="news"
-      class="grow"
-    >
-      <button><span>^</span>NEWS</button>
-    </div>
-    <div
       id="launchControls"
       class="grow"
     >
@@ -30,14 +24,19 @@
         PLAY
       </button>
       <div class="horiDivider" />
-      <button>• Nether Update</button>
+      <button
+        id="server-select"
+        @click="serverVisibility(true)"
+      >
+        • {{ selectedServerName }}
+      </button>
     </div>
   </section>
 </template>
 
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'Launch',
@@ -48,6 +47,7 @@ export default {
   }),
   computed: {
     ...mapGetters('Landing', ['serverStatus']),
+    ...mapGetters('Distribution', ['selectedServerName']),
   },
   mounted() {
     this.$nextTick(() => {
@@ -56,6 +56,7 @@ export default {
     });
   },
   methods: {
+    ...mapMutations('Landing', ['serverVisibility']),
     async updatePlayerCount() {
       const status = await this.serverStatus({
         address: '51.81.48.39',
@@ -70,8 +71,10 @@ export default {
 
 <style scoped lang="stylus">
 button
+  transition .35s ease
   &:hover, &:focus
     cursor pointer
+    text-shadow 0 0 20px white
     outline none
 
 section
@@ -134,26 +137,6 @@ section
   span
     margin-left 10px
 
-#news
-  display flex
-  justify-content center
-  button
-    background none
-    border none
-    font-weight 900
-    letter-spacing 2px
-    position relative
-    transition .25s ease
-    &:hover, &:focus
-      cursor pointer
-      outline none
-      text-shadow 0 0 20px white
-    span
-      font-size 24px
-      left calc(50% - 8px)
-      position absolute
-      top -100%
-
 #server
   display flex
   font-size 12px
@@ -164,6 +147,12 @@ section
     color #949494
     font-size 10px
     margin-left 10px
+
+#server-select
+  max-width 250px
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
 
 #status
   display flex

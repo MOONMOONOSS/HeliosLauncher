@@ -2,6 +2,7 @@
   <main>
     <Settings />
     <SkinEditor />
+    <ServerSelector />
     <Account />
     <Social />
     <div id="launcherSpacer" />
@@ -14,6 +15,7 @@ import {remote, shell} from 'electron'; // eslint-disable-line
 
 import Account from '@/components/landing/Account';
 import Launch from '@/components/landing/Launch';
+import ServerSelector from '@/components/landing/ServerSelector';
 import Settings from '@/components/landing/Settings';
 import Social from '@/components/landing/Social';
 import SkinEditor from '@/components/landing/SkinEditor';
@@ -23,6 +25,7 @@ export default {
   components: {
     Account,
     Launch,
+    ServerSelector,
     Settings,
     Social,
     SkinEditor,
