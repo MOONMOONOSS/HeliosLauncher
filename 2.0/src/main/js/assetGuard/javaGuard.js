@@ -335,6 +335,284 @@ export default class JavaGuard extends EventEmitter {
   }
 
   /**
+   * See if JRE exists in the Internet Plug-Ins folder.
+   *
+   * @static
+   * @returns {?string} The path of the JRE if found, otherwise null.
+   * @memberof JavaGuard
+   */
+  static scanInternetPlugins(): ?string {
+    const pth = '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin';
+
+    return fs.existsSync(JavaGuard.javaExecFromRoot(pth)) ? pth : null;
+  }
+
+  /**
+   * Scan a directory for root JVM folders.
+   *
+   * @static
+   * @param {string} scanDir The directory to scan.
+   * @returns {Promise<Set<string>>} A promise which resolves to a set of the discovered
+   * @memberof JavaGuard
+   */
+  static scanFileSystem(scanDir: string): Promise<Set<string>> {
+    return new Promise((resolve) => {
+      fs.exists(scanDir, (e) => {
+        const res = new Set();
+
+        if (e) {
+          fs.readdir(scanDir, (err, files) => {
+            if (err) {
+              resolve(res);
+
+              console.error(err);
+            } else {
+              let pathsDone = 0;
+
+              for (let i = 0; i < files.length; i += 1) {
+                const combinedPath = path.join(scanDir, files[i]);
+                const execPath = JavaGuard.javaExecFromRoot(combinedPath);
+
+                fs.exists(execPath, (v) => {
+                  if (v) {
+                    res.add(combinedPath);
+                  }
+
+                  pathsDone += 1;
+
+                  if (pathsDone === files.length) {
+                    resolve(res);
+                  }
+                });
+              }
+
+              if (pathsDone === files.length) {
+                resolve(res);
+              }
+            }
+          });
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  /**
+   * Sort an array of JVM meta objects. Best candidates are placed before all others.
+   * Sorts based on version and gives priority to JREs over JDKs if versions match.
+   *
+   * @static
+   * @param {Array<any>} validArr An array of JVM meta objects.
+   * @returns {Array<any>} A sorted array of JVM meta objects.
+   * @memberof JavaGuard
+   */
+  static sortValidJavaArray(validArr: Array<any>): Array<any> {
+    const retArr = validArr.sort((a, b) => {
+      if (a.version.major === b.version.major) {
+        if (a.version.major < 9) {
+          // Java 8
+          if (a.version.update === b.version.update) {
+            if (a.version.build === b.version.build) {
+              // Same version, give priority to JRE.
+              if (a.execPath.toLowerCase().indexOf('jdk') > -1) {
+                return b.execPath.toLowerCase().indexOf('jdk') > -1 ? 0 : 1;
+              }
+
+              return -1;
+            }
+
+            return a.version.update > b.version.update ? -1 : 1;
+          }
+        } else if (a.version.minor === b.version.minor) {
+          // Java 9+
+          if (a.version.revision === b.version.revision) {
+            // Same version, give priority to JRE.
+            if (a.execPath.toLowerCase().indexOf('jdk') > -1) {
+              return b.execPath.toLowerCase().indexOf('jdk') > -1 ? 0 : 1;
+            }
+
+            return -1;
+          }
+
+          return a.version.revision > b.version.revision ? -1 : 1;
+        }
+      }
+
+      return a.version.major > b.version.major ? -1 : 1;
+    });
+
+    return retArr;
+  }
+
+  /**
+   * Attempts to find a valid x64 installation of Java on MacOS.
+   * The system JVM directory is scanned for possible installations.
+   * The JAVA_HOME enviroment variable and internet plugins directory
+   * are also scanned and validated.
+   *
+   * Higher versions > Lower versions
+   * If versions are equal, JRE > JDK.
+   *
+   * @param {string} dataDir The base launcher directory.
+   * @returns {Promise<?string>} A Promise which resolves to the executable path of a valid
+   * x64 Java installation. If none are found, null is returned.
+   * @memberof JavaGuard
+   */
+  async darwinJavaValidate(dataDir: string): Promise<?string> {
+    const pathSet1 = await JavaGuard.scanFileSystem('/Library/Java/JavaVirtualMachines');
+    const pathSet2 = await JavaGuard.scanFileSystem(path.join(dataDir, 'runtime', 'x64'));
+
+    const superSet = new Set([...pathSet1, ...pathSet2]);
+
+    // Check Internet Plugins folder
+    const ipPath = JavaGuard.scanInternetPlugins();
+    if (ipPath) {
+      superSet.add(ipPath);
+    }
+
+    // Check JAVA_HOME
+    let jHome = JavaGuard.scanJavaHome();
+    if (jHome) {
+      // Ensure we are at the absolute root
+      if (jHome.contains('/Contents/Home')) {
+        jHome = jHome.substring(0, jHome.indexOf('/Contents/Home'));
+      }
+
+      superSet.add(jHome);
+    }
+
+    const pathArr = JavaGuard.sortValidJavaArray(this.validateJavaRootSet(superSet));
+
+    if (pathArr.length > 0) {
+      return pathArr[0].execPath;
+    }
+
+    return null;
+  }
+
+  /**
+   * Attempts to find a valid x64 installation of Java on Linux.
+   * The system JVM directory is scanned for possible installations.
+   * The JAVA_HOME enviroment variable is also scanned and validated.
+   *
+   * Higher versions > Lower versions
+   * If versions are equal, JRE > JDK.
+   *
+   * @param {string} dataDir The base launcher directory.
+   * @returns {Promise<?string>} A Promise which resolves to the executable path of a valid
+   * x64 Java installation. If none are found, null is returned.
+   * @memberof JavaGuard
+   */
+  async linuxJavaValidate(dataDir: string): Promise<?string> {
+    const pathSet1 = await JavaGuard.scanFileSystem('/usr/lib/jvm');
+    const pathSet2 = await JavaGuard.scanFileSystem(path.join(dataDir, 'runtime', 'x64'));
+
+    const superSet = new Set([...pathSet1, ...pathSet2]);
+
+    // Validate JAVA_HOME
+    const jHome = JavaGuard.scanJavaHome();
+
+    if (jHome) {
+      superSet.add(jHome);
+    }
+
+    const pathArr = JavaGuard.sortValidJavaArray(this.validateJavaRootSet(superSet));
+
+    if (pathArr.length > 0) {
+      return pathArr[0].execPath;
+    }
+
+    return null;
+  }
+
+  /**
+   * Attempts to find a valid x64 installation of Java on Windows machines.
+   * Possible paths will be pulled from the registry and the JAVA_HOME environment
+   * variable. The paths will be sorted with higher versions preceeding lower, and
+   * JREs preceeding JDKs. The binaries at the sorted paths will then be validated.
+   * The first validated is returned.
+   *
+   * Higher versions > Lower versions
+   * If versions are equal, JRE > JDK.
+   *
+   * @param {string} dataDir The base launcher directory.
+   * @returns {Promise<?string>} A Promise which resolves to the executable path of a valid
+   * x64 Java installation. If none are found, null is returned.
+   * @memberof JavaGuard
+   */
+  async win32JavaValidate(dataDir: string): Promise<?string> {
+    let pathSet1 = await JavaGuard.scanRegistry();
+
+    // Get possible paths from the registry.
+    if (pathSet1.length === 0) {
+      // Do a manual file system scan of program files.
+      pathSet1 = JavaGuard.scanFileSystem('C:\\Program Files\\Java');
+    }
+
+    // Get possible paths from the data directory.
+    const pathSet2 = await JavaGuard.scanFileSystem(path.join(dataDir, 'runtime', 'x64'));
+
+    // Merge results
+    const superSet = new Set([...pathSet1, ...pathSet2]);
+
+    // Validate JAVA_HOME
+    const jHome = JavaGuard.scanJavaHome();
+
+    if (jHome && jHome.indexOf('(x86)') === -1) {
+      superSet.add(jHome);
+    }
+
+    const pathArr = JavaGuard.sortValidJavaArray(
+      this.validateJavaRootSet(superSet),
+    );
+
+    if (pathArr.length > 0) {
+      return pathArr[0].execPath;
+    }
+
+    return null;
+  }
+
+  /**
+   * Retrieve the path of a valid x64 Java installation.
+   *
+   * @param {string} dataDir The base launcher directory.
+   * @returns {?string} A path to a valid x64 Java installation, null if none found.
+   * @memberof JavaGuard
+   */
+  validateJava(dataDir: string): ?string {
+    this[`${process.platform}JavaValidate`](dataDir)
+      .then((res) => res);
+  }
+
+  /**
+   *
+   *
+   * @param {Set<string>} rootSet A set of JVM root strings to validate.
+   * @returns {Array<any>} A promise which resolves to an array of meta objects
+   * for each valid JVM root directory.
+   * @memberof JavaGuard
+   */
+  validateJavaRootSet(rootSet: Set<string>): Array<any> {
+    const rootArr = Array.from(rootSet);
+    const validArr = [];
+
+    for (let i = 0; i < rootArr.length; i += 1) {
+      const execPath = JavaGuard.javaExecFromRoot(rootArr[i]);
+      this.validateJavaBinary(execPath)
+        .then((metaObj) => {
+          if (metaObj.valid) {
+            metaObj.execPath = execPath;
+            validArr.push(metaObj);
+          }
+        });
+    }
+
+    return validArr;
+  }
+
+  /**
    * Validates the output of a JVM's properties. Currently validates that a JRE is x64
    * and that the major = 8, update > 52.
    *
