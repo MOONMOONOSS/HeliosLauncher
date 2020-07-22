@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
+    "adm-zip": "^0.4.16",
     "electron": "^9.1.0",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",

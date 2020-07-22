@@ -1,5 +1,6 @@
 // @flow
 
+import AdmZip from 'adm-zip';
 import Crypto from 'crypto';
 import EventEmitter from 'events';
 import fs from 'fs';
@@ -150,12 +151,61 @@ export default class AssetGuard extends EventEmitter {
       let valid = checksums.includes(calcHash);
 
       if (!valid && filePath.endsWith('.jar')) {
-        valid = AssetGuard.validateForgeJar(filePath, checksums);
+        valid = AssetGuard.validateForgeJar(Buffer.from(filePath), checksums);
       }
 
       return valid;
     }
 
     return false;
+  }
+
+  /**
+   * Validates a forge jar file dependency who declares a checksums.sha1 file.
+   * This can be an expensive task as it usually requires that we calculate thousands
+   * of hashes.
+   *
+   * @static
+   * @param {Buffer} buf The buffer of the jar file.
+   * @param {Array<string>} checksums The checksums listed in the forge version index.
+   * @returns {boolean} True if all hashes declared in the checksums.sha1 file
+   * match the actual hashes.
+   * @memberof AssetGuard
+   */
+  static validateForgeJar(buf: Buffer, checksums: Array<string>): boolean {
+    // Double pass method was the quickest I found. I tried a version where we store data
+    // to only require a single pass, plus some quick cleanup
+    // but that seemed to take slightly more time.
+
+    const hashes: Object = {};
+    let expected: Object = {};
+
+    const zip = new AdmZip(buf);
+    const zipEntries = zip.getEntries();
+
+    for (let i = 0; i < zipEntries.length; i += 1) {
+      const entry = zipEntries[i];
+
+      if (entry.entryName === 'checksums.sha1') {
+        expected = AssetGuard.parseChecksumsFile(zip.readAsText(entry));
+      }
+
+      hashes[entry.entryName] = AssetGuard.calculateHash(entry.getData(), 'sha1');
+    }
+
+    if (!checksums.includes(hashes['checksums.sha1'])) {
+      return false;
+    }
+
+    const expectedEntries = Object.keys(expected);
+
+    // Check against expected
+    for (let i = 0; i < expectedEntries.length; i += 1) {
+      if (expected[expectedEntries[i]] !== hashes[expectedEntries[i]]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
