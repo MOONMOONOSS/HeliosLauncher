@@ -11,6 +11,7 @@ import path from 'path';
 
 import Asset from './assetGuard/asset';
 import DlTracker from './assetGuard/downloadTracker';
+import Library from './assetGuard/library';
 
 /**
  * Central object class used for control flow. This object stores data about
@@ -33,15 +34,15 @@ export default class AssetGuard extends EventEmitter {
 
   progress: number;
 
-  assets: DlTracker;
+  assets: DlTracker<Asset>;
 
-  libraries: DlTracker;
+  libraries: DlTracker<Library>;
 
-  files: DlTracker;
+  files: DlTracker<Asset>;
 
-  forge: DlTracker;
+  forge: DlTracker<Asset>;
 
-  java: DlTracker;
+  java: DlTracker<Asset>;
 
   extractQueue: Array<any>;
 
@@ -474,6 +475,138 @@ export default class AssetGuard extends EventEmitter {
     return new Promise((resolve) => {
       this.assetChainIndexData(versionData, force)
         .then(() => resolve());
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {Object} versionData
+   * @param {boolean} [force]
+   * @returns {Promise<void>}
+   * @memberof AssetGuard
+   */
+  validateClient(versionData: Object, force?: boolean): Promise<void> {
+    return new Promise((resolve) => {
+      const clientData = versionData.downloads.client;
+      const version = versionData.id;
+      const targetPath = path.join(this.commonPath, 'versions', version);
+      const targetFile = `${version}.jar`;
+      const client = new Asset(
+        `${version} client`,
+        clientData.sha1,
+        clientData.size,
+        clientData.url,
+        path.join(targetPath, targetFile),
+      );
+
+      if (!AssetGuard.validateLocal(client.to, 'sha1', client.hash) || force) {
+        this.files.dlQueue.push(client);
+        this.files.dlSize += client.size * 1;
+
+        resolve();
+      }
+
+      resolve();
+    });
+  }
+
+  /**
+   * Public library validation function. This function will handle the validation of libraries.
+   * It will parse the version data, analyzing each library entry. In this analysis, it will
+   * check to see if the local file exists and is valid. If not, it will be added to the download
+   * queue for the 'libraries' identifier.
+   *
+   * @param {Object} versionData The version data for the assets.
+   * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
+   * @memberof AssetGuard
+   */
+  validateLibraries(versionData: Object): Promise<void> {
+    return new Promise((resolve) => {
+      const libArr: Array<Object> = versionData.libraries;
+      const libPath = path.join(this.commonPath, 'libraries');
+      const libDlQueue: Array<Library> = [];
+
+      let dlSize = 0;
+
+      async.eachLimit(libArr, 5, (lib, cb) => {
+        if (Library.validateRules(lib.rules, lib.natives)) {
+          const artifact = (lib.natives)
+            ? lib.downloads.artifact
+            : lib.downloads.classifiers[
+              lib.natives[
+                Library.mojangFriendlyOs()
+              ].replace('${arch}', process.arch.replace('x', ''))
+            ];
+          const libItm = new Library(
+            lib.name,
+            artifact.sha1,
+            artifact.size,
+            artifact.url,
+            path.join(libPath, artifact.path),
+          );
+
+          if (!AssetGuard.validateLocal(libItm.to, 'sha1', libItm.hash)) {
+            dlSize += (libItm.size * 1);
+
+            libDlQueue.push(libItm);
+          }
+        }
+
+        cb();
+      }, () => {
+        this.libraries = new DlTracker(libDlQueue, dlSize);
+
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Validate log config.
+   *
+   * @param {Object} versionData The version data for the assets.
+   * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
+   * @memberof AssetGuard
+   */
+  validateLogConfig(versionData: Object): Promise<void> {
+    return new Promise((resolve) => {
+      const { client } = versionData.logging;
+      const { file } = client;
+      const targetPath = path.join(this.commonPath, 'assets', 'log_configs');
+      const logConfig = new Asset(
+        file.id,
+        file.sha1,
+        file.size,
+        file.url,
+        path.join(targetPath, file.id),
+      );
+
+      if (!AssetGuard.validateLocal(logConfig.to, 'sha1', logConfig.hash)) {
+        this.files.dlQueue.push(logConfig);
+        this.files.dlSize += logConfig.size * 1;
+
+        resolve();
+      }
+
+      resolve();
+    });
+  }
+
+  /**
+   * Public miscellaneous mojang file validation function. These files will be enqueued under
+   * the 'files' identifier.
+   *
+   * @param {Object} versionData The version data for the assets.
+   * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
+   * @memberof AssetGuard
+   */
+  validateMiscellaneous(versionData: Object): Promise<void> {
+    return new Promise((resolve) => {
+      this.validateClient(versionData);
+      this.validateLogConfig(versionData);
+
+      resolve();
     });
   }
 }

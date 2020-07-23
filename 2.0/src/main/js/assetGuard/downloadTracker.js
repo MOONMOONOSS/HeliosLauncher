@@ -1,7 +1,5 @@
 // @flow
 
-import Asset from './asset';
-
 /**
  * Representation of a download tracker.
  * This is used to store metadata about a download
@@ -10,17 +8,17 @@ import Asset from './asset';
  * @export
  * @class DlTracker
  */
-export default class DlTracker {
-  dlQueue: Array<Asset>;
+export default class DlTracker<T> {
+  dlQueue: Array<T>;
 
   dlSize: number;
 
-  callback: () => Asset;
+  callback: () => T;
 
   constructor(
-    dlQueue: Array<Asset>,
+    dlQueue: Array<T>,
     dlSize: number,
-    callback?: () => Asset,
+    callback?: () => T,
   ) {
     this.dlQueue = dlQueue;
     this.dlSize = dlSize;
