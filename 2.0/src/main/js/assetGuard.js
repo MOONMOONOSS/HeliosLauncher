@@ -23,6 +23,13 @@ import Types as DistroTypes from './distribution/types';
 import Module from './distribution/module';
 import Server from './distribution/server';
 
+import DistroManager from './distroManager';
+
+type QueueIdentifier = {|
+  id: string,
+  limit: number,
+|};
+
 /**
  * Central object class used for control flow. This object stores data about
  * categories of downloads. Each category is assigned an identifier with a
@@ -659,6 +666,152 @@ export default class AssetGuard extends EventEmitter {
   }
 
   /**
+   * This function will initiate the download processed for the specified identifiers. If no argument is
+   * given, all identifiers will be initiated. Note that in order for files to be processed you need to run
+   * the processing function corresponding to that identifier. If you run this function without processing
+   * the files, it is likely nothing will be enqueued in the object and processing will complete
+   * immediately. Once all downloads are complete, this function will fire the 'complete' event on the
+   *
+   * @param {Array<QueueIdentifier>} [identifiers] The identifiers to process and corresponding parallel async task limit.
+   * @returns {Promise<void>}
+   * @memberof AssetGuard
+   */
+  processDlQueues(identifiers?: Array<QueueIdentifier>): Promise<void> {
+    return new Promise((resolve) => {
+      const defaults: Array<QueueIdentifier> = [
+        { id: 'assets', limit: 20 },
+        { id: 'libraries', limit: 5 },
+        { id: 'files', limit: 5 },
+        { id: 'forge', limit: 5 },
+      ];
+
+      let shouldFire = true;
+
+      // Assign DlTracker vars
+      this.totalDlSize = 0;
+      this.progress = 0;
+
+      // Determine if param identifiers exists to simplify code flow
+      identifiers = identifiers ? identifiers : defaults;
+
+      identifiers.forEach((identity) => {
+        this.totalDlSize += this[identity.id].dlSize;
+      });
+
+      this.once('complete', (data) => {
+        resolve();
+      });
+
+      identifiers.forEach((identity) => {
+        const r = this.startAsyncProcess(identity.id, identity.limit);
+        if (r) {
+          shouldFire = false;
+        }
+      });
+
+      if (shouldFire) {
+        this.emit('complete', 'download');
+      }
+    });
+  }
+
+  /**
+   * Initiate an async download process for an AssetGuard DLTracker.
+   *
+   * @param {string} identifier The identifier of the AssetGuard DLTracker.
+   * @param {number} [limit] The number of async processes to run in parallel.
+   * @returns {boolean}
+   * @memberof AssetGuard
+   */
+  startAsyncProcess(identifier: string, limit?: number): boolean {
+    const self = this;
+    const dlTracker = this[identifier];
+    const { dlQueue } = dlTracker;
+
+    if (dlQueue.length > 0) {
+      console.log('DLQueue', dlQueue);
+
+      async.eachLimit(dlQueue, limit || 5, (asset, cb) => {
+        fs.ensureDirSync(path.join(asset.to, '..'));
+
+        fetchNode(asset.from)
+          .then((res) => {
+            if (res.code === 200) {
+              const contentLength = parseInt(res.headers['content-length'], 10);
+
+              let doHashCheck = false;
+
+              if (contentLength !== asset.size) {
+                console.warn(`Got ${contentLength} bytes for ${asset.id}: Expected ${asset.size}!`);
+                doHashCheck = true;
+
+                // Adjust total download size
+                this.totalDlSize -= asset.size;
+                this.totalDlSize += contentLength;
+              }
+
+              const writeStream = fs.createWriteStream(asset.to);
+              writeStream.on('close', () => {
+                if (typeof dlTracker.callback === 'function') {
+                  dlTracker.callback.apply(dlTracker, [asset, self]);
+                }
+
+                if (doHashCheck) {
+                  const hashType = asset.type ? 'md5' : 'sha1';
+                  const v = AssetGuard.validateLocal(asset.to, hashType, asset.hash);
+
+                  if (v) {
+                    console.warn(`Hashes match for ${asset.id}, byte mismatch is an issue in the distro index.`);
+                  } else {
+                    console.error(`Hashes do not match, ${asset.id} may be corrupted.`);
+                  }
+                }
+
+                cb();
+              });
+
+              res.body.pipe(writeStream);
+            } else {
+              console.error(`Failed to download ${asset.id}(${asset.from}). Response code ${resp.statusCode}`);
+              
+              this.progress += asset.size * 1;
+              this.emit('progress', 'download', this.progress, this.totalDlSize);
+
+              cb();
+            }
+          })
+          .catch((err) => {
+            this.emit('error', 'download', err);
+          });
+      }, (err) => {
+        if (err) {
+          console.warn(`An item in ${identifier} failed to process`);
+        } else {
+          console.log(`All ${identifier} have been processed successfully`);
+        }
+
+        if (this.progress >= this.totalDlSize) {
+          if (this.extractQueue.length > 0) {
+            this.emit('progress', 'extract', 1, 1);
+
+            AssetGuard.extractPackXZ(this.extractQueue, this.javaExec)
+              .then(() => {
+                this.extractQueue = [];
+                this.emit('complete', 'download');
+              });
+          } else {
+            this.emit('complete', 'download');
+          }
+        }
+      });
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Public asset validation function. This function will handle the validation of assets.
    * It will parse the asset index specified in the version data, analyzing each
    * asset entry. In this analysis it will check to see if the local file exists and is valid.
@@ -825,5 +978,44 @@ export default class AssetGuard extends EventEmitter {
 
       resolve();
     });
+  }
+
+  /**
+   * Validates literally everything from the Distribution Index
+   *
+   * @param {string} serverId The server to validate index entries for
+   * @returns {Promise<Object>}
+   * @memberof AssetGuard
+   */
+  async validateEverything(serverId: string): Promise<Object> {
+    try {
+      const distroIndex = await DistroManager.pullRemote();
+      const server = distroIndex.getServer(serverId);
+
+      // This is the validate everything part :)
+      await this.validateDistribution(server);
+      this.emit('validate', 'distribution');
+      const versionData = await this.loadVersionData(server.minecraftVersion);
+      this.emit('validate', 'version');
+      await this.validateAssets(versionData);
+      this.emit('validate', 'assets');
+      await this.validateLibraries(versionData);
+      this.emit('validate', 'libraries');
+      await this.validateMiscellaneous(versionData);
+      this.emit('validate', 'files');
+      await this.processDlQueues();
+      const forgeData = await this.loadForgeData(server);
+
+      return {
+        versionData,
+        forgeData,
+      };
+    } catch (err) {
+      return {
+        versionData: null,
+        forgeData: null,
+        error: err,
+      };
+    }
   }
 }
