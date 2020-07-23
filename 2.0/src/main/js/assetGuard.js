@@ -11,7 +11,13 @@ import path from 'path';
 
 import Asset from './assetGuard/asset';
 import DlTracker from './assetGuard/downloadTracker';
+import DistroModule from './assetGuard/distroModule';
 import Library from './assetGuard/library';
+import Util from './assetGuard/util';
+
+import Types as DistroTypes from './distribution/types';
+import Module from './distribution/module';
+import Server from './distribution/server';
 
 /**
  * Central object class used for control flow. This object stores data about
@@ -40,7 +46,7 @@ export default class AssetGuard extends EventEmitter {
 
   files: DlTracker<Asset>;
 
-  forge: DlTracker<Asset>;
+  forge: DlTracker<DistroModule>;
 
   java: DlTracker<Asset>;
 
@@ -425,6 +431,61 @@ export default class AssetGuard extends EventEmitter {
   }
 
   /**
+   * Loads Forge's version.json data into memory for the specified server id.
+   *
+   * @param {Server} server The Server to load Forge data for.
+   * @returns {Promise<?Object>} A promise which resolves to Forge's version.json data.
+   * @memberof AssetGuard
+   */
+  loadForgeData(server: Server): Promise<?Object> {
+    return new Promise((resolve, reject) => {
+      const modules = server.modules;
+
+      modules.forEach((mod) => {
+        const { type } = mod;
+
+        if (type === DistroTypes.ForgeHosted || type === DistroTypes.Forge) {
+          if (Util.isForgeGradle3(server.minecraftVersion, mod.version)) {
+            const found = mod.subModules.find((el) => el.type === DistroTypes.VersionManifest);
+
+            if (found) {
+              resolve(
+                JSON.parse(
+                  fs.readFileSync(
+                    found.artifact.path,
+                    'utf-8',
+                  ),
+                ),
+              );
+            } else {
+              console.warn('No forge version manifest found! Assuming we are running vanilla.');
+              resolve(null);
+            }
+          }
+
+          const modArtifact = mod.artifact;
+          const modPath = modArtifact.path;
+          const asset = new DistroModule(
+            mod.id,
+            modArtifact.hash,
+            modArtifact.size,
+            modArtifact.url,
+            modPath,
+            type,
+          );
+
+          AssetGuard.finalizeForgeAsset(asset, this.commonPath)
+            .then((forgeData) => resolve(forgeData))
+            .catch((err) => reject(err));
+        }
+      });
+
+      console.warn('No forge module found! Assuming we are running vanilla...');
+      resolve(null);
+    });
+  }
+
+  /**
    * Loads the version data for a given minecraft version.
    *
    * @param {string} version The game version for which to load the index data.
@@ -458,6 +519,61 @@ export default class AssetGuard extends EventEmitter {
 
       resolve(JSON.parse(fs.readFileSync(versionFile)));
     });
+  }
+
+  /**
+   * Recursively parses an array of modules for a given distribution
+   *
+   * @param {Array<Module>} modules The array of modules to parse recursively
+   * @param {string} version The version of the distribution
+   * @param {string} id The server ID
+   * @returns {DlTracker<DistroModule>} The Download Tracker for this distribution's modules.
+   * @memberof AssetGuard
+   */
+  parseDistroModules(modules: Array<Module>, version: string, id: string): DlTracker<DistroModule> {
+    let list: Array<DistroModule> = [];
+
+    let size = 0;
+
+    modules.forEach((mod) => {
+      const modArtifact = mod.artifact;
+      const modPath = modArtifact.path;
+      const artifact = new DistroModule(
+        mod.id,
+        modArtifact.hash,
+        modArtifact.size,
+        modArtifact.url,
+        modPath,
+        mod.type,
+      );
+      const validationPath = modPath
+        .toLowerCase()
+        .endsWith('.pack.xz')
+        ? modPath.substring(
+          0,
+          modPath
+            .toLowerCase()
+            .lastIndexOf('.pack.xz'),
+        )
+        : modPath;
+      if (!AssetGuard.validateLocal(validationPath, 'MD5', artifact.hash)) {
+        size += artifact.size * 1;
+        list.push(artifact);
+
+        if (validationPath !== modPath) {
+          this.extractQueue.push(modPath);
+        }
+      }
+
+      // Recursively process the submodules then combine the results.
+      if (mod.subModules) {
+        const dlTrack = this.parseDistroModules(mod.subModules, version, id);
+        size += dlTrack.dlSize * 1;
+        list = list.concat(dlTrack.dlQueue);
+      }
+    });
+
+    return new DlTracker<DistroModule>(list, size);
   }
 
   /**
@@ -508,6 +624,25 @@ export default class AssetGuard extends EventEmitter {
       }
 
       resolve();
+    });
+  }
+
+  /**
+   * Validate the given server's distribution.
+   *
+   * @param {Server} server The Server to validate.
+   * @returns {Promise<Server>} A promise which resolves to the server distribution object.
+   * @memberof AssetGuard
+   */
+  validateDistribution(server: Server): Promise<Server> {
+    return new Promise((resolve) => {
+      this.forge = this.parseDistroModules(
+        server.modules,
+        server.minecraftVersion,
+        server.id,
+      );
+
+      resolve(server);
     });
   }
 
