@@ -4,6 +4,8 @@ import AdmZip from 'adm-zip';
 import ChildProcess from 'child_process';
 import Crypto from 'crypto';
 import EventEmitter from 'events';
+import Tar from 'tar-fs';
+import Zlib from 'zlib';
 import async from 'async';
 import fetchNode from 'node-fetch';
 import fs from 'fs-extra';
@@ -12,7 +14,9 @@ import path from 'path';
 import Asset from './assetGuard/asset';
 import DlTracker from './assetGuard/downloadTracker';
 import DistroModule from './assetGuard/distroModule';
+import GameAsset from './assetGuard/gameAsset';
 import Library from './assetGuard/library';
+import JavaGuard from './assetGuard/javaGuard';
 import Util from './assetGuard/util';
 
 import Types as DistroTypes from './distribution/types';
@@ -40,11 +44,11 @@ export default class AssetGuard extends EventEmitter {
 
   progress: number;
 
-  assets: DlTracker<Asset>;
+  assets: DlTracker<GameAsset>;
 
   libraries: DlTracker<Library>;
 
-  files: DlTracker<Asset>;
+  files: DlTracker<GameAsset>;
 
   forge: DlTracker<DistroModule>;
 
@@ -138,12 +142,12 @@ export default class AssetGuard extends EventEmitter {
    * in a promise.
    *
    * @static
-   * @param {Asset} asset The Asset object representing Forge.
+   * @param {GameAsset} asset The Asset object representing Forge.
    * @param {string} commonPath The common path for shared game files.
    * @returns {Promise<Object>} A promise which resolves to the contents of forge's version.json.
    * @memberof AssetGuard
    */
-  static finalizeForgeAsset(asset: Asset, commonPath: string): Promise<Object> {
+  static finalizeForgeAsset(asset: GameAsset, commonPath: string): Promise<Object> {
     return new Promise((resolve, reject) => {
       fs.readFile(asset.to, (err, data) => {
         if (err) {
@@ -394,7 +398,7 @@ export default class AssetGuard extends EventEmitter {
     return new Promise((resolve) => {
       const localPath = path.join(this.commonPath, 'assets');
       const objectPath = path.join(localPath, 'objects');
-      const assetDlQueue: Array<Asset> = [];
+      const assetDlQueue: Array<GameAsset> = [];
       const total = Object.keys(indexData.objects).length;
 
       let dlSize = 0;
@@ -408,7 +412,7 @@ export default class AssetGuard extends EventEmitter {
         const { hash } = value.hash;
         const assetName = path.join(hash.substring(0, 2), hash);
         const urlName = `${hash.substring(0, 2)}/${hash}`;
-        const ast = new Asset(
+        const ast = new GameAsset(
           key,
           hash,
           value.size,
@@ -426,6 +430,84 @@ export default class AssetGuard extends EventEmitter {
         this.assets = new DlTracker(assetDlQueue, dlSize);
 
         resolve();
+      });
+    });
+  }
+
+  /**
+   * I fucking hate Java :)
+   *
+   * @param {string} dataDir
+   * @returns {Promise<boolean>}
+   * @memberof AssetGuard
+   */
+  enqueueOpenJdk(dataDir: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      JavaGuard.latestOpenJdk('8').then((verData) => {
+        if (verData) {
+          const direct = path.join(dataDir, 'runtime', 'x64');
+          const fDir = path.join(direct, verData.name);
+          const jre = new Asset(
+            verData.name,
+            verData.size,
+            verData.uri,
+            fDir,
+          );
+
+          this.java = new DlTracker<Asset>([jre], jre.size, (a) => {
+            if (verData.name.endsWith('zip')) {
+              const zip = new AdmZip(a.to);
+              const pos = path.join(direct, zip.getEntries()[0].entryName);
+
+              zip.extractAllToAsync(direct, true, (err) => {
+                if (err) {
+                  console.error(err);
+                  this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
+                }
+
+                fs.unlink(a.to, (err) => {
+                  if (err) {
+                    console.error(err);
+                  }
+
+                  this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
+                });
+              });
+            }
+
+            let h: string;
+            fs.createReadStream(a.to)
+              .on('error', (err) => console.error(err))
+              .pipe(Zlib.createGunzip())
+              .on('error', (err) => console.error(err))
+              .pipe(Tar.extract(direct, {
+                map: (header) => {
+                  if (!h) {
+                    h = header.name;
+                  }
+                }
+              }))
+              .on('error', (err) => console.error(err))
+              .on('finish', () => {
+                fs.unlink(a.to, (err) => {
+                  if (err) {
+                    console.error(err);
+                  }
+
+                  if (h.indexOf('/') > -1) {
+                    h = h.substring(0, h.indexOf('/'));
+                  }
+
+                  const pos = path.join(direct, h);
+                  this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
+                });
+              });
+          });
+
+          resolve(true);
+        }
+
+        resolve(false);
       });
     });
   }
@@ -608,7 +690,7 @@ export default class AssetGuard extends EventEmitter {
       const version = versionData.id;
       const targetPath = path.join(this.commonPath, 'versions', version);
       const targetFile = `${version}.jar`;
-      const client = new Asset(
+      const client = new GameAsset(
         `${version} client`,
         clientData.sha1,
         clientData.size,
@@ -709,7 +791,7 @@ export default class AssetGuard extends EventEmitter {
       const { client } = versionData.logging;
       const { file } = client;
       const targetPath = path.join(this.commonPath, 'assets', 'log_configs');
-      const logConfig = new Asset(
+      const logConfig = new GameAsset(
         file.id,
         file.sha1,
         file.size,

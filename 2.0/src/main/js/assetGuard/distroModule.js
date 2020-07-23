@@ -1,15 +1,15 @@
 // @flow
 
-import Asset from './asset';
+import GameAsset from './gameAsset';
 
 /**
  * Represents a Distribution Module asset.
  *
  * @export
  * @class DistroModule
- * @extends {Asset}
+ * @extends {GameAsset}
  */
-export default class DistroModule extends Asset {
+export default class DistroModule extends GameAsset {
   type: string;
 
   /**
