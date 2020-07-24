@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * Utility functions used in AssetGuard
  *
@@ -17,7 +15,7 @@ export default class Util {
    * @returns {boolean}
    * @memberof Util
    */
-  static mcVersionAtLeast(desired: string, actual: string): boolean {
+  static mcVersionAtLeast(desired, actual) {
     const des = desired.split('.');
     const act = actual.split('.');
 
@@ -40,12 +38,12 @@ export default class Util {
    * @returns {boolean}
    * @memberof Util
    */
-  static isForgeGradle3(mcVersion: string, forgeVersion: string): boolean {
+  static isForgeGradle3(mcVersion, forgeVersion) {
     if (Util.mcVersionAtLeast('1.13', mcVersion)) {
       return true;
     }
 
-    let forgeVer: string;
+    let forgeVer;
 
     try {
       [, forgeVer] = forgeVersion.split('-');
@@ -53,7 +51,7 @@ export default class Util {
       throw new Error('Forge version is unknown. Perhaps Forge has broken something?');
     }
 
-    const maxGradle2: Array<number> = [14, 23, 5, 2847];
+    const maxGradle2 = [14, 23, 5, 2847];
     const verSplit = forgeVer.split('.')
       .map((v) => Number(v));
 

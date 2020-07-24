@@ -1,5 +1,3 @@
-// @flow
-
 import AdmZip from 'adm-zip';
 import ChildProcess from 'child_process';
 import Crypto from 'crypto';
@@ -20,15 +18,8 @@ import JavaGuard from './assetGuard/javaGuard';
 import Util from './assetGuard/util';
 
 import DistroTypes from './distribution/types';
-import Module from './distribution/module';
-import Server from './distribution/server';
 
 import DistroManager from './distroManager';
-
-type QueueIdentifier = {|
-  id: string,
-  limit: number,
-|};
 
 /**
  * Central object class used for control flow. This object stores data about
@@ -43,29 +34,29 @@ type QueueIdentifier = {|
  * @extends {EventEmitter}
  */
 export default class AssetGuard extends EventEmitter {
-  static manifestUrl: string = 'https://launchermeta.mojang.com/mc/game/version_manifest.json';
+  static manifestUrl = 'https://launchermeta.mojang.com/mc/game/version_manifest.json';
 
-  static resourceUrl: string = 'http://resources.download.minecraft.net/';
+  static resourceUrl = 'http://resources.download.minecraft.net/';
 
-  totalDlSize: number;
+  totalDlSize;
 
-  progress: number;
+  progress;
 
-  assets: DlTracker<GameAsset>;
+  assets;
 
-  libraries: DlTracker<Library>;
+  libraries;
 
-  files: DlTracker<GameAsset>;
+  files;
 
-  forge: DlTracker<DistroModule>;
+  forge;
 
-  java: DlTracker<Asset>;
+  java;
 
-  extractQueue: Array<any>;
+  extractQueue;
 
-  commonPath: string;
+  commonPath;
 
-  javaExec: string;
+  javaExec;
 
   /**
    * Creates an instance of AssetGuard.
@@ -77,7 +68,7 @@ export default class AssetGuard extends EventEmitter {
    * to finalize installation.
    * @memberof AssetGuard
    */
-  constructor(commonPath: string, javaExec: string) {
+  constructor(commonPath, javaExec) {
     super();
 
     this.totalDlSize = 0;
@@ -101,7 +92,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {string} The calculated hash in hex.
    * @memberof AssetGuard
    */
-  static calculateHash(buf: Buffer, algo: string): string {
+  static calculateHash(buf, algo) {
     return Crypto.createHash(algo)
       .update(buf)
       .digest('hex');
@@ -116,9 +107,9 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the extraction has completed.
    * @memberof AssetGuard
    */
-  static extractPackXZ(filePaths: Array<string>, javaExe: string): Promise<void> {
+  static extractPackXZ(filePaths, javaExe) {
     return new Promise((resolve) => {
-      let libPath: string;
+      let libPath;
 
       if (process.platform === 'darwin') {
         libPath = path.join(process.cwd(), 'Contents', 'Resources', 'libraries', 'java', 'PackXZExtract.jar');
@@ -134,7 +125,7 @@ export default class AssetGuard extends EventEmitter {
         filePath,
       ]);
 
-      child.on('close', (code: number) => {
+      child.on('close', (code) => {
         // eslint-disable-next-line no-console
         console.log('[PackXZExtract]', 'Exited with code', code);
 
@@ -155,7 +146,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<Object>} A promise which resolves to the contents of forge's version.json.
    * @memberof AssetGuard
    */
-  static finalizeForgeAsset(asset: GameAsset, commonPath: string): Promise<Object> {
+  static finalizeForgeAsset(asset, commonPath) {
     return new Promise((resolve, reject) => {
       fs.readFile(asset.to, (err, data) => {
         if (err) {
@@ -200,8 +191,8 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Object} An object with keys being the file names, and values being the hashes.
    * @memberof AssetGuard
    */
-  static parseChecksumsFile(content: string): Object {
-    const finalContent: Object = {};
+  static parseChecksumsFile(content) {
+    const finalContent = {};
     const lines = content.split('\n');
 
     for (let i = 0; i < lines.length; i += 1) {
@@ -227,7 +218,7 @@ export default class AssetGuard extends EventEmitter {
    * hash matches the given hash, otherwise false.
    * @memberof AssetGuard
    */
-  static validateLocal(filePath: string, algo: string, hash: ?string): boolean {
+  static validateLocal(filePath, algo, hash) {
     if (fs.existsSync(filePath)) {
       // No hash provided, assume it is valid
       if (!hash) {
@@ -252,7 +243,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {boolean} True if the file exists and the hashes match, otherwise false.
    * @memberof AssetGuard
    */
-  static validateForgeChecksum(filePath: string, checksums: ?Array<string>): boolean {
+  static validateForgeChecksum(filePath, checksums) {
     if (fs.existsSync(filePath)) {
       if (!checksums || checksums.length === 0) {
         return true;
@@ -284,13 +275,13 @@ export default class AssetGuard extends EventEmitter {
    * match the actual hashes.
    * @memberof AssetGuard
    */
-  static validateForgeJar(buf: Buffer, checksums: Array<string>): boolean {
+  static validateForgeJar(buf, checksums) {
     // Double pass method was the quickest I found. I tried a version where we store data
     // to only require a single pass, plus some quick cleanup
     // but that seemed to take slightly more time.
 
-    const hashes: Object = {};
-    let expected: Object = {};
+    const hashes = {};
+    let expected = {};
 
     const zip = new AdmZip(buf);
     const zipEntries = zip.getEntries();
@@ -331,7 +322,7 @@ export default class AssetGuard extends EventEmitter {
    * If the version could not be found, resolves to null.
    * @memberof AssetGuard
    */
-  static getVersionDataUrl(version: string): Promise<?string> {
+  static getVersionDataUrl(version) {
     return new Promise((resolve, reject) => {
       fetchNode(AssetGuard.manifestUrl)
         .then((res) => {
@@ -361,7 +352,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  assetChainIndexData(versionData: Object, force?: boolean): Promise<void> {
+  assetChainIndexData(versionData, force) {
     return new Promise((resolve, reject) => {
       const { assetIndex } = versionData;
       const name = `${assetIndex.id}.json`;
@@ -404,11 +395,11 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  assetChainValidateAssets(versionData: Object, indexData: Object): Promise<void> {
+  assetChainValidateAssets(versionData, indexData) {
     return new Promise((resolve) => {
       const localPath = path.join(this.commonPath, 'assets');
       const objectPath = path.join(localPath, 'objects');
-      const assetDlQueue: Array<GameAsset> = [];
+      const assetDlQueue = [];
       const total = Object.keys(indexData.objects).length;
 
       let dlSize = 0;
@@ -451,7 +442,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<boolean>}
    * @memberof AssetGuard
    */
-  enqueueOpenJdk(dataDir: string): Promise<boolean> {
+  enqueueOpenJdk(dataDir) {
     return new Promise((resolve) => {
       JavaGuard.latestOpenJdk('8').then((verData) => {
         if (verData) {
@@ -464,7 +455,7 @@ export default class AssetGuard extends EventEmitter {
             fDir,
           );
 
-          this.java = new DlTracker<Asset>([jre], jre.size, (a) => {
+          this.java = new DlTracker([jre], jre.size, (a) => {
             if (verData.name.endsWith('zip')) {
               const zip = new AdmZip(a.to);
               const pos = path.join(direct, zip.getEntries()[0].entryName);
@@ -487,7 +478,7 @@ export default class AssetGuard extends EventEmitter {
               });
             }
 
-            let h: string;
+            let h;
             fs.createReadStream(a.to)
               // eslint-disable-next-line no-console
               .on('error', (err) => console.error(err))
@@ -535,7 +526,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<?Object>} A promise which resolves to Forge's version.json data.
    * @memberof AssetGuard
    */
-  loadForgeData(server: Server): Promise<?Object> {
+  loadForgeData(server) {
     return new Promise((resolve, reject) => {
       const { modules } = server;
 
@@ -593,7 +584,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<Object>} Promise which resolves to the version data object.
    * @memberof AssetGuard
    */
-  loadVersionData(version: string, force?: boolean): Promise<Object> {
+  loadVersionData(version, force) {
     const versionPath = path.join(this.commonPath, 'versions', version);
 
     return new Promise((resolve) => {
@@ -631,8 +622,8 @@ export default class AssetGuard extends EventEmitter {
    * @returns {DlTracker<DistroModule>} The Download Tracker for this distribution's modules.
    * @memberof AssetGuard
    */
-  parseDistroModules(modules: Array<Module>, version: string, id: string): DlTracker<DistroModule> {
-    let list: Array<DistroModule> = [];
+  parseDistroModules(modules, version, id) {
+    let list = [];
 
     let size = 0;
 
@@ -674,7 +665,7 @@ export default class AssetGuard extends EventEmitter {
       }
     });
 
-    return new DlTracker<DistroModule>(list, size);
+    return new DlTracker(list, size);
   }
 
   /**
@@ -692,9 +683,9 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>}
    * @memberof AssetGuard
    */
-  processDlQueues(identifiers?: Array<QueueIdentifier>): Promise<void> {
+  processDlQueues(identifiers) {
     return new Promise((resolve) => {
-      const defaults: Array<QueueIdentifier> = [
+      const defaults = [
         { id: 'assets', limit: 20 },
         { id: 'libraries', limit: 5 },
         { id: 'files', limit: 5 },
@@ -739,7 +730,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {boolean}
    * @memberof AssetGuard
    */
-  startAsyncProcess(identifier: string, limit?: number): boolean {
+  startAsyncProcess(identifier, limit) {
     const self = this;
     const dlTracker = this[identifier];
     const { dlQueue } = dlTracker;
@@ -845,7 +836,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  validateAssets(versionData: Object, force?: boolean): Promise<void> {
+  validateAssets(versionData, force) {
     return new Promise((resolve) => {
       this.assetChainIndexData(versionData, force)
         .then(() => resolve());
@@ -860,7 +851,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>}
    * @memberof AssetGuard
    */
-  validateClient(versionData: Object, force?: boolean): Promise<void> {
+  validateClient(versionData, force) {
     return new Promise((resolve) => {
       const clientData = versionData.downloads.client;
       const version = versionData.id;
@@ -892,7 +883,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<Server>} A promise which resolves to the server distribution object.
    * @memberof AssetGuard
    */
-  validateDistribution(server: Server): Promise<Server> {
+  validateDistribution(server) {
     return new Promise((resolve) => {
       this.forge = this.parseDistroModules(
         server.modules,
@@ -914,11 +905,11 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  validateLibraries(versionData: Object): Promise<void> {
+  validateLibraries(versionData) {
     return new Promise((resolve) => {
-      const libArr: Array<Object> = versionData.libraries;
+      const libArr = versionData.libraries;
       const libPath = path.join(this.commonPath, 'libraries');
-      const libDlQueue: Array<Library> = [];
+      const libDlQueue = [];
 
       let dlSize = 0;
 
@@ -963,7 +954,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  validateLogConfig(versionData: Object): Promise<void> {
+  validateLogConfig(versionData) {
     return new Promise((resolve) => {
       const { client } = versionData.logging;
       const { file } = client;
@@ -995,7 +986,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  validateMiscellaneous(versionData: Object): Promise<void> {
+  validateMiscellaneous(versionData) {
     return new Promise((resolve) => {
       this.validateClient(versionData);
       this.validateLogConfig(versionData);
@@ -1011,7 +1002,7 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<Object>}
    * @memberof AssetGuard
    */
-  async validateEverything(serverId: string): Promise<Object> {
+  async validateEverything(serverId) {
     try {
       const distroIndex = await DistroManager.pullRemote();
       const server = distroIndex.getServer(serverId);

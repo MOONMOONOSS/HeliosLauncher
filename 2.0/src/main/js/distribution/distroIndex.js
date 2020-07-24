@@ -1,17 +1,17 @@
-// @flow
+//
 
 import Server from './server';
 
 export default class DistroIndex {
-  mainServerId: ?string;
+  mainServerId ;
 
-  rss: string;
+  rss ;
 
-  servers: Array<Server>;
+  servers ;
 
-  version: string;
+  version ;
 
-  constructor(json: any) {
+  constructor(json) {
     if (!json) {
       throw new Error('Cannot construct class DistroIndex without an object!');
     }
@@ -22,9 +22,9 @@ export default class DistroIndex {
     this.resolveServers(json.servers);
   }
 
-  resolveServers(servers: any): void {
-    const arr: Array<Server> = [];
-    let declared: boolean = false;
+  resolveServers(servers) {
+    const arr = [];
+    let declared = false;
 
     servers.forEach((server) => {
       if (server.mainServer) {
@@ -43,7 +43,7 @@ export default class DistroIndex {
     this.servers = arr;
   }
 
-  getServer(id: string): Server {
+  getServer(id) {
     const serv = this.servers.find((server) => server.id === id);
 
     if (serv) {
@@ -53,7 +53,7 @@ export default class DistroIndex {
     throw new Error(`Couldn't find server with ID of ${id}`);
   }
 
-  get mainServer(): Server {
+  get mainServer() {
     if (this.mainServerId) {
       return this.getServer(String(this.mainServerId));
     }

@@ -10,7 +10,7 @@ import GameAsset from './gameAsset';
  * @extends {GameAsset}
  */
 export default class DistroModule extends GameAsset {
-  type: string;
+  type;
 
   /**
    * Create a DistroModule. This is for processing,
@@ -26,12 +26,12 @@ export default class DistroModule extends GameAsset {
    * @memberof DistroModule
    */
   constructor(
-    id: string,
-    hash: string,
-    size: number,
-    from: string,
-    to: string,
-    type: string,
+    id,
+    hash,
+    size,
+    from,
+    to,
+    type,
   ) {
     if (!type) {
       throw new Error('Missing required fields needed to instantiate DistroModule');

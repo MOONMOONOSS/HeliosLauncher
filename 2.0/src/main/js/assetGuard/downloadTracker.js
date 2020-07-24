@@ -1,4 +1,4 @@
-// @flow
+//
 
 /**
  * Representation of a download tracker.
@@ -8,17 +8,17 @@
  * @export
  * @class DlTracker
  */
-export default class DlTracker<T> {
-  dlQueue: Array<T>;
+export default class DlTracker {
+  dlQueue;
 
-  dlSize: number;
+  dlSize;
 
-  callback: () => T;
+  callback;
 
   constructor(
-    dlQueue: Array<T>,
-    dlSize: number,
-    callback?: () => T,
+    dlQueue,
+    dlSize,
+    callback,
   ) {
     this.dlQueue = dlQueue;
     this.dlSize = dlSize;

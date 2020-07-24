@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * Represents a base asset
  *
@@ -7,15 +5,15 @@
  * @class Asset
  */
 export default class Asset {
-  id: string;
+  id;
 
-  size: number;
+  size;
 
-  from: string;
+  from;
 
-  to: string;
+  to;
 
-  constructor(id: string, size: number, from: string, to: string) {
+  constructor(id, size, from, to) {
     if (!id || !size || !from || !to) {
       throw new Error('Missing required arguments needed to construct Asset');
     }

@@ -1,15 +1,4 @@
-// @flow
-
 import Asset from './asset';
-
-type Os = {
-  name: string,
-};
-
-type Rule = {
-  action: string,
-  os: Os,
-};
 
 /**
  * Represents a Mojang library asset
@@ -27,8 +16,8 @@ export default class Library extends Asset {
    * @returns {string}
    * @memberof Library
    */
-  static mojangFriendlyOs(): string {
-    const system: string = process.platform;
+  static mojangFriendlyOs() {
+    const system = process.platform;
 
     switch (system) {
       case 'darwin':
@@ -56,7 +45,7 @@ export default class Library extends Asset {
     * @param {Object} natives The Library's natives object.
     * @returns {Promise<boolean>} True if the Library follows the specified rules, otherwise false.
     */
-  static validateRules(rules: ?Array<Rule>, natives: any): Promise<boolean> {
+  static validateRules(rules, natives) {
     return new Promise((resolve) => {
       if (!rules) {
         return resolve(natives[Library.mojangFriendlyOs()] !== null);

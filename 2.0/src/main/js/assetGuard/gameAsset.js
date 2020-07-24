@@ -9,9 +9,9 @@ import Asset from './asset';
  * @class Asset
  */
 export default class GameAsset extends Asset {
-  hash: string;
+  hash;
 
-  constructor(id: string, hash: string, size: number, from: string, to: string) {
+  constructor(id, hash, size, from, to) {
     if (!id || !hash || !size || !from || !to) {
       throw new Error('Missing required arguments needed to construct Asset');
     }

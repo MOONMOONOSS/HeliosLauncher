@@ -4,7 +4,7 @@
     "test": {
       "presets": [
         ["@babel/env", {
-          "targets": { "node": 12 }
+          "targets": { "node": 14 }
         }],
         "@babel/preset-flow"
       ],
@@ -13,9 +13,10 @@
     "main": {
       "presets": [
         ["@babel/env", {
-          "targets": { "node": 12 }
+          "targets": { "node": 14 }
         }],
-        "@babel/preset-flow"
+        "@babel/preset-flow",
+        "@babel/preset-env"
       ]
     },
     "renderer": {

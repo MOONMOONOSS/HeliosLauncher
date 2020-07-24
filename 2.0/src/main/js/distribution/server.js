@@ -1,29 +1,29 @@
-// @flow
+//
 
 import Module from './module';
 
 export default class Server {
-  id: string;
+  id ;
 
-  name: string;
+  name ;
 
-  description: string;
+  description ;
 
-  icon: string;
+  icon ;
 
-  version: string;
+  version ;
 
-  address: string;
+  address ;
 
-  minecraftVersion: string;
+  minecraftVersion ;
 
-  mainServer: boolean;
+  mainServer ;
 
-  autoconnect: boolean;
+  autoconnect ;
 
-  modules: Array<Module>;
+  modules ;
 
-  constructor(json: any) {
+  constructor(json) {
     if (!json) {
       throw new Error('Cannot construct class Server without an object!');
     }
@@ -41,8 +41,8 @@ export default class Server {
     this.resolveModules(json.modules);
   }
 
-  resolveModules(json: any): void {
-    const arr: Array<Module> = [];
+  resolveModules(json) {
+    const arr = [];
 
     json.forEach((mod) => arr.push(new Module(this.id, mod)));
 

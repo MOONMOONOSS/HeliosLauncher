@@ -1,5 +1,3 @@
-// @flow
-
 import fs from 'fs';
 import fetchNode from 'node-fetch';
 import path from 'path';
@@ -10,15 +8,15 @@ import DistroIndex from './distribution/distroIndex';
 export default class DistroManager {
   // static distributionUrl: string = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/vue/2.0/static/other/distribution.json';
 
-  static distributionUrl: string = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/master/app/assets/distribution.json';
+  static distributionUrl = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/master/app/assets/distribution.json';
 
-  static launcherDir: string = app.getPath('userData');
+  static launcherDir = app.getPath('userData');
 
-  static distributionDest: string = path.join(DistroManager.launcherDir, 'distribution.json');
+  static distributionDest = path.join(DistroManager.launcherDir, 'distribution.json');
 
-  static pullRemote(): Promise<DistroIndex> {
+  static pullRemote() {
     return new Promise((resolve, reject) => {
-      const opts: any = {
+      const opts = {
         cache: 'no-cache',
         method: 'GET',
         timeout: 3000,

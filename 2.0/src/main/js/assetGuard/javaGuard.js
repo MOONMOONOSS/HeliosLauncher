@@ -1,5 +1,3 @@
-// @flow
-
 /* eslint-disable no-loop-func */
 
 import EventEmitter from 'events';
@@ -11,39 +9,20 @@ import path from 'path';
 
 import Util from './util';
 
-type OpenJdkData = {
-  uri: string,
-  size: number,
-  name: string,
-};
-
-type JavaVersion8 = {|
-  build: number,
-  update: number,
-  major: number,
-|};
-
-type JavaVersion9 = {|
-  build: number,
-  major: number,
-  minor: number,
-  revision: number,
-|};
-
 export default class JavaGuard extends EventEmitter {
-  mcVersion: string;
+  mcVersion ;
 
-  static baseOpenJdk: string = 'https://api.adoptopenjdk.net/v2/latestAssets/nightly/openjdk';
+  static baseOpenJdk = 'https://api.adoptopenjdk.net/v2/latestAssets/nightly/openjdk';
 
-  static mojangLauncherMeta: string = 'https://launchermeta.mojang.com/mc/launcher.json';
+  static mojangLauncherMeta = 'https://launchermeta.mojang.com/mc/launcher.json';
 
   // Keys for Java 1.8 and prior:
-  static REG_KEYS: Array<string> = [
+  static REG_KEYS = [
     '\\SOFTWARE\\JavaSoft\\Java Runtime Environment',
     '\\SOFTWARE\\JavaSoft\\Java Development Kit',
   ];
 
-  constructor(mcVersion: string) {
+  constructor(mcVersion) {
     super();
     this.mcVersion = mcVersion;
   }
@@ -56,8 +35,8 @@ export default class JavaGuard extends EventEmitter {
    * @returns {Promise<OpenJdkData>}
    * @memberof JavaGuard
    */
-  static latestOpenJdk(major: string = '8'): Promise<OpenJdkData> {
-    let sanitizedOs: string;
+  static latestOpenJdk(major = '8') {
+    let sanitizedOs;
     switch (process.platform) {
       case 'win32':
         sanitizedOs = 'windows';
@@ -74,7 +53,7 @@ export default class JavaGuard extends EventEmitter {
 
     const url = `${JavaGuard.baseOpenJdk}${major}?os=${sanitizedOs}&arch=x64&heap_size=normal&openjdk_impl=hotspot&type=jre`;
 
-    const params: any = {
+    const params = {
       method: 'GET',
       cache: 'no-cache',
       timeout: 3000,
@@ -108,7 +87,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {string}
    * @memberof JavaGuard
    */
-  static javaExecFromRoot(rootDir: string): string {
+  static javaExecFromRoot(rootDir) {
     switch (process.platform) {
       case 'win32':
         return path.join(rootDir, 'bin', 'javaw.exe');
@@ -129,7 +108,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {boolean} True if the path points to a Java executable, otherwise false.
    * @memberof JavaGuard
    */
-  static isJavaExecPath(pth: string): boolean {
+  static isJavaExecPath(pth) {
     switch (process.platform) {
       case 'win32':
         return pth.endsWith(path.join('bin', 'javaw.exe'));
@@ -148,9 +127,9 @@ export default class JavaGuard extends EventEmitter {
    * @returns {Promise<any>} Promise which resolves to Mojang's launcher.json object.
    * @memberof JavaGuard
    */
-  static fetchMojangLauncherData(): Promise<any> {
+  static fetchMojangLauncherData() {
     return new Promise((resolve) => {
-      const params: any = {
+      const params = {
         method: 'GET',
         cache: 'no-cache',
         timeout: 3000,
@@ -172,7 +151,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {any} Object containing the version information.
    * @memberof JavaGuard
    */
-  static javaRuntimeVersion(verString: string): any {
+  static javaRuntimeVersion(verString) {
     const [major] = verString.split('.');
 
     if (Number(major) === 1) {
@@ -191,11 +170,11 @@ export default class JavaGuard extends EventEmitter {
    * @returns {JavaVersion8} Object containing the version information.
    * @memberof JavaGuard
    */
-  static javaRuntimeVersion8(verString: string): JavaVersion8 {
+  static javaRuntimeVersion8(verString) {
     // 1.{major}.0_{update}-b{build}
     // ex. 1.8.0_152-b16
 
-    const returnObj: any = {};
+    const returnObj = {};
     let parts = verString.split('-');
 
     returnObj.build = parseInt(parts[1].substring(1), 10);
@@ -217,8 +196,8 @@ export default class JavaGuard extends EventEmitter {
    * @returns {JavaVersion9} Object containing the version information.
    * @memberof JavaGuard
    */
-  static javaRuntimeVersion9(verString: string): JavaVersion9 {
-    const returnObj: any = {};
+  static javaRuntimeVersion9(verString) {
+    const returnObj = {};
     let parts = verString.split('+');
 
     returnObj.build = parseInt(parts[1], 10);
@@ -240,7 +219,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {?string} The path defined by JAVA_HOME, if it exists. Otherwise null.
    * @memberof JavaGuard
    */
-  static scanJavaHome(): ?string {
+  static scanJavaHome() {
     const jHome = String(process.env.JAVA_HOME);
     try {
       return fs.existsSync(jHome) ? jHome : null;
@@ -259,7 +238,7 @@ export default class JavaGuard extends EventEmitter {
    * paths found in the registry.
    * @memberof JavaGuard
    */
-  static scanRegistry(): Promise<Set<string>> {
+  static scanRegistry() {
     return new Promise((resolve) => {
       // Keys for Java v9.0.0 and later:
       // 'SOFTWARE\\JavaSoft\\JRE'
@@ -341,7 +320,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {?string} The path of the JRE if found, otherwise null.
    * @memberof JavaGuard
    */
-  static scanInternetPlugins(): ?string {
+  static scanInternetPlugins() {
     const pth = '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin';
 
     return fs.existsSync(JavaGuard.javaExecFromRoot(pth)) ? pth : null;
@@ -355,7 +334,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {Promise<Set<string>>} A promise which resolves to a set of the discovered
    * @memberof JavaGuard
    */
-  static scanFileSystem(scanDir: string): Promise<Set<string>> {
+  static scanFileSystem(scanDir) {
     return new Promise((resolve) => {
       fs.exists(scanDir, (e) => {
         const res = new Set();
@@ -407,7 +386,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {Array<any>} A sorted array of JVM meta objects.
    * @memberof JavaGuard
    */
-  static sortValidJavaArray(validArr: Array<any>): Array<any> {
+  static sortValidJavaArray(validArr) {
     const retArr = validArr.sort((a, b) => {
       if (a.version.major === b.version.major) {
         if (a.version.major < 9) {
@@ -459,7 +438,7 @@ export default class JavaGuard extends EventEmitter {
    * x64 Java installation. If none are found, null is returned.
    * @memberof JavaGuard
    */
-  async darwinJavaValidate(dataDir: string): Promise<?string> {
+  async darwinJavaValidate(dataDir) {
     const pathSet1 = await JavaGuard.scanFileSystem('/Library/Java/JavaVirtualMachines');
     const pathSet2 = await JavaGuard.scanFileSystem(path.join(dataDir, 'runtime', 'x64'));
 
@@ -504,7 +483,7 @@ export default class JavaGuard extends EventEmitter {
    * x64 Java installation. If none are found, null is returned.
    * @memberof JavaGuard
    */
-  async linuxJavaValidate(dataDir: string): Promise<?string> {
+  async linuxJavaValidate(dataDir) {
     const pathSet1 = await JavaGuard.scanFileSystem('/usr/lib/jvm');
     const pathSet2 = await JavaGuard.scanFileSystem(path.join(dataDir, 'runtime', 'x64'));
 
@@ -541,7 +520,7 @@ export default class JavaGuard extends EventEmitter {
    * x64 Java installation. If none are found, null is returned.
    * @memberof JavaGuard
    */
-  async win32JavaValidate(dataDir: string): Promise<?string> {
+  async win32JavaValidate(dataDir) {
     let pathSet1 = await JavaGuard.scanRegistry();
 
     // Get possible paths from the registry.
@@ -581,7 +560,7 @@ export default class JavaGuard extends EventEmitter {
    * @returns {?string} A path to a valid x64 Java installation, null if none found.
    * @memberof JavaGuard
    */
-  validateJava(dataDir: string): ?string {
+  validateJava(dataDir) {
     this[`${process.platform}JavaValidate`](dataDir)
       .then((res) => res);
   }
@@ -594,7 +573,7 @@ export default class JavaGuard extends EventEmitter {
    * for each valid JVM root directory.
    * @memberof JavaGuard
    */
-  validateJavaRootSet(rootSet: Set<string>): Array<any> {
+  validateJavaRootSet(rootSet) {
     const rootArr = Array.from(rootSet);
     const validArr = [];
 
@@ -622,14 +601,14 @@ export default class JavaGuard extends EventEmitter {
    * The validity is stored inside the `valid` property.
    * @memberof JavaGuard
    */
-  validateJvmProperties(stderr: string): Promise<any> {
+  validateJvmProperties(stderr) {
     return new Promise((resolve) => {
       const props = stderr.split('\n');
       const GOAL = 2;
 
       let checksum = 0;
 
-      const meta: any = {};
+      const meta = {};
 
       for (let i = 0; i < props.length; i += 1) {
         if (props[i].indexOf('sun.arch.data.model') > -1) {
@@ -685,7 +664,7 @@ export default class JavaGuard extends EventEmitter {
    * The validity is stored inside the `valid` property.
    * @memberof JavaGuard
    */
-  validateJavaBinary(binaryExecPath: string): Promise<any> {
+  validateJavaBinary(binaryExecPath) {
     return new Promise((resolve) => {
       if (!JavaGuard.isJavaExecPath(binaryExecPath)) {
         resolve({

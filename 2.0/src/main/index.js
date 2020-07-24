@@ -1,6 +1,8 @@
+import ChildProcess from 'child_process';
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
 import fs from 'fs';
 import path from 'path';
+
 import Mojang from '../renderer/js/mojang';
 import Whitelist from './js/whitelist';
 import Minecraft from './js/minecraft';
@@ -147,6 +149,39 @@ ipcMain.on('discord-oauth', async (ev) => {
   await Whitelist.requestCode(ev)
     .then((data) => ev.reply('discord-code', data))
     .catch((err) => ev.reply('discord-code', err));
+});
+
+ipcMain.on('java-scan', (ev) => {
+  ev.reply('launch-text', 'Please wait...');
+  ev.reply('launch-button', false); // Disables the launcher button
+  ev.reply('launch-progress', 0);
+
+  const forkEnv = JSON.parse(JSON.stringify(process.env));
+  forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
+
+  // Fork a process to run validations
+  const p = ChildProcess.fork(
+    require.resolve('./js/assetExec.mjs'),
+    [],
+    {
+      env: forkEnv,
+      stdio: 'pipe',
+    },
+  );
+
+  p.stdout.on('data', (data) => {
+    console.log(data.toString());
+  });
+
+  p.stderr.on('data', (data) => {
+    console.error(data.toString());
+  });
+
+  p.on('close', (code) => {
+    console.log(`AssetGuard exited with code ${code}`);
+  });
+
+  setTimeout(() => {}, 5000);
 });
 
 ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)

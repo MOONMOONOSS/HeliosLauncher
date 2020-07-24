@@ -15,6 +15,9 @@ let mainConfig = {
   externals: [
     ...Object.keys(dependencies || {})
   ],
+  experiments: {
+    mjs: true,
+  },
   module: {
     rules: [
       {
