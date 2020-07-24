@@ -183,6 +183,16 @@ ipcMain.on('java-scan', (ev) => {
     console.log(`AssetGuard exited with code ${code}`);
   });
 
+  p.on('message', (msg) => {
+    switch (msg.context) {
+      case 'java-status':
+        ev.reply('java-status', msg);
+        break;
+      default:
+        console.warn(`Unknown context: ${msg.context}`);
+    }
+  });
+
   p.send({
     context: 'validate-java',
   });

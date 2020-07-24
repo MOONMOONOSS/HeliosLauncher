@@ -9,12 +9,23 @@ export default class AssetExec {
     this.tracker = new AssetGuard(...args);
     this.assignListeners();
 
-    process.on('message', async (msg) => {
-      console.log(msg);
-
+    process.on('message', (msg) => {
       switch (msg.context) {
         case 'validate-java':
-          console.log(`JGUARD: ${await new JavaGuard('1.14').validateJava(this.tracker.commonPath)}`);
+          new JavaGuard('1.14').validateJava(this.tracker.commonPath)
+            .then((jGuard) => {
+              if (jGuard && jGuard !== '') {
+                process.send({
+                  context: 'java-status',
+                  data: jGuard,
+                });
+              } else {
+                process.send({
+                  context: 'java-status',
+                  data: false,
+                });
+              }
+            });
           break;
         default:
           console.warn(`Unknown context: ${msg.context}`);

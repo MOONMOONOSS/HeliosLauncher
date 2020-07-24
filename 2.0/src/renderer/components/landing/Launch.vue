@@ -66,6 +66,10 @@ export default {
     this.$nextTick(() => {
       this.updatePlayerCount();
       this.serverIntervalId = window.setInterval(this.updatePlayerCount, 30000);
+
+      ipcRenderer.on('java-status', (_ev, data) => {
+        console.dir(data);
+      });
     });
   },
   methods: {

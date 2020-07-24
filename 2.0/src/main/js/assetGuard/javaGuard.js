@@ -10,7 +10,7 @@ import path from 'path';
 import Util from './util';
 
 export default class JavaGuard extends EventEmitter {
-  mcVersion ;
+  mcVersion;
 
   static baseOpenJdk = 'https://api.adoptopenjdk.net/v2/latestAssets/nightly/openjdk';
 
@@ -461,7 +461,7 @@ export default class JavaGuard extends EventEmitter {
       superSet.add(jHome);
     }
 
-    const pathArr = JavaGuard.sortValidJavaArray(this.validateJavaRootSet(superSet));
+    const pathArr = JavaGuard.sortValidJavaArray(await this.validateJavaRootSet(superSet));
 
     if (pathArr.length > 0) {
       return pathArr[0].execPath;
@@ -496,7 +496,7 @@ export default class JavaGuard extends EventEmitter {
       superSet.add(jHome);
     }
 
-    const pathArr = JavaGuard.sortValidJavaArray(this.validateJavaRootSet(superSet));
+    const pathArr = JavaGuard.sortValidJavaArray(await this.validateJavaRootSet(superSet));
 
     if (pathArr.length > 0) {
       return pathArr[0].execPath;
@@ -543,7 +543,7 @@ export default class JavaGuard extends EventEmitter {
     }
 
     const pathArr = JavaGuard.sortValidJavaArray(
-      this.validateJavaRootSet(superSet),
+      await this.validateJavaRootSet(superSet),
     );
 
     if (pathArr.length > 0) {
@@ -561,7 +561,7 @@ export default class JavaGuard extends EventEmitter {
    * @memberof JavaGuard
    */
   validateJava(dataDir) {
-    this[`${process.platform}JavaValidate`](dataDir)
+    return this[`${process.platform}JavaValidate`](dataDir)
       .then((res) => res);
   }
 
@@ -573,19 +573,19 @@ export default class JavaGuard extends EventEmitter {
    * for each valid JVM root directory.
    * @memberof JavaGuard
    */
-  validateJavaRootSet(rootSet) {
+  async validateJavaRootSet(rootSet) {
     const rootArr = Array.from(rootSet);
     const validArr = [];
 
     for (let i = 0; i < rootArr.length; i += 1) {
       const execPath = JavaGuard.javaExecFromRoot(rootArr[i]);
-      this.validateJavaBinary(execPath)
-        .then((metaObj) => {
-          if (metaObj.valid) {
-            metaObj.execPath = execPath;
-            validArr.push(metaObj);
-          }
-        });
+      // eslint-disable-next-line no-await-in-loop
+      const metaOb = await this.validateJavaBinary(execPath);
+
+      if (metaOb.valid) {
+        metaOb.execPath = execPath;
+        validArr.push(metaOb);
+      }
     }
 
     return validArr;
@@ -613,7 +613,6 @@ export default class JavaGuard extends EventEmitter {
       for (let i = 0; i < props.length; i += 1) {
         if (props[i].indexOf('sun.arch.data.model') > -1) {
           const arch = parseInt(props[i].split('=')[1].trim(), 10);
-          console.log(props[i].trim());
 
           if (arch === 64) {
             meta.arch = arch;
@@ -622,7 +621,6 @@ export default class JavaGuard extends EventEmitter {
           }
         } else if (props[i].indexOf('java.runtime.version') > -1) {
           const verString = props[i].split('=')[1].trim();
-          console.log(props[i].trim());
 
           const verObj = JavaGuard.javaRuntimeVersion(verString);
 
@@ -677,10 +675,10 @@ export default class JavaGuard extends EventEmitter {
           binaryExecPath.replace('javaw.exe', 'java.exe');
         }
 
-        childProcess.exec(`"${binaryExecPath}" -XshowSettings:properties`, (err, stdout, stderr) => {
+        childProcess.exec(`"${binaryExecPath}" -XshowSettings:properties`, async (err, stdout, stderr) => {
           try {
             // pee is stored in the stderr?
-            resolve(this.validateJvmProperties(stderr));
+            resolve(await this.validateJvmProperties(stderr));
           } catch (err) {
             resolve({
               valid: false,
