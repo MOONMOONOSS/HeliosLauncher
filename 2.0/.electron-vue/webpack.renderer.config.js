@@ -43,31 +43,6 @@ let rendererConfig = {
         }
       },
       {
-        test: /\.less$/,
-        use: ['vue-style-loader', 'css-loader', 'less-loader']
-      },
-      {
-        test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
-      },
-      {
-        test: /\.html$/,
-        use: 'vue-html-loader'
-      },
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: ['vue-style-loader', 'css-loader', 'stylus-loader']
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
@@ -82,6 +57,27 @@ let rendererConfig = {
             }
           }
         }
+      },
+      {
+        test: /\.less$/,
+        use: ['vue-style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.node$/,
+        use: 'node-loader'
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: ['vue-style-loader', 'css-loader', 'stylus-loader']
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

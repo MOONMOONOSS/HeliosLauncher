@@ -5,8 +5,7 @@
       "presets": [
         ["@babel/env", {
           "targets": { "node": 14 }
-        }],
-        "@babel/preset-flow"
+        }]
       ],
       "plugins": ["istanbul"]
     },
@@ -14,25 +13,19 @@
       "presets": [
         ["@babel/env", {
           "targets": { "node": 14 }
-        }],
-        "@babel/preset-flow",
-        "@babel/preset-env"
+        }]
       ]
     },
     "renderer": {
       "presets": [
-        ["@babel/env", {
-          "modules": false
-        }],
-        "@babel/preset-flow"
+        "@babel/env"
       ]
     },
     "web": {
       "presets": [
         ["@babel/env", {
           "modules": false
-        }],
-        "@babel/preset-flow"
+        }]
       ]
     }
   },
@@ -40,7 +33,5 @@
     "@babel/transform-runtime",
     "@babel/plugin-proposal-function-bind",
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-syntax-flow",
-    "@babel/plugin-transform-flow-strip-types"
   ]
 }

@@ -161,8 +161,10 @@ ipcMain.on('java-scan', (ev) => {
 
   // Fork a process to run validations
   const p = ChildProcess.fork(
-    require.resolve('./js/assetExec.mjs'),
-    [],
+    path.join(__dirname, './js/assetExecWrapper.cjs'),
+    [
+      `TEST${app.getPath('userData')}`,
+    ],
     {
       env: forkEnv,
       stdio: 'pipe',
@@ -253,4 +255,4 @@ ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) =>
     .catch((err) => reject(err));
 }));
 
-ipcMain.handle('distro-pull', () => DistroManager.pullRemote());
+ipcMain.handle('distro-pull', () => DistroManager.pullRemote(app.getPath('userData')));

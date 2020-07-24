@@ -1,7 +1,6 @@
 import fs from 'fs';
 import fetchNode from 'node-fetch';
 import path from 'path';
-import { app } from 'electron';
 
 import DistroIndex from './distribution/distroIndex';
 
@@ -10,11 +9,7 @@ export default class DistroManager {
 
   static distributionUrl = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/master/app/assets/distribution.json';
 
-  static launcherDir = app.getPath('userData');
-
-  static distributionDest = path.join(DistroManager.launcherDir, 'distribution.json');
-
-  static pullRemote() {
+  static pullRemote(commonPath) {
     return new Promise((resolve, reject) => {
       const opts = {
         cache: 'no-cache',
@@ -33,7 +28,7 @@ export default class DistroManager {
         .then((data) => {
           const index = new DistroIndex(data);
 
-          fs.writeFile(DistroManager.distributionDest, JSON.stringify(data), 'utf-8', (err) => {
+          fs.writeFile(path.join(commonPath, 'distribution.json'), JSON.stringify(data), 'utf-8', (err) => {
             if (err) {
               reject(err);
             }

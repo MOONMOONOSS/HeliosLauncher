@@ -1004,7 +1004,7 @@ export default class AssetGuard extends EventEmitter {
    */
   async validateEverything(serverId) {
     try {
-      const distroIndex = await DistroManager.pullRemote();
+      const distroIndex = await DistroManager.pullRemote(this.commonPath);
       const server = distroIndex.getServer(serverId);
 
       // This is the validate everything part :)

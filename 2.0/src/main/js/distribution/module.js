@@ -1,9 +1,10 @@
 import path from 'path';
-import { app } from 'electron'; // eslint-ignore-line
 
 import Artifact from './artifact';
 import Required from './required';
 import Types from './types';
+
+const { app } = require('electron'); // eslint-ignore-line
 
 /**
  * Represents a Module containing Artifacts to download
@@ -15,25 +16,25 @@ import Types from './types';
  * @class Module
  */
 export default class Module {
-  artifact: Artifact;
+  artifact;
 
-  artifactVersion: ?string;
+  artifactVersion;
 
-  artifactId: ?string;
+  artifactId;
 
-  artifactGroup: ?string;
+  artifactGroup;
 
-  id: string;
+  id;
 
-  name: string;
+  name;
 
-  required: Required;
+  required;
 
-  subModules: Array<Module>;
+  subModules;
 
-  type: string;
+  type;
 
-  extension: string;
+  extension;
 
   /**
    * Resolve the default extension for a specific module type.
@@ -46,7 +47,7 @@ export default class Module {
    * Will be null if a type does not have a default extension.
    * @memberof Module
    */
-  static resolveExtension(type: string): string {
+  static resolveExtension(type) {
     switch (type) {
       case Types.Library:
       case Types.ForgeHosted:
@@ -66,7 +67,7 @@ export default class Module {
    * @param {string} serverId The ID of the server to which this module belongs.
    * @memberof Module
    */
-  constructor(serverId: string, json: ?any) {
+  constructor(serverId, json) {
     if (json) {
       this.id = json.id;
       this.type = json.type;
@@ -87,11 +88,11 @@ export default class Module {
    * @private
    * @memberof Module
    */
-  resolveMetadata(): void {
+  resolveMetadata() {
     try {
-      const m0: Array<string> = this.id.split('@');
+      const m0 = this.id.split('@');
 
-      const m1: Array<string> = m0[0].split(':');
+      const m1 = m0[0].split(':');
 
       this.extension = m0[1] || Module.resolveExtension(this.type);
 
@@ -104,8 +105,8 @@ export default class Module {
     }
   }
 
-  resolveArtifactPath(serverId: string): void {
-    let pth: string;
+  resolveArtifactPath(serverId) {
+    let pth;
 
     if (this.type === Types.File) {
       pth = this.artifact.path;
@@ -137,8 +138,8 @@ export default class Module {
     }
   }
 
-  resolveSubModules(json: ?any, serverId: string): void {
-    const arr: Array<Module> = [];
+  resolveSubModules(json, serverId) {
+    const arr = [];
 
     if (json) {
       json.forEach((sm) => arr.push(new Module(serverId, sm)));

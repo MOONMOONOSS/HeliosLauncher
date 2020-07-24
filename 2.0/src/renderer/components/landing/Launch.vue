@@ -20,7 +20,10 @@
       id="launchControls"
       class="grow"
     >
-      <button id="play">
+      <button
+        id="play"
+        @click="playGame()"
+      >
         PLAY
       </button>
       <div class="horiDivider" />
@@ -35,7 +38,7 @@
 </template>
 
 <script>
-import {remote, shell} from 'electron'; // eslint-disable-line
+import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -74,6 +77,9 @@ export default {
       });
       this.numPlayers = status.onlinePlayers;
       this.maxPlayers = status.maxPlayers;
+    },
+    playGame() {
+      ipcRenderer.send('java-scan');
     },
   },
 };
