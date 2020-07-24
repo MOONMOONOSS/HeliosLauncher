@@ -19,7 +19,7 @@ import Library from './assetGuard/library';
 import JavaGuard from './assetGuard/javaGuard';
 import Util from './assetGuard/util';
 
-import Types as DistroTypes from './distribution/types';
+import DistroTypes from './distribution/types';
 import Module from './distribution/module';
 import Server from './distribution/server';
 
@@ -135,6 +135,7 @@ export default class AssetGuard extends EventEmitter {
       ]);
 
       child.on('close', (code: number) => {
+        // eslint-disable-next-line no-console
         console.log('[PackXZExtract]', 'Exited with code', code);
 
         resolve();
@@ -207,7 +208,8 @@ export default class AssetGuard extends EventEmitter {
       const bits = lines[i].split(' ');
 
       if (bits[1]) {
-        finalContent[bits[1]] = bits[0];
+        let upperBit;
+        [upperBit, finalContent[upperBit]] = [bits[1], bits[0]];
       }
     }
 
@@ -367,6 +369,7 @@ export default class AssetGuard extends EventEmitter {
       const assetIndexLoc = path.join(indexPath, name);
 
       if (!fs.existsSync(assetIndexLoc) || force) {
+        // eslint-disable-next-line no-console
         console.log(`Download ${versionData.id} asset index.`);
         fs.ensureDirSync(indexPath);
         const stream = fetchNode(assetIndex.url)
@@ -468,12 +471,14 @@ export default class AssetGuard extends EventEmitter {
 
               zip.extractAllToAsync(direct, true, (err) => {
                 if (err) {
+                  // eslint-disable-next-line no-console
                   console.error(err);
                   this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
                 }
 
                 fs.unlink(a.to, (err) => {
                   if (err) {
+                    // eslint-disable-next-line no-console
                     console.error(err);
                   }
 
@@ -484,20 +489,24 @@ export default class AssetGuard extends EventEmitter {
 
             let h: string;
             fs.createReadStream(a.to)
+              // eslint-disable-next-line no-console
               .on('error', (err) => console.error(err))
               .pipe(Zlib.createGunzip())
+              // eslint-disable-next-line no-console
               .on('error', (err) => console.error(err))
               .pipe(Tar.extract(direct, {
                 map: (header) => {
                   if (!h) {
                     h = header.name;
                   }
-                }
+                },
               }))
+              // eslint-disable-next-line no-console
               .on('error', (err) => console.error(err))
               .on('finish', () => {
                 fs.unlink(a.to, (err) => {
                   if (err) {
+                    // eslint-disable-next-line no-console
                     console.error(err);
                   }
 
@@ -528,7 +537,7 @@ export default class AssetGuard extends EventEmitter {
    */
   loadForgeData(server: Server): Promise<?Object> {
     return new Promise((resolve, reject) => {
-      const modules = server.modules;
+      const { modules } = server;
 
       modules.forEach((mod) => {
         const { type } = mod;
@@ -547,6 +556,7 @@ export default class AssetGuard extends EventEmitter {
                 ),
               );
             } else {
+              // eslint-disable-next-line no-console
               console.warn('No forge version manifest found! Assuming we are running vanilla.');
               resolve(null);
             }
@@ -569,6 +579,7 @@ export default class AssetGuard extends EventEmitter {
         }
       });
 
+      // eslint-disable-next-line no-console
       console.warn('No forge module found! Assuming we are running vanilla...');
       resolve(null);
     });
@@ -591,6 +602,7 @@ export default class AssetGuard extends EventEmitter {
       if (!fs.existsSync(versionFile) || force) {
         AssetGuard.getVersionDataUrl(version)
           .then((url) => {
+            // eslint-disable-next-line no-console
             console.log(`Preparing download of ${version} assets.`);
             fs.ensureDirSync(versionPath);
 
@@ -666,13 +678,17 @@ export default class AssetGuard extends EventEmitter {
   }
 
   /**
-   * This function will initiate the download processed for the specified identifiers. If no argument is
-   * given, all identifiers will be initiated. Note that in order for files to be processed you need to run
-   * the processing function corresponding to that identifier. If you run this function without processing
-   * the files, it is likely nothing will be enqueued in the object and processing will complete
-   * immediately. Once all downloads are complete, this function will fire the 'complete' event on the
+   * This function will initiate the download processed for the
+   * specified identifiers. If no argument is given, all identifiers
+   * will be initiated. Note that in order for files to be processed
+   * you need to run the processing function corresponding to that
+   * identifier. If you run this function without processing the files,
+   * it is likely nothing will be enqueued in the object and processing
+   * will complete immediately. Once all downloads are complete, this
+   * function will fire the 'complete' event on the
    *
-   * @param {Array<QueueIdentifier>} [identifiers] The identifiers to process and corresponding parallel async task limit.
+   * @param {Array<QueueIdentifier>} [identifiers] The identifiers to
+   * process and corresponding parallel async task limit.
    * @returns {Promise<void>}
    * @memberof AssetGuard
    */
@@ -692,13 +708,13 @@ export default class AssetGuard extends EventEmitter {
       this.progress = 0;
 
       // Determine if param identifiers exists to simplify code flow
-      identifiers = identifiers ? identifiers : defaults;
+      identifiers = identifiers || defaults;
 
       identifiers.forEach((identity) => {
         this.totalDlSize += this[identity.id].dlSize;
       });
 
-      this.once('complete', (data) => {
+      this.once('complete', () => {
         resolve();
       });
 
@@ -729,6 +745,7 @@ export default class AssetGuard extends EventEmitter {
     const { dlQueue } = dlTracker;
 
     if (dlQueue.length > 0) {
+      // eslint-disable-next-line no-console
       console.log('DLQueue', dlQueue);
 
       async.eachLimit(dlQueue, limit || 5, (asset, cb) => {
@@ -742,6 +759,7 @@ export default class AssetGuard extends EventEmitter {
               let doHashCheck = false;
 
               if (contentLength !== asset.size) {
+                // eslint-disable-next-line no-console
                 console.warn(`Got ${contentLength} bytes for ${asset.id}: Expected ${asset.size}!`);
                 doHashCheck = true;
 
@@ -761,8 +779,10 @@ export default class AssetGuard extends EventEmitter {
                   const v = AssetGuard.validateLocal(asset.to, hashType, asset.hash);
 
                   if (v) {
+                    // eslint-disable-next-line no-console
                     console.warn(`Hashes match for ${asset.id}, byte mismatch is an issue in the distro index.`);
                   } else {
+                    // eslint-disable-next-line no-console
                     console.error(`Hashes do not match, ${asset.id} may be corrupted.`);
                   }
                 }
@@ -772,8 +792,9 @@ export default class AssetGuard extends EventEmitter {
 
               res.body.pipe(writeStream);
             } else {
-              console.error(`Failed to download ${asset.id}(${asset.from}). Response code ${resp.statusCode}`);
-              
+              // eslint-disable-next-line no-console
+              console.error(`Failed to download ${asset.id}(${asset.from}). Response code ${res.statusCode}`);
+
               this.progress += asset.size * 1;
               this.emit('progress', 'download', this.progress, this.totalDlSize);
 
@@ -785,8 +806,10 @@ export default class AssetGuard extends EventEmitter {
           });
       }, (err) => {
         if (err) {
+          // eslint-disable-next-line no-console
           console.warn(`An item in ${identifier} failed to process`);
         } else {
+          // eslint-disable-next-line no-console
           console.log(`All ${identifier} have been processed successfully`);
         }
 
@@ -906,6 +929,7 @@ export default class AssetGuard extends EventEmitter {
             : lib.downloads.classifiers[
               lib.natives[
                 Library.mojangFriendlyOs()
+              // eslint-disable-next-line no-template-curly-in-string
               ].replace('${arch}', process.arch.replace('x', ''))
             ];
           const libItm = new Library(
