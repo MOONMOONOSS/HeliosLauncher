@@ -18,7 +18,15 @@ const storage = window.localStorage;
 export default {
   name: 'Launcher',
   components: { FrameBar },
-  async mounted() {
+  computed: {
+    ...mapGetters('Route', ['firstLaunch']),
+    ...mapGetters('Landing', [
+      'isSettingsOpen',
+      'isSkinEditOpen',
+      'isServerSelectOpen',
+    ]),
+  },
+  mounted() {
     // Set first launch property if not present
     // Suppresses the welcome screen
     try {
@@ -58,14 +66,6 @@ export default {
 
       this.$el.style.opacity = 1;
     });
-  },
-  computed: {
-    ...mapGetters('Route', ['firstLaunch']),
-    ...mapGetters('Landing', [
-      'isSettingsOpen',
-      'isSkinEditOpen',
-      'isServerSelectOpen',
-    ]),
   },
   methods: {
     ...mapActions('Distribution', ['pullDistro']),

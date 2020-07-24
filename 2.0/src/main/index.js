@@ -163,7 +163,7 @@ ipcMain.on('java-scan', (ev) => {
   const p = ChildProcess.fork(
     path.join(__dirname, './js/assetExecWrapper.cjs'),
     [
-      `TEST${app.getPath('userData')}`,
+      `${app.getPath('userData')}`,
     ],
     {
       env: forkEnv,
@@ -183,7 +183,9 @@ ipcMain.on('java-scan', (ev) => {
     console.log(`AssetGuard exited with code ${code}`);
   });
 
-  setTimeout(() => {}, 5000);
+  p.send({
+    context: 'validate-java',
+  });
 });
 
 ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)

@@ -1,4 +1,5 @@
 import AssetGuard from './assetGuard.js';
+import JavaGuard from './assetGuard/javaGuard.js';
 
 export default class AssetExec {
   constructor(args) {
@@ -8,8 +9,16 @@ export default class AssetExec {
     this.tracker = new AssetGuard(...args);
     this.assignListeners();
 
-    process.on('message', (msg) => {
+    process.on('message', async (msg) => {
       console.log(msg);
+
+      switch (msg.context) {
+        case 'validate-java':
+          console.log(`JGUARD: ${await new JavaGuard('1.14').validateJava(this.tracker.commonPath)}`);
+          break;
+        default:
+          console.warn(`Unknown context: ${msg.context}`);
+      }
     });
 
     process.on('disconnect', () => {
