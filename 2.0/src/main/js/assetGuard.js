@@ -535,7 +535,7 @@ export default class AssetGuard extends EventEmitter {
         const { type } = mod;
 
         if (type === DistroTypes.ForgeHosted || type === DistroTypes.Forge) {
-          if (Util.isForgeGradle3(server.minecraftVersion, mod.version)) {
+          if (Util.isForgeGradle3(server.minecraftVersion, mod.artifactVersion)) {
             const found = mod.subModules.find((el) => el.type === DistroTypes.VersionManifest);
 
             if (found) {
@@ -552,28 +552,25 @@ export default class AssetGuard extends EventEmitter {
               console.warn('No forge version manifest found! Assuming we are running vanilla.');
               resolve(null);
             }
+          } else {
+            const modArtifact = mod.artifact;
+            const modPath = modArtifact.path;
+            const asset = new DistroModule(
+              mod.id,
+              modArtifact.hash,
+              modArtifact.size,
+              modArtifact.url,
+              modPath,
+              type,
+            );
+
+            AssetGuard.finalizeForgeAsset(asset, this.commonPath)
+              .then((forgeData) => resolve(forgeData))
+              .catch((err) => reject(err))
+              .finally(() => resolve(null));
           }
-
-          const modArtifact = mod.artifact;
-          const modPath = modArtifact.path;
-          const asset = new DistroModule(
-            mod.id,
-            modArtifact.hash,
-            modArtifact.size,
-            modArtifact.url,
-            modPath,
-            type,
-          );
-
-          AssetGuard.finalizeForgeAsset(asset, this.commonPath)
-            .then((forgeData) => resolve(forgeData))
-            .catch((err) => reject(err));
         }
       });
-
-      // eslint-disable-next-line no-console
-      console.warn('No forge module found! Assuming we are running vanilla...');
-      resolve(null);
     });
   }
 
@@ -738,9 +735,6 @@ export default class AssetGuard extends EventEmitter {
     const { dlQueue } = dlTracker;
 
     if (dlQueue.length > 0) {
-      // eslint-disable-next-line no-console
-      console.log('DLQueue', dlQueue);
-
       async.eachLimit(dlQueue, limit || 5, (asset, cb) => {
         fs.ensureDirSync(path.join(asset.to, '..'));
 
@@ -815,9 +809,9 @@ export default class AssetGuard extends EventEmitter {
                 this.extractQueue = [];
                 this.emit('complete', 'download');
               });
-          } else {
-            this.emit('complete', 'download');
           }
+        } else {
+          this.emit('complete', 'download');
         }
       });
 
