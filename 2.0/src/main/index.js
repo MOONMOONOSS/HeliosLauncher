@@ -201,7 +201,7 @@ ipcMain.on('java-scan', (ev) => {
   });
 });
 
-ipcMain.on('start-game', (ev, data) => {
+ipcMain.on('start-download', (ev, data) => {
   const forkEnv = JSON.parse(JSON.stringify(process.env));
   forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
 
@@ -234,6 +234,21 @@ ipcMain.on('start-game', (ev, data) => {
     switch (msg.context) {
       case 'status-msg':
         ev.reply('launch-status', msg.data);
+        break;
+      case 'progress':
+        ev.reply('launch-progress', msg);
+        break;
+      case 'validate':
+        ev.reply('validate-status', msg);
+        break;
+      case 'complete':
+        break;
+      case 'finished':
+        p.send({
+          context: 'disconnect',
+        });
+        ev.reply('validate-finished');
+
         break;
       default:
         console.warn(`Unknown context in start-game: ${msg.context}`);

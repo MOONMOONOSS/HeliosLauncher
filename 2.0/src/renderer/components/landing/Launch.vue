@@ -22,7 +22,7 @@
     >
       <button
         id="play"
-        @click="playGame()"
+        @click="validate()"
       >
         PLAY
       </button>
@@ -82,6 +82,10 @@ export default {
       ipcRenderer.on('launch-status', (_ev, data) => {
         this.statusText = data;
       });
+
+      ipcRenderer.on('validate-finished', () => {
+        console.log('Validation finished');
+      });
     });
   },
   methods: {
@@ -100,8 +104,13 @@ export default {
     playGame() {
       ipcRenderer.send('java-scan');
     },
-    validateAndLaunch() {
+    startGame() {
       ipcRenderer.send('start-game', {
+
+      });
+    },
+    validate() {
+      ipcRenderer.send('start-download', {
         server: this.selectedServerId,
         javaExe: this.selectedJavaExe,
       });
