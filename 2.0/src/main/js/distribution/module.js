@@ -4,7 +4,11 @@ import Artifact from './artifact';
 import Required from './required';
 import Types from './types';
 
-const { app } = require('electron'); // eslint-ignore-line
+// Fucking webpack
+let app;
+if (!process.env.CONFIG_DIRECT_PATH) {
+  app = require('electron').app;
+}
 
 /**
  * Represents a Module containing Artifacts to download
@@ -123,18 +127,38 @@ export default class Module {
       case Types.Library:
       case Types.ForgeHosted:
       case Types.FabricHosted:
-        this.artifact.path = path.join(app.getPath('userData'), 'common', 'libraries', pth);
+        this.artifact.path = path.join(
+          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          'common',
+          'libraries',
+          pth,
+        );
         break;
       case Types.ForgeMod:
       case Types.FabricMod:
-        this.artifact.path = path.join(app.getPath('userData'), 'common', 'modstore', pth);
+        this.artifact.path = path.join(
+          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          'common',
+          'modstore',
+          pth,
+        );
         break;
       case Types.VersionManifest:
-        this.artifact.path = path.join(app.getPath('userData'), 'common', 'versions', String(this.artifactId), `${String(this.artifactId)}.json`);
+        this.artifact.path = path.join(
+          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          'common',
+          'versions',
+          String(this.artifactId), `${String(this.artifactId)}.json`,
+        );
         break;
       case Types.File:
       default:
-        this.artifact.path = path.join(app.getPath('userData'), 'instances', serverId, pth);
+        this.artifact.path = path.join(
+          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          'instances',
+          serverId,
+          pth,
+        );
     }
   }
 
