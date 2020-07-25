@@ -8,6 +8,16 @@ import Asset from './asset';
  * @extends {Asset}
  */
 export default class Library extends Asset {
+  constructor(id, hash, size, from, to) {
+    if (!id || !hash || !size || !from || !to) {
+      throw new Error('Missing required arguments needed to construct Library');
+    }
+
+    super(id, size, from, to);
+
+    this.hash = hash;
+  }
+
   /**
    * Converts process.platform OS names to match
    * Mojang's OS naming standards
@@ -48,7 +58,11 @@ export default class Library extends Asset {
   static validateRules(rules, natives) {
     return new Promise((resolve) => {
       if (!rules) {
-        return resolve(natives[Library.mojangFriendlyOs()] !== null);
+        if (natives) {
+          return resolve(Library.mojangFriendlyOs() in natives);
+        }
+
+        return true;
       }
 
       rules.forEach((rule) => {
