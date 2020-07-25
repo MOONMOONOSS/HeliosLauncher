@@ -1,9 +1,12 @@
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 
+const storage = window.localStorage;
+
 const state = {
   settingsVisibility: false,
   skinVisibility: false,
   serverVisibility: false,
+  javaExe: storage.getItem('java-executable'),
 };
 
 const mutations = {
@@ -15,6 +18,16 @@ const mutations = {
   },
   serverVisibility(state, val) {
     state.serverVisibility = val;
+  },
+  setJavaExe(state, val) {
+    state.javaExe = val;
+
+    if (!val) {
+      storage.removeItem('java-executable');
+      return;
+    }
+
+    storage.setItem('java-executable', val);
   },
 };
 
@@ -28,6 +41,7 @@ const getters = {
 
     return JSON.parse(data);
   },
+  selectedJavaExe: (state) => state.javaExe,
 };
 
 const actions = {

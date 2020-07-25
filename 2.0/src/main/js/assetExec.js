@@ -12,6 +12,11 @@ export default class AssetExec {
     process.on('message', (msg) => {
       switch (msg.context) {
         case 'validate-java':
+          process.send({
+            context: 'status-msg',
+            data: 'Searching for Java',
+          });
+
           new JavaGuard('1.14').validateJava(this.tracker.commonPath)
             .then((jGuard) => {
               if (jGuard && jGuard !== '') {
@@ -27,8 +32,26 @@ export default class AssetExec {
               }
             });
           break;
+        case 'validate-pack':
+          process.send({
+            context: 'status-msg',
+            data: 'Getting Pack Info',
+          });
+
+          this.tracker.validateEverything(msg.server)
+            .then((obj) => {
+              process.send({
+                context: 'finished',
+                data: obj,
+              });
+            });
+          break;
+        case 'disconnect':
+          process.exit(0);
+          break;
         default:
-          console.warn(`Unknown context: ${msg.context}`);
+          console.warn(`Unknown context in AssetExec: ${msg.context}`);
+          console.dir(msg);
       }
     });
 
@@ -43,6 +66,7 @@ export default class AssetExec {
     console.log('Listeners assigned.');
 
     this.tracker.on('validate', (data) => {
+      console.dir(data);
       process.send({
         context: 'validate',
         data,

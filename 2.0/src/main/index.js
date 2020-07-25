@@ -152,10 +152,6 @@ ipcMain.on('discord-oauth', async (ev) => {
 });
 
 ipcMain.on('java-scan', (ev) => {
-  ev.reply('launch-text', 'Please wait...');
-  ev.reply('launch-button', false); // Disables the launcher button
-  ev.reply('launch-progress', 0);
-
   const forkEnv = JSON.parse(JSON.stringify(process.env));
   forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
 
@@ -185,7 +181,14 @@ ipcMain.on('java-scan', (ev) => {
 
   p.on('message', (msg) => {
     switch (msg.context) {
+      case 'status-msg':
+        ev.reply('launch-status', msg.data);
+        break;
       case 'java-status':
+        p.send({
+          context: 'disconnect',
+        });
+
         ev.reply('java-status', msg);
         break;
       default:
@@ -195,6 +198,52 @@ ipcMain.on('java-scan', (ev) => {
 
   p.send({
     context: 'validate-java',
+  });
+});
+
+ipcMain.on('start-game', (ev, data) => {
+  const forkEnv = JSON.parse(JSON.stringify(process.env));
+  forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
+
+  // Fork a process to run validations
+  const p = ChildProcess.fork(
+    path.join(__dirname, './js/assetExecWrapper.cjs'),
+    [
+      `${app.getPath('userData')}`,
+      data.javaExe,
+    ],
+    {
+      env: forkEnv,
+      stdio: 'pipe',
+    },
+  );
+
+  p.stdout.on('data', (data) => {
+    console.log(data.toString());
+  });
+
+  p.stderr.on('data', (data) => {
+    console.error(data.toString());
+  });
+
+  p.on('close', (code) => {
+    console.log(`AssetGuard exited with code ${code}`);
+  });
+
+  p.on('message', (msg) => {
+    switch (msg.context) {
+      case 'status-msg':
+        ev.reply('launch-status', msg.data);
+        break;
+      default:
+        console.warn(`Unknown context in start-game: ${msg.context}`);
+        console.dir(msg);
+    }
+  });
+
+  p.send({
+    context: 'validate-pack',
+    server: data.server,
   });
 });
 

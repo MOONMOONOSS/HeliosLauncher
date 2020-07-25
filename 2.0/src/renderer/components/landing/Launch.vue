@@ -47,11 +47,16 @@ export default {
     numPlayers: 0,
     maxPlayers: 0,
     serverIntervalId: null,
+    statusText: '',
   }),
   computed: {
-    ...mapGetters('Landing', ['serverStatus']),
+    ...mapGetters('Landing', [
+      'serverStatus',
+      'selectedJavaExe',
+    ]),
     ...mapGetters('Distribution', [
       'selectedServer',
+      'selectedServerId',
       'selectedServerName',
       'selectedServerAddress',
       'selectedServerPort',
@@ -68,12 +73,22 @@ export default {
       this.serverIntervalId = window.setInterval(this.updatePlayerCount, 30000);
 
       ipcRenderer.on('java-status', (_ev, data) => {
-        console.dir(data);
+        if (data && data.data !== false) {
+          this.setJavaExe(data.data);
+          this.validateAndLaunch();
+        }
+      });
+
+      ipcRenderer.on('launch-status', (_ev, data) => {
+        this.statusText = data;
       });
     });
   },
   methods: {
-    ...mapMutations('Landing', ['serverVisibility']),
+    ...mapMutations('Landing', [
+      'serverVisibility',
+      'setJavaExe',
+    ]),
     async updatePlayerCount() {
       const status = await this.serverStatus({
         address: this.selectedServerAddress,
@@ -84,6 +99,12 @@ export default {
     },
     playGame() {
       ipcRenderer.send('java-scan');
+    },
+    validateAndLaunch() {
+      ipcRenderer.send('start-game', {
+        server: this.selectedServerId,
+        javaExe: this.selectedJavaExe,
+      });
     },
   },
 };
