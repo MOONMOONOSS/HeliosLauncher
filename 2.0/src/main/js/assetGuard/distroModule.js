@@ -1,5 +1,3 @@
-// @flow
-
 import GameAsset from './gameAsset';
 
 /**
