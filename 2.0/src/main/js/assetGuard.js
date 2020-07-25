@@ -330,8 +330,9 @@ export default class AssetGuard extends EventEmitter {
             reject(Error(res.statusText));
           }
 
-          const manifest = res.json();
-
+          return res.json();
+        })
+        .then((manifest) => {
           manifest.versions.forEach((ver) => {
             if (ver.id === version) {
               resolve(ver.url);
@@ -363,7 +364,7 @@ export default class AssetGuard extends EventEmitter {
         // eslint-disable-next-line no-console
         console.log(`Download ${versionData.id} asset index.`);
         fs.ensureDirSync(indexPath);
-        const stream = fetchNode(assetIndex.url)
+        fetchNode(assetIndex.url)
           .then((res) => {
             if (res.status !== 200) {
               reject(Error(res.statusText));
@@ -371,17 +372,18 @@ export default class AssetGuard extends EventEmitter {
 
             const dest = fs.createWriteStream(assetIndexLoc);
 
-            return res.body.pipe(dest);
+            res.body.pipe(dest);
+
+            dest.on('finish', () => {
+              const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
+              this.assetChainValidateAssets(data)
+                .then(() => resolve());
+            });
           });
-        stream.on('finish', () => {
-          const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
-          this.assetChainValidateAssets(versionData, data)
-            .then(() => resolve());
-        });
       }
 
       const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
-      this.assetChainValidateAssets(versionData, data)
+      this.assetChainValidateAssets(data)
         .then(() => resolve());
     });
   }
@@ -390,12 +392,11 @@ export default class AssetGuard extends EventEmitter {
    * Used to chain the asset validation process. This function processes
    * the assets and enqueues missing or invalid files.
    *
-   * @param {Object} versionData
    * @param {Object} indexData
    * @returns {Promise<void>} An empty promise to indicate the async processing has completed.
    * @memberof AssetGuard
    */
-  assetChainValidateAssets(versionData, indexData) {
+  assetChainValidateAssets(indexData) {
     return new Promise((resolve) => {
       const localPath = path.join(this.commonPath, 'assets');
       const objectPath = path.join(localPath, 'objects');
@@ -410,7 +411,7 @@ export default class AssetGuard extends EventEmitter {
 
         this.emit('progress', 'assets', acc, total);
 
-        const { hash } = value.hash;
+        const { hash } = value;
         const assetName = path.join(hash.substring(0, 2), hash);
         const urlName = `${hash.substring(0, 2)}/${hash}`;
         const ast = new GameAsset(
@@ -597,19 +598,20 @@ export default class AssetGuard extends EventEmitter {
             console.log(`Preparing download of ${version} assets.`);
             fs.ensureDirSync(versionPath);
 
-            const stream = fetchNode(url)
+            fetchNode(url)
               .then((res) => {
                 const dest = fs.createWriteStream(versionFile);
 
+                dest.on('finish', () => {
+                  resolve(JSON.parse(fs.readFileSync(versionFile)));
+                });
+
                 return res.body.pipe(dest);
               });
-            stream.on('finish', () => {
-              resolve(JSON.parse(fs.readFileSync(versionFile)));
-            });
           });
+      } else {
+        resolve(JSON.parse(fs.readFileSync(versionFile)));
       }
-
-      resolve(JSON.parse(fs.readFileSync(versionFile)));
     });
   }
 
@@ -744,8 +746,8 @@ export default class AssetGuard extends EventEmitter {
 
         fetchNode(asset.from)
           .then((res) => {
-            if (res.code === 200) {
-              const contentLength = parseInt(res.headers['content-length'], 10);
+            if (res.ok) {
+              const contentLength = parseInt(res.headers.get('content-length'), 10);
 
               let doHashCheck = false;
 
@@ -915,26 +917,29 @@ export default class AssetGuard extends EventEmitter {
 
       async.eachLimit(libArr, 5, (lib, cb) => {
         if (Library.validateRules(lib.rules, lib.natives)) {
-          const artifact = (lib.natives)
+          const artifact = (typeof lib.natives === 'undefined')
             ? lib.downloads.artifact
             : lib.downloads.classifiers[
-              lib.natives[
+              String(lib.natives[
                 Library.mojangFriendlyOs()
               // eslint-disable-next-line no-template-curly-in-string
-              ].replace('${arch}', process.arch.replace('x', ''))
+              ]).replace('${arch}', process.arch.replace('x', ''))
             ];
-          const libItm = new Library(
-            lib.name,
-            artifact.sha1,
-            artifact.size,
-            artifact.url,
-            path.join(libPath, artifact.path),
-          );
 
-          if (!AssetGuard.validateLocal(libItm.to, 'sha1', libItm.hash)) {
-            dlSize += (libItm.size * 1);
+          if (artifact) {
+            const libItm = new Library(
+              lib.name,
+              artifact.sha1,
+              artifact.size,
+              artifact.url,
+              path.join(libPath, artifact.path),
+            );
 
-            libDlQueue.push(libItm);
+            if (!AssetGuard.validateLocal(libItm.to, 'sha1', libItm.hash)) {
+              dlSize += (libItm.size * 1);
+
+              libDlQueue.push(libItm);
+            }
           }
         }
 
@@ -1003,34 +1008,28 @@ export default class AssetGuard extends EventEmitter {
    * @memberof AssetGuard
    */
   async validateEverything(serverId) {
-    try {
-      const distroIndex = await DistroManager.pullRemote(this.commonPath);
-      const server = distroIndex.getServer(serverId);
+    const distroIndex = await DistroManager.pullRemote(this.commonPath);
+    const server = distroIndex.getServer(serverId);
 
-      // This is the validate everything part :)
-      await this.validateDistribution(server);
-      this.emit('validate', 'distribution');
-      const versionData = await this.loadVersionData(server.minecraftVersion);
-      this.emit('validate', 'version');
-      await this.validateAssets(versionData);
-      this.emit('validate', 'assets');
-      await this.validateLibraries(versionData);
-      this.emit('validate', 'libraries');
-      await this.validateMiscellaneous(versionData);
-      this.emit('validate', 'files');
-      await this.processDlQueues();
-      const forgeData = await this.loadForgeData(server);
+    // This is the validate everything part :)
+    await this.validateDistribution(server);
+    this.emit('validate', 'distribution');
+    const versionData = await this.loadVersionData(server.minecraftVersion);
+    this.emit('validate', 'version');
+    await this.validateAssets(versionData);
+    this.emit('validate', 'assets');
+    await this.validateLibraries(versionData);
+    this.emit('validate', 'libraries');
+    await this.validateMiscellaneous(versionData);
+    this.emit('validate', 'files');
+    await this.processDlQueues();
+    const forgeData = await this.loadForgeData(server);
 
-      return {
-        versionData,
-        forgeData,
-      };
-    } catch (err) {
-      return {
-        versionData: null,
-        forgeData: null,
-        error: err,
-      };
-    }
+    return {
+      versionData,
+      forgeData,
+      distroIndex,
+      server,
+    };
   }
 }
