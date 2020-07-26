@@ -13,13 +13,10 @@ import { mapActions, mapGetters } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 
-const storage = window.localStorage;
-
 export default {
   name: 'Launcher',
   components: { FrameBar },
   computed: {
-    ...mapGetters('Route', ['firstLaunch']),
     ...mapGetters('Landing', [
       'isSettingsOpen',
       'isSkinEditOpen',
@@ -27,23 +24,6 @@ export default {
     ]),
   },
   mounted() {
-    // Set first launch property if not present
-    // Suppresses the welcome screen
-    try {
-      storage.setItem('first-launch', 'false');
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn('Unable to access site storage!');
-    }
-
-    // Redirect to login screen if not first launch
-    if (
-      this.$router.currentRoute.name === 'welcome-page'
-      && !this.firstLaunch
-    ) {
-      this.$router.push({ name: 'minecraft-login' });
-    }
-
     this.$nextTick(async () => {
       this.pullDistro();
 

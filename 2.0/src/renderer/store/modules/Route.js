@@ -1,16 +1,16 @@
 const storage = window.localStorage;
 
-const firstLaunch = storage.getItem('first-launch');
+const firstLaunch = storage.getItem('has-launched');
 
 const state = {
-  firstLaunch: (firstLaunch === 'true' || !firstLaunch),
+  firstLaunch,
 };
 
 const mutations = {
 };
 
 const getters = {
-  firstLaunch: (state) => state.firstLaunch,
+  hasLaunched: (state) => state.firstLaunch,
 };
 
 const actions = {

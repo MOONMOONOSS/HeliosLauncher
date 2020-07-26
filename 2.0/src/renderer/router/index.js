@@ -44,9 +44,6 @@ export default new Router({
       path: '/',
       name: 'welcome-page',
       component: Welcome,
-      meta: {
-        firstLaunchOnly: true,
-      },
     },
     {
       path: '/login',

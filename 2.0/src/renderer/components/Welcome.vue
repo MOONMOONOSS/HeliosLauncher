@@ -28,9 +28,35 @@
 
 <script>
 import {remote} from 'electron'; // eslint-disable-line
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'WelcomePage',
+  beforeRouteEnter(to, from, next) {
+    if (window.localStorage.getItem('has-launched')) {
+      next({ name: 'minecraft-login' });
+    } else {
+      next();
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    try {
+      window.localStorage.setItem('has-launched', 'true');
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Unable to access site storage!');
+    }
+
+    next();
+  },
+  computed: {
+    ...mapGetters('Route', ['hasLaunched']),
+  },
+  mounted() {
+    if (this.hasLaunched) {
+      this.$router.push({ name: 'minecraft-login' });
+    }
+  },
 };
 </script>
 
