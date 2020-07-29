@@ -171,4 +171,16 @@ export default class Module {
 
     this.subModules = arr;
   }
+
+  hasSubModules() {
+    return (this.subModules.length !== 0);
+  }
+
+  versionlessId() {
+    return `${this.artifactGroup}:${this.id}`;
+  }
+
+  extensionlessId() {
+    return this.id.split('@')[0];
+  }
 }
