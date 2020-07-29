@@ -35,7 +35,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'; // eslint-disable-line
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import ModItem from '@/components/landing/settings/mods/ModItem';
 import ServerItem from '@/components/landing/serverSelector/ServerItem';
@@ -53,9 +53,15 @@ export default {
       'selectedRequiredModules',
     ]),
   },
+  async mounted() {
+    await this.setOptionalDefaults();
+  },
   methods: {
     ...mapMutations('Landing', [
       'serverVisibility',
+    ]),
+    ...mapActions('Distribution', [
+      'setOptionalDefaults',
     ]),
     openServerSelect() {
       this.serverVisibility(true);

@@ -28,6 +28,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'; // eslint-disable-line
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'ModItem',
@@ -35,11 +36,34 @@ export default {
     module: Object,
   },
   data: () => ({
-    enabled: false,
+    enabled: null,
   }),
+  computed: {
+    ...mapGetters('Distribution', [
+      'optionalStatus',
+    ]),
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.updateEnableState();
+    });
+  },
   methods: {
-    toggleBtn() {
-      this.enabled = !this.enabled;
+    ...mapActions('Distribution', [
+      'setOptional',
+    ]),
+    async toggleBtn() {
+      await this.setOptional({
+        id: this.module.id,
+        enabled: !this.enabled,
+      });
+      this.updateEnableState();
+    },
+    updateEnableState() {
+      const status = this.optionalStatus(this.module.id);
+      if (status) {
+        this.enabled = this.optionalStatus(this.module.id).enabled;
+      }
     },
   },
 };
