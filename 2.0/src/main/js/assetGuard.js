@@ -736,12 +736,13 @@ export default class AssetGuard extends EventEmitter {
       async.eachLimit(dlQueue, limit || 5, (asset, cb) => {
         fs.ensureDirSync(path.join(asset.to, '..'));
 
+        let doHashCheck = false;
+
         fetchNode(asset.from)
+          // eslint-disable-next-line consistent-return
           .then((res) => {
             if (res.ok) {
               const contentLength = parseInt(res.headers.get('content-length'), 10);
-
-              let doHashCheck = false;
 
               if (contentLength !== asset.size) {
                 // eslint-disable-next-line no-console
@@ -753,38 +754,37 @@ export default class AssetGuard extends EventEmitter {
                 this.totalDlSize += contentLength;
               }
 
-              const writeStream = fs.createWriteStream(asset.to);
-              writeStream.on('close', () => {
-                if (typeof dlTracker.callback === 'function') {
-                  dlTracker.callback.apply(dlTracker, [asset, self]);
-                }
-
-                if (doHashCheck) {
-                  const hashType = asset.type ? 'md5' : 'sha1';
-                  const v = AssetGuard.validateLocal(asset.to, hashType, asset.hash);
-
-                  if (v) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Hashes match for ${asset.id}, byte mismatch is an issue in the distro index.`);
-                  } else {
-                    // eslint-disable-next-line no-console
-                    console.error(`Hashes do not match, ${asset.id} may be corrupted.`);
-                  }
-                }
-
-                cb();
-              });
-
-              res.body.pipe(writeStream);
-            } else {
-              // eslint-disable-next-line no-console
-              console.error(`Failed to download ${asset.id}(${asset.from}). Response code ${res.statusCode}`);
-
-              this.progress += asset.size * 1;
-              this.emit('progress', 'download', this.progress, this.totalDlSize);
-
-              cb();
+              return res.buffer();
             }
+            // eslint-disable-next-line no-console
+            console.error(`Failed to download ${asset.id}(${asset.from}). Response code ${res.statusCode}`);
+
+            this.progress += asset.size * 1;
+            this.emit('progress', 'download', this.progress, this.totalDlSize);
+
+            cb();
+          })
+          .then((buffer) => {
+            fs.writeFileSync(asset.to, buffer);
+
+            if (typeof dlTracker.callback === 'function') {
+              dlTracker.callback.apply(dlTracker, [asset, self]);
+            }
+
+            if (doHashCheck) {
+              const hashType = asset.type ? 'md5' : 'sha1';
+              const v = AssetGuard.validateLocal(asset.to, hashType, asset.hash);
+
+              if (v) {
+                // eslint-disable-next-line no-console
+                console.warn(`Hashes match for ${asset.id}, byte mismatch is an issue in the distro index.`);
+              } else {
+                // eslint-disable-next-line no-console
+                console.error(`Hashes do not match, ${asset.id} may be corrupted.`);
+              }
+            }
+
+            cb();
           })
           .catch((err) => {
             this.emit('error', 'download', err);
