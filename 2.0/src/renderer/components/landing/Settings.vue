@@ -13,7 +13,12 @@
         Account
       </button>
       <button>Minecraft</button>
-      <button>Mods</button>
+      <button
+        :selected="currentTab === 'ModTab'"
+        @click="currentTab = 'ModTab'"
+      >
+        Mods
+      </button>
       <button>Java</button>
       <button>Launcher</button>
       <div class="spacer" />
@@ -36,18 +41,20 @@
 import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
 import AccountTab from './settings/Account';
+import ModTab from './settings/Mods';
 
 export default {
   name: 'Settings',
   components: {
     AccountTab,
-  },
-  computed: {
-    ...mapGetters('Landing', ['isSettingsOpen']),
+    ModTab,
   },
   data: () => ({
     currentTab: 'AccountTab',
   }),
+  computed: {
+    ...mapGetters('Landing', ['isSettingsOpen']),
+  },
   methods: {
     ...mapMutations('Landing', ['settingsVisibility']),
   },
@@ -98,7 +105,7 @@ header
   background rgba(0,0,0,.85)
   display flex
   left 0
-  height 100%
+  height 100vh
   justify-content center
   padding 0 8rem
   position absolute

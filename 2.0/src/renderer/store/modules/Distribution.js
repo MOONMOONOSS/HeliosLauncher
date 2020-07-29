@@ -45,6 +45,17 @@ const getters = {
 
     return null;
   },
+  selectedModules: (state, getters) => {
+    if (getters.selectedServer) {
+      return getters.selectedServer.modules;
+    }
+
+    return [];
+  },
+  selectedRequiredModules: (state, getters) => getters.selectedModules
+    .filter((module) => module.required.required === true),
+  selectedOptionalModules: (state, getters) => getters.selectedModules
+    .filter((module) => module.required.required === false),
   selectedServerName: (state, getters) => {
     if (getters.selectedServer) {
       return getters.selectedServer.name;

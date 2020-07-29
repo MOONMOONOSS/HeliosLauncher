@@ -59,6 +59,7 @@ export default {
         accessToken,
         clientToken,
       }))
+        // eslint-disable-next-line no-console
         .then(() => console.log('Logout Success'))
         .then(() => this.minecraftReset())
         .then(() => this.discordReset())
