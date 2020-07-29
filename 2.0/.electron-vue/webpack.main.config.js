@@ -5,7 +5,7 @@ process.env.BABEL_ENV = 'main'
 const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
-
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 let mainConfig = {
@@ -82,6 +82,22 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
     new TerserPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../src/main/js/'),
+          to: path.resolve(__dirname, '../dist/electron/js/[name].[ext]'),
+        },
+        {
+          from: path.resolve(__dirname, '../src/main/js/assetGuard/'),
+          to: path.resolve(__dirname, '../dist/electron/js/assetGuard/[name].[ext]'),
+        },
+        {
+          from: path.resolve(__dirname, '../src/main/js/distribution/'),
+          to: path.resolve(__dirname, '../dist/electron/js/distribution/[name].[ext]'),
+        },
+      ]
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })
