@@ -363,28 +363,26 @@ export default class AssetGuard extends EventEmitter {
       if (!fs.existsSync(assetIndexLoc) || force) {
         // eslint-disable-next-line no-console
         console.log(`Download ${versionData.id} asset index.`);
-        fs.ensureDirSync(indexPath);
+        fs.ensureFileSync(assetIndexLoc);
         fetchNode(assetIndex.url)
           .then((res) => {
             if (res.status !== 200) {
               reject(Error(res.statusText));
             }
 
-            const dest = fs.createWriteStream(assetIndexLoc);
+            return res.json();
+          })
+          .then((res) => {
+            fs.writeFileSync(assetIndexLoc, JSON.stringify(res));
 
-            res.body.pipe(dest);
-
-            dest.on('finish', () => {
-              const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
-              this.assetChainValidateAssets(data)
-                .then(() => resolve());
-            });
+            this.assetChainValidateAssets(res)
+              .then(() => resolve());
           });
+      } else {
+        const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
+        this.assetChainValidateAssets(data)
+          .then(() => resolve());
       }
-
-      const data = JSON.parse(fs.readFileSync(assetIndexLoc, 'utf-8'));
-      this.assetChainValidateAssets(data)
-        .then(() => resolve());
     });
   }
 
