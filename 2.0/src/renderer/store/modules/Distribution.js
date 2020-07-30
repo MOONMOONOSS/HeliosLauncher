@@ -9,6 +9,7 @@ const state = {
   distribution: null,
   selectedServer: storage.getItem('selected-server'),
   optionalMods: StateHelpers.getJsonObj('optional-mod-prefs') || [],
+  error: null,
 };
 
 const mutations = {
@@ -54,6 +55,9 @@ const mutations = {
   saveOptionals(state) {
     StateHelpers.setJsonObj('optional-mod-prefs', state.optionalMods);
   },
+  setError(state, val) {
+    state.error = val;
+  },
 };
 
 const getters = {
@@ -78,32 +82,32 @@ const getters = {
 
     return null;
   },
-  selectedModules: (state, getters) => {
+  selectedModules: (_state, getters) => {
     if (getters.selectedServer) {
       return getters.selectedServer.modules;
     }
 
     return [];
   },
-  selectedRequiredModules: (state, getters) => getters.selectedModules
+  selectedRequiredModules: (_state, getters) => getters.selectedModules
     .filter((module) => module.required.required === true),
-  selectedOptionalModules: (state, getters) => getters.selectedModules
+  selectedOptionalModules: (_state, getters) => getters.selectedModules
     .filter((module) => module.required.required === false),
-  selectedServerName: (state, getters) => {
+  selectedServerName: (_state, getters) => {
     if (getters.selectedServer) {
       return getters.selectedServer.name;
     }
 
     return '';
   },
-  selectedServerId: (state, getters) => {
+  selectedServerId: (_state, getters) => {
     if (getters.selectedServer) {
       return getters.selectedServer.id;
     }
 
     return '';
   },
-  selectedServerAddress: (state, getters) => {
+  selectedServerAddress: (_state, getters) => {
     if (getters.selectedServer) {
       const s = getters.selectedServer.address.split(':');
       return s[0];
@@ -111,7 +115,7 @@ const getters = {
 
     return '';
   },
-  selectedServerPort: (state, getters) => {
+  selectedServerPort: (_state, getters) => {
     if (getters.selectedServer) {
       const s = getters.selectedServer.address.split(':');
       return Number(s[1]);
@@ -135,7 +139,28 @@ const getters = {
 const actions = {
   pullDistro({ commit }) {
     ipcRenderer.invoke('distro-pull')
-      .then((data) => commit('distribution', data));
+      .then((data) => commit('distribution', data))
+      .catch((err) => {
+        if (err && err.code) {
+          switch (err.code) {
+            case 'ENOTFOUND':
+              commit('setError', 'OFFLINE');
+              break;
+            default:
+              throw new Error(err.message);
+          }
+        }
+
+        if (err && err.type) {
+          switch (err.type) {
+            case 'request-timeout':
+              commit('setError', 'TIMEDOUT');
+              break;
+            default:
+              throw new Error(err.message);
+          }
+        }
+      });
   },
   setOptionalDefaults({ commit, getters, state }) {
     return new Promise((resolve) => {
