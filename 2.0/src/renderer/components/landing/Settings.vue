@@ -12,7 +12,12 @@
       >
         Account
       </button>
-      <button>Minecraft</button>
+      <button
+        :selected="currentTab === 'MinecraftTab'"
+        @click="currentTab = 'MinecraftTab'"
+      >
+        Minecraft
+      </button>
       <button
         :selected="currentTab === 'ModTab'"
         @click="currentTab = 'ModTab'"
@@ -41,12 +46,14 @@
 import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
 import AccountTab from './settings/Account';
+import MinecraftTab from './settings/Minecraft';
 import ModTab from './settings/Mods';
 
 export default {
   name: 'Settings',
   components: {
     AccountTab,
+    MinecraftTab,
     ModTab,
   },
   data: () => ({
