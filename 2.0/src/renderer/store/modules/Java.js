@@ -1,9 +1,17 @@
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 
+import StateHelper from '../stateHelpers';
+
 const storage = window.localStorage;
 
 const state = {
   javaExe: storage.getItem('java-executable'),
+  jvmOptions: StateHelper.getJsonObj('jvm-opts') || [
+    '-XX:+UseConcMarkSweepGC',
+    '-XX:+CMSIncrementalMode',
+    '-XX:-UseAdaptiveSizePolicy',
+    '-Xmn128M',
+  ],
 };
 
 const mutations = {
@@ -31,6 +39,7 @@ const getters = {
 
     return details;
   },
+  jvmOptions: (state) => state.jvmOptions,
   totalMemory: () => async () => {
     const memory = await ipcRenderer.invoke('total-memory');
 
