@@ -8,21 +8,11 @@
         {{ module.artifactVersion }}
       </div>
     </div>
-    <div
+    <SliderButton
       v-if="!module.required.required"
-      class="buttonContainer"
-      @click="toggleBtn()"
-    >
-      <label
-        class="modButton"
-        :checked="enabled"
-      >
-        <span
-          class="slider"
-          :checked="enabled"
-        />
-      </label>
-    </div>
+      :checked="enabled"
+      @toggle="toggleBtn()"
+    />
   </div>
 </template>
 
@@ -30,8 +20,13 @@
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 import { mapActions, mapGetters } from 'vuex';
 
+import SliderButton from '../general/SliderButton';
+
 export default {
   name: 'ModItem',
+  components: {
+    SliderButton,
+  },
   props: {
     module: Object,
   },
@@ -70,22 +65,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.buttonContainer
-  display inline-flex
-
-.modButton
-  align-self center
-  background-color rgba(255,255,255,.35)
-  border 1px solid rgba(126,126,126,.57)
-  border-radius 50px
-  height 20px
-  width 40px
-  &[checked]
-    background-color rgb(31,140,11)
-    border 1px solid rgb(31,140,11)
-  &:hover
-    cursor pointer
-
 .modItem
   border-radius 5px
   display flex
@@ -105,19 +84,4 @@ export default {
 .modVersion
   color gray
   font-size 12px
-
-.slider
-  &[checked]
-    &::before
-      transform translateX(20px)
-  &::before
-    background-color white
-    border-radius 50px
-    box-shadow 0 1px 2px 0 rgba(0,0,0,.75)
-    content ""
-    display inline-flex
-    height 13px
-    transform translateX(5px)
-    transition .4s ease
-    width 16px
 </style>
