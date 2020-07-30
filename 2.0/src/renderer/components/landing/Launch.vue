@@ -22,7 +22,7 @@
     >
       <button
         id="play"
-        @click="validate()"
+        @click="playGame()"
       >
         PLAY
       </button>
@@ -75,7 +75,7 @@ export default {
       ipcRenderer.on('java-status', (_ev, data) => {
         if (data && data.data !== false) {
           this.setJavaExe(data.data);
-          this.validateAndLaunch();
+          this.validate();
         }
       });
 
