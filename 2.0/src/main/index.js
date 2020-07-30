@@ -1,6 +1,7 @@
 import ChildProcess from 'child_process';
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 
 import JavaGuard from './js/assetGuard/javaGuard';
@@ -343,3 +344,7 @@ ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve, reject) =
       reject(Error('Invalid path to Java'));
     });
 }));
+
+ipcMain.handle('total-memory', () => (Number(os.totalmem() - 1_000_000_000) / 1_000_000_000).toFixed(1));
+
+ipcMain.handle('avail-memory', () => (Number(os.freemem() - 1_000_000_000) / 1_000_000_000).toFixed(1));

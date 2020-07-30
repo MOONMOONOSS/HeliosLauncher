@@ -33,5 +33,6 @@
     "@babel/transform-runtime",
     "@babel/plugin-proposal-function-bind",
     "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-syntax-numeric-separator"
   ]
 }

@@ -31,6 +31,16 @@ const getters = {
 
     return details;
   },
+  totalMemory: () => async () => {
+    const memory = await ipcRenderer.invoke('total-memory');
+
+    return memory;
+  },
+  availableMemory: () => async () => {
+    const memory = await ipcRenderer.invoke('avail-memory');
+
+    return memory;
+  },
 };
 
 const actions = {
