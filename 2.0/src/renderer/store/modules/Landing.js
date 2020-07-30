@@ -42,6 +42,16 @@ const getters = {
     return JSON.parse(data);
   },
   selectedJavaExe: (state) => state.javaExe,
+  javaDetails: (_state, getters, _rootState, rootGetters) => async () => {
+    const details = await ipcRenderer.invoke('java-details', {
+      exe: getters.selectedJavaExe,
+      mcVersion: rootGetters['Distribution/selectedServer'].minecraftVersion,
+    });
+
+    console.dir(details);
+
+    return details;
+  },
 };
 
 const actions = {
