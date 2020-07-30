@@ -86,6 +86,8 @@ input
 
 summary
   margin-bottom 20px
+  // I am no longer asking
+  padding-top 0 !important
 
 .col
   display flex
