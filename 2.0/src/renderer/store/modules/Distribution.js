@@ -1,38 +1,14 @@
 import { ipcRenderer } from 'electron'; // eslint-disable-line
 import Vue from 'vue';
 
+import StateHelpers from '../stateHelpers';
+
 const storage = window.localStorage;
-
-/**
- * Attempts to retrieve and decode a Base64
- * encoded JSON object in LocalStorage.
- *
- * @param {string} key The key to look up in LocalStorage
- * @private
- * @returns {?Array<Object>} The JSON Object, if found
- */
-function getJsonObj(key) {
-  if (!key) {
-    // eslint-disable-next-line no-console
-    console.warn('Attempted to look up a key with an undefined value');
-    return null;
-  }
-
-  const data = storage.getItem(key);
-  if (data) {
-    const buff = Buffer.from(data).toString();
-    const b64 = window.atob(buff);
-
-    return JSON.parse(b64);
-  }
-
-  return null;
-}
 
 const state = {
   distribution: null,
   selectedServer: storage.getItem('selected-server'),
-  optionalMods: getJsonObj('optional-mod-prefs') || [],
+  optionalMods: StateHelpers.getJsonObj('optional-mod-prefs') || [],
 };
 
 const mutations = {
@@ -76,11 +52,7 @@ const mutations = {
     Vue.set(state, 'optionalMods', newObj);
   },
   saveOptionals(state) {
-    // Save our new properties to LocalStorage
-    const data = JSON.stringify(state.optionalMods);
-    const b64 = window.btoa(data);
-
-    storage.setItem('optional-mod-prefs', b64);
+    StateHelpers.setJsonObj('optional-mod-prefs', state.optionalMods);
   },
 };
 
