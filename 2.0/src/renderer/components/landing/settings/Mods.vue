@@ -98,7 +98,7 @@ header
 #mod
   box-shadow 0 -5px 5px 0 black
   display block
-  height calc(100vh - 8rem)
+  max-height calc(100vh - 8rem)
   overflow-y auto
 
 #sticky
