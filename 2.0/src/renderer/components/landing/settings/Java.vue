@@ -58,16 +58,73 @@
       </div>
     </div>
     <div class="spacer header item" />
-    <div
-      id="java"
-      class="header col item"
-    >
+    <div class="header col item">
       Java Executable
+    </div>
+    <div class="col item">
+      <div
+        v-if="javaDeets"
+      >
+        <div id="java-version">
+          Selected: Java
+          {{ `${javaDeets.version.major} Update ${javaDeets.version.update} (x${javaDeets.arch})` }}
+        </div>
+        <div class="row">
+          <div class="coffee-container">
+            <img
+              src="static/svg/coffee.svg"
+              type="image/svg+xml"
+            >
+          </div>
+          <input
+            class="java-path"
+            type="text"
+            :value="selectedJavaExe"
+            disabled
+          >
+          <button>Choose File</button>
+        </div>
+      </div>
+      <div
+        v-else
+        id="java-error"
+      >
+        Java not detected
+      </div>
+    </div>
+    <div class="spacer header item" />
+    <div class="header col item">
+      Additional JVM Options
+    </div>
+    <div class="col item">
+      <div class="row">
+        <div class="coffee-container">
+          <img
+            src="static/svg/coffee.svg"
+            type="image/svg+xml"
+          >
+        </div>
+        <input
+          class="java-path"
+          type="text"
+          spellcheck="false"
+          :value="jvmOptions.join(' ')"
+        >
+      </div>
+      <div class="args-text">
+        Options to be provided to the Java Virtual Machine at runtime.
+        -Xms and -Xmx should not be included.<br>
+        <a @click="openLink('https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html')">
+          Available Options for Java 8
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-return-assign */
+import { shell } from 'electron'; // eslint-disable-line
 import { mapActions, mapGetters } from 'vuex';
 
 import RangeSlider from './general/RangeSlider';
@@ -77,17 +134,25 @@ export default {
   components: {
     RangeSlider,
   },
+  data: () => ({
+    javaDeets: null,
+  }),
   computed: {
     ...mapGetters('Java', [
       'totalMemory',
       'availableMemory',
       'minRam',
       'maxRam',
+      'javaDetails',
+      'jvmOptions',
+      'selectedJavaExe',
     ]),
   },
   mounted() {
-    this.$nextTick(() => {
+    this.$nextTick(async () => {
       this.initSliders();
+
+      this.javaDeets = await this.javaDetails();
     });
   },
   methods: {
@@ -126,19 +191,21 @@ export default {
         ((this.minRam - sliderMeta.min) / sliderMeta.step) * sliderMeta.inc,
       );
     },
+    openLink(url) {
+      shell.openExternal(url);
+    },
   },
 };
 </script>
 
 <style scoped lang="stylus">
 button
-  background none
-  border 2px solid rgb(241, 55, 55)
-  border-radius 5px
-  color rgb(241, 55, 55)
+  background rgba(126,126,126,.57)
+  border none
+  border-radius 0 3px 3px 0
+  color white
   transition .85s ease
   &:hover, &:focus
-    box-shadow 0 0 20px rgb(241, 55, 55)
     cursor pointer
     outline none
 
@@ -146,10 +213,13 @@ header
   font-size 20px
   font-weight 900
 
+img
+  width 20px
+  -webkit-user-drag none
+
 input
   background rgba(0,0,0,.25)
   border 1px solid rgba(126,126,126,.57)
-  border-radius 3px
   color white
   font-family 'Avenir Book'
   padding 8px 5px
@@ -167,8 +237,24 @@ summary
 .align-center
   align-items center
 
+.args-text
+  font-size 12px
+  font-weight 900
+  margin-top 15px
+  a
+    color grey
+    cursor pointer
+    text-decoration underline
+
 .flex
   display flex
+
+.coffee-container
+  background rgba(126,126,126,.57)
+  border-radius 3px 0 0 3px
+  display flex
+  padding 5px
+  transition .25s ease
 
 .col
   @extend .flex
@@ -208,7 +294,15 @@ summary
 
 .spacer
   margin-top 10px
-  width 100%
+  width unset
+
+.java-path
+  flex-grow 1
+
+#java-version
+  color grey
+  font-size 12px
+  font-weight 900
 
 #memory
   justify-content space-evenly

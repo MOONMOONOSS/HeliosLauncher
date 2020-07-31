@@ -45,8 +45,6 @@ const getters = {
       mcVersion: rootGetters['Distribution/selectedServer'].minecraftVersion,
     });
 
-    console.dir(details);
-
     return details;
   },
   jvmOptions: (state) => state.jvmOptions,
