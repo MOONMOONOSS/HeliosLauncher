@@ -71,6 +71,11 @@ export default {
       'maxRam',
     ]),
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initSliders();
+    });
+  },
   methods: {
     ...mapActions('Java', [
       'setMinRam',
@@ -89,6 +94,23 @@ export default {
       if (data.value < this.minRam) {
         this.$children[1].updateRangedSlider(data.value, data.notch);
       }
+    },
+    initSliders() {
+      const { slider } = this.$children[0].$refs;
+      const { attributes } = slider;
+      const sliderMeta = this.$children[0].calculateRangeSliderMeta(attributes);
+
+      // Max RAM
+      this.$children[0].updateRangedSlider(
+        this.maxRam,
+        ((this.maxRam - sliderMeta.min) / sliderMeta.step) * sliderMeta.inc,
+      );
+
+      // Min RAM
+      this.$children[1].updateRangedSlider(
+        this.minRam,
+        ((this.minRam - sliderMeta.min) / sliderMeta.step) * sliderMeta.inc,
+      );
     },
   },
 };
