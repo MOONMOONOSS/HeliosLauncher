@@ -31,6 +31,13 @@
             @change="updateMinRam"
           />
         </div>
+        <div
+          id="memory-info"
+          class="col"
+        >
+          The minimum RAM required to use MOON2 Launcher is 3GB. Setting
+          the minimum and maximum values to the same value may reduce lag.
+        </div>
       </div>
       <div
         id="memory"
@@ -49,6 +56,13 @@
           <div>{{ availableMemory }} GB</div>
         </div>
       </div>
+    </div>
+    <div class="spacer header item" />
+    <div
+      id="java"
+      class="header col item"
+    >
+      Java Executable
     </div>
   </div>
 </template>
@@ -176,7 +190,9 @@ summary
   border-bottom 1px solid rgba(255,255,255,.5)
   font-size 16px
   margin-bottom 10px
+  min-width 20ch
   padding-bottom 5px
+  width 20%
 
 .item
   padding-left 1rem
@@ -190,8 +206,17 @@ summary
   @extend .flex
   flex-direction row
 
+.spacer
+  margin-top 10px
+  width 100%
+
 #memory
-  align-self center
+  justify-content space-evenly
+  min-width 10ch
+
+#memory-info
+  font-size 12px
+  font-weight 900
 
 #settings
   padding-top 0
