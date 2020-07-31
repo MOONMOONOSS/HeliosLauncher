@@ -345,6 +345,8 @@ ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve, reject) =
     });
 }));
 
-ipcMain.handle('total-memory', () => (Number(os.totalmem() - 1_000_000_000) / 1_000_000_000).toFixed(1));
+// eslint-disable-next-line no-return-assign
+ipcMain.on('total-memory', (ev) => ev.returnValue = (Number(os.totalmem() - 1_000_000_000) / 1_000_000_000).toFixed(1));
 
-ipcMain.handle('avail-memory', () => (Number(os.freemem() - 1_000_000_000) / 1_000_000_000).toFixed(1));
+// eslint-disable-next-line no-return-assign
+ipcMain.on('avail-memory', (ev) => ev.returnValue = (Number(os.freemem() - 1_000_000_000) / 1_000_000_000).toFixed(1));

@@ -24,8 +24,12 @@
       >
         Mods
       </button>
-      <button>Java</button>
-      <button>Launcher</button>
+      <button
+        :selected="currentTab === 'JavaTab'"
+        @click="currentTab = 'JavaTab'"
+      >
+        Java
+      </button>
       <div class="spacer" />
       <button>About</button>
       <div class="divider" />
@@ -45,9 +49,11 @@
 <script>
 import {remote, shell} from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
+
 import AccountTab from './settings/Account';
 import MinecraftTab from './settings/Minecraft';
 import ModTab from './settings/Mods';
+import JavaTab from './settings/Java';
 
 export default {
   name: 'Settings',
@@ -55,6 +61,7 @@ export default {
     AccountTab,
     MinecraftTab,
     ModTab,
+    JavaTab,
   },
   data: () => ({
     currentTab: 'AccountTab',

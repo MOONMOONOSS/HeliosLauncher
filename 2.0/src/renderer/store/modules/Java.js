@@ -40,16 +40,8 @@ const getters = {
     return details;
   },
   jvmOptions: (state) => state.jvmOptions,
-  totalMemory: () => async () => {
-    const memory = await ipcRenderer.invoke('total-memory');
-
-    return memory;
-  },
-  availableMemory: () => async () => {
-    const memory = await ipcRenderer.invoke('avail-memory');
-
-    return memory;
-  },
+  totalMemory: () => ipcRenderer.sendSync('total-memory'),
+  availableMemory: () => ipcRenderer.sendSync('avail-memory'),
 };
 
 const actions = {
