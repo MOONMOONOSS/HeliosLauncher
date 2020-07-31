@@ -1,5 +1,8 @@
 <template>
-  <div class="col">
+  <div
+    id="java"
+    class="col"
+  >
     <header>JVM Settings (Advanced)</header>
     <summary>
       Options related to the Java Virtual Machine.
@@ -298,6 +301,11 @@ summary
 
 .java-path
   flex-grow 1
+
+#java
+  display block
+  max-height calc(100vh - 8rem)
+  overflow-y auto
 
 #java-version
   color grey
