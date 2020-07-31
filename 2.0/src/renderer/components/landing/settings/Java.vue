@@ -60,7 +60,6 @@
         </div>
       </div>
     </div>
-    <div class="spacer header item" />
     <div class="header col item">
       Java Executable
     </div>
@@ -95,7 +94,6 @@
         Java not detected
       </div>
     </div>
-    <div class="spacer header item" />
     <div class="header col item">
       Additional JVM Options
     </div>
@@ -278,7 +276,7 @@ summary
 .header
   border-bottom 1px solid rgba(255,255,255,.5)
   font-size 16px
-  margin-bottom 10px
+  margin 10px 0
   min-width 20ch
   padding-bottom 5px
   width 20%
@@ -295,10 +293,6 @@ summary
   @extend .flex
   flex-direction row
 
-.spacer
-  margin-top 10px
-  width unset
-
 .java-path
   flex-grow 1
 
@@ -306,6 +300,8 @@ summary
   display block
   max-height calc(100vh - 8rem)
   overflow-y auto
+  div:first-child
+    margin-top 0
 
 #java-version
   color grey
