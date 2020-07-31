@@ -63,6 +63,11 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'SkinEditor',
+  data: () => ({
+    filePicked: false,
+    blobbedContents: null,
+    fileName: null,
+  }),
   computed: {
     ...mapGetters('Account', [
       'accessToken',
@@ -80,11 +85,6 @@ export default {
       return 'static/img/UnknownSkin.png';
     },
   },
-  data: () => ({
-    filePicked: false,
-    blobbedContents: null,
-    fileName: null,
-  }),
   methods: {
     ...mapMutations('Account', ['skinChangeTime']),
     ...mapMutations('Landing', ['skinVisibility']),
@@ -117,6 +117,7 @@ export default {
             this.closeWindow();
             this.skinChangeTime(Date.now());
           })
+          // eslint-disable-next-line no-console
           .catch((err) => console.error('Failed to upload skin!', err));
       }
     },
