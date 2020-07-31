@@ -57,7 +57,7 @@ export default {
       return val;
     },
     updateRangedSlider(value, notch) {
-      const { slider, track } = this.$refs;
+      const { slider, track, bar } = this.$refs;
 
       if (this.curValue && this.curValue !== value) {
         this.curValue = value;
@@ -75,6 +75,7 @@ export default {
       }
 
       track.style.left = `${notch}%`;
+      bar.style.width = `${notch}%`;
     },
     trackMouseDown() {
       /**
@@ -154,6 +155,7 @@ export default {
 .slider-bar
   background #8be88b
   height 5px
+  transition width .85s ease
 
 .slider-container
   @extends .space-between, .align-center
@@ -166,5 +168,6 @@ export default {
   height 20px
   position relative
   transform translateY(-12.5px)
+  transition left .2s ease
   width 7px
 </style>
