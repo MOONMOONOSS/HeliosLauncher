@@ -139,7 +139,7 @@ export default class ProcessBuilder {
       if (type === DistroTypes.ForgeMod || type === DistroTypes.FabricMod) {
         if (module.hasSubModules()) {
           const v = this.resolveModConfiguration(
-            config[module.getVersionlessId()].mods,
+            config[module.versionlessId()].mods,
             module.subModules,
           );
 
@@ -491,6 +491,7 @@ export default class ProcessBuilder {
     const mojangLibs = this.resolveMojangLibraries(tempNativePath);
 
     // Resolve the server declared libraries.
+    const servLibs = this.resolveServerLibraries(mods);
   }
 
   resolveMojangLibraries(tempNativePath) {
@@ -538,6 +539,7 @@ export default class ProcessBuilder {
             if (!shouldExclude) {
               fs.writeFile(path.join(tempNativePath, fileName), entry.getData(), (err) => {
                 if (err) {
+                  // eslint-disable-next-line no-console
                   console.error('Error while extracting native library', err);
                 }
               });
@@ -546,5 +548,46 @@ export default class ProcessBuilder {
         }
       }
     });
+  }
+
+  resolveServerLibraries(mods) {
+    const { modules } = this.server;
+    let libs = {};
+
+    // Locate Forge and Forge Libraries
+    modules.forEach((mod) => {
+      const { type } = mod;
+
+      if (type === DistroTypes.ForgeHosted || type === DistroTypes.Library) {
+        libs[mod.versionlessId()] = mod.artifact.path;
+
+        if (mod.hasSubModules()) {
+          const res = this.resolveModuleLibraries(mod);
+
+          if (res.length > 0) {
+            libs = {
+              ...libs,
+              ...res,
+            };
+          }
+        }
+      }
+    });
+
+    // Check for any libraries in our mod list.
+    if (mods.subModules) {
+      mods.forEach((mod) => {
+        const res = this.resolveModuleLibraries(mod);
+
+        if (res.length > 0) {
+          libs = {
+            ...libs,
+            ...res,
+          };
+        }
+      });
+    }
+
+    return libs;
   }
 }
