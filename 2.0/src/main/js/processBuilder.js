@@ -1,4 +1,5 @@
 import { app } from 'electron';
+import ChildProcess from 'child_process';
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import os from 'os';
@@ -78,7 +79,49 @@ export default class ProcessBuilder {
       this.constructModList(DistroTypes.ForgeMod, modArr, true);
     }
 
-    const args = this;
+    let args = this.constructJvmArgs(this.modConfig, tempNativePath);
+
+    if (Util.mcVersionAtLeast('1.13', this.server.minecraftVersion)) {
+      args = args.concat(ProcessBuilder.constructModArgs(this.modConfig));
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('Launch Args:');
+    // eslint-disable-next-line no-console
+    console.dir(args);
+
+    const child = ChildProcess.spawn(this.javaConfig.javaExe, args, {
+      cwd: this.gameDir,
+      detached: true,
+    });
+
+    child.unref();
+
+    child.stdout.on('data', (data) => {
+      // eslint-disable-next-line no-console
+      console.log(data.toString());
+    });
+
+    child.stderr.on('data', (data) => {
+      // eslint-disable-next-line no-console
+      console.error(data.toString());
+    });
+
+    child.on('close', (code) => {
+      // eslint-disable-next-line no-console
+      console.log('Exited with code', code);
+      fs.remove(tempNativePath, (err) => {
+        if (err) {
+          // eslint-disable-next-line no-console
+          console.warn('Could not delete temp dir', err);
+        } else {
+          // eslint-disable-next-line no-console
+          console.log('Temp dir deleted successfully');
+        }
+      });
+    });
+
+    return child;
   }
 
   resolveModConfiguration(modCfg, modules) {
@@ -168,6 +211,22 @@ export default class ProcessBuilder {
     }
 
     return modList;
+  }
+
+  static constructModArgs(mods) {
+    const argStr = mods.map((mod) => mod.extensionlessId())
+      .join(',');
+
+    if (argStr) {
+      return [
+        '--fml.mavenRoots',
+        path.join('..', '..', 'common', 'modstore'),
+        '--fml.mods',
+        argStr,
+      ];
+    }
+
+    return [];
   }
 
   constructJvmArgs(mods, tempNativePath) {
