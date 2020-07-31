@@ -1,21 +1,26 @@
 <template>
-  <div
-    ref="slider"
-    class="range-slider"
-    :min="min"
-    :max="max"
-    :value="value"
-    step="0.5"
-  >
+  <div class="flex">
     <div
-      ref="bar"
-      class="slider-bar"
-    />
-    <div
-      ref="track"
-      class="slider-track"
-      @mousedown="trackMouseDown"
-    />
+      ref="slider"
+      class="range-slider"
+      :min="min"
+      :max="max"
+      :value="value"
+      step="0.5"
+    >
+      <div
+        ref="bar"
+        class="slider-bar"
+      />
+      <div
+        ref="track"
+        class="slider-track"
+        @mousedown="trackMouseDown"
+      />
+    </div>
+    <div class="memory-val">
+      {{ value }} GB
+    </div>
   </div>
 </template>
 
@@ -141,6 +146,16 @@ export default {
 
 .flex
   display flex
+
+.col
+  @extend .flex
+  flex-direction column
+
+.memory-val
+  align-self center
+  padding 0 1ch
+  text-align center
+  width 9ch
 
 .space-between
   @extend .flex
