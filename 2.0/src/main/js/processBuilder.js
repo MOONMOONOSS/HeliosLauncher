@@ -282,11 +282,11 @@ export default class ProcessBuilder {
     // Vanilla args
     args = args.concat(this.versionData.arguments.game);
 
-    args.forEach((argument) => {
+    args.forEach((argument, argIdx, argArr) => {
       if (typeof argument === 'object' && argument.rules) {
         let checksum = 0;
 
-        argument.rules.forEach((rule) => {
+        argument.rules.forEach((rule, ruleIdx, ruleArr) => {
           if (rule.os) {
             if (rule.os.name === Library.mojangFriendlyOS()
             && (rule.os.version ?? new RegExp(rule.os.version).test(os.release))) {
@@ -298,7 +298,7 @@ export default class ProcessBuilder {
             if (rule.features.has_custom_resolution
               && rule.features.has_custom_resolution) {
               if (this.minecraftConfig.fullScreen) {
-                rule.values = [
+                ruleArr[ruleIdx].values = [
                   '--fullscreen',
                   'true',
                 ];
@@ -311,13 +311,13 @@ export default class ProcessBuilder {
 
         if (checksum === argument.rules.length) {
           if (typeof argument.value === 'string') {
-            argument = argument.value;
+            argArr[argIdx] = argument.value;
           } else if (typeof argument.value === 'object') {
             console.warn('SPLICING LAUNCH ARGS. THINGS ARE ABOUT TO GO VERY WRONG');
             args.splice(args.indexOf(argument), 1, ...argument.value);
           }
         } else {
-          argument = null;
+          argArr[argIdx] = null;
         }
       } else if (typeof argument === 'string') {
         if (argDiscovery.test(argument)) {
@@ -376,7 +376,7 @@ export default class ProcessBuilder {
           }
 
           if (val) {
-            argument = val;
+            argArr[argIdx] = val;
           }
         }
       }
@@ -392,5 +392,90 @@ export default class ProcessBuilder {
     args = args.filter((argument) => argument);
 
     return args;
+  }
+
+  resolveForgeArgs() {
+    const mcArgs = this.forgeData.minecraftArguments.split(' ');
+    const argDiscovery = /\${*(.*)}/;
+
+    // Replace the declared variables with their proper values.
+    mcArgs.forEach((argument, idx, arr) => {
+      if (argDiscovery.text(argument)) {
+        const ident = argument.match(argDiscovery)[1];
+        let val;
+
+        switch (ident) {
+          case 'auth_player_name':
+            val = this.authUser.displayName.trim();
+            break;
+          case 'version_name':
+            val = this.server.id;
+            break;
+          case 'game_directory':
+            val = this.gameDir;
+            break;
+          case 'assets_root':
+            val = path.join(this.commonDir, 'assets');
+            break;
+          case 'assets_index_name':
+            val = this.versionData.assets;
+            break;
+          case 'auth_uuid':
+            val = this.authUser.uuid.trim();
+            break;
+          case 'auth_access_token':
+            val = this.authUser.accessToken;
+            break;
+          case 'user_type':
+            val = 'mojang';
+            break;
+          case 'user_properties': // 1.8.9 and below.
+            val = '{}';
+            break;
+          case 'version_type':
+            val = this.versionData.type;
+            break;
+          default:
+            // eslint-disable-next-line no-console
+            console.warn(`Unknown argument: ${ident}`);
+        }
+
+        if (val) {
+          arr[idx] = val;
+        }
+      }
+    });
+
+    // Autoconnect to selected server.
+    if (this.minecraftConfig.autoConnect && this.server.autoconnect) {
+      const serverUrl = new URL(`my://${this.server.address}`);
+      mcArgs.push('--server');
+      mcArgs.push(serverUrl.hostname);
+      if (serverUrl.port) {
+        mcArgs.push('--port');
+        mcArgs.push(serverUrl.port);
+      }
+    }
+
+    // Prepare game resolution
+    if (this.minecraftConfig.fullScreen) {
+      mcArgs.push('--fullscreen');
+      mcArgs.push(true);
+    } else {
+      mcArgs.push('--width');
+      mcArgs.push(this.minecraftConfig.resolution[0]);
+      mcArgs.push('--height');
+      mcArgs.push(this.minecraftConfig.resolution[1]);
+    }
+
+    // Mod List File Arg
+    mcArgs.push('--modListFile');
+    if (this.belowOneSeven()) {
+      mcArgs.push(path.basename(this.fmlDir));
+    } else {
+      mcArgs.push(`absolute:${this.fmlDir}`);
+    }
+
+    return mcArgs;
   }
 }
