@@ -6,12 +6,14 @@ const storage = window.localStorage;
 
 const state = {
   javaExe: storage.getItem('java-executable'),
-  jvmOptions: StateHelper.getJsonObj('jvm-opts') || [
+  jvmOptions: StateHelper.getJsonObj('jvm-opts') ?? [
     '-XX:+UseConcMarkSweepGC',
     '-XX:+CMSIncrementalMode',
     '-XX:-UseAdaptiveSizePolicy',
     '-Xmn128M',
   ],
+  minRam: Number(storage.getItem('java-ram-min') ?? 3),
+  maxRam: Number(storage.getItem('java-ram-max') ?? 3),
 };
 
 const mutations = {
@@ -24,6 +26,14 @@ const mutations = {
     }
 
     storage.setItem('java-executable', val);
+  },
+  setMinRam(state, val) {
+    state.minRam = Number(Number(val).toFixed(1));
+    storage.setItem('java-min-ram', String(val));
+  },
+  setMaxRam(state, val) {
+    state.maxRam = Number(Number(val).toFixed(1));
+    storage.setItem('java-max-ram', String(val));
   },
 };
 
@@ -40,11 +50,29 @@ const getters = {
     return details;
   },
   jvmOptions: (state) => state.jvmOptions,
-  totalMemory: () => ipcRenderer.sendSync('total-memory'),
-  availableMemory: () => ipcRenderer.sendSync('avail-memory'),
+  totalMemory: () => Number(ipcRenderer.sendSync('total-memory')),
+  availableMemory: () => Number(ipcRenderer.sendSync('avail-memory')),
+  minRam: (state) => state.minRam,
+  maxRam: (state) => state.maxRam,
 };
 
 const actions = {
+  setMinRam({ commit }, val) {
+    if (!val) {
+      commit('setMinRam', 3);
+      return;
+    }
+
+    commit('setMinRam', val);
+  },
+  setMaxRam({ commit }, val) {
+    if (!val) {
+      commit('setMaxRam', 3);
+      return;
+    }
+
+    commit('setMaxRam', val);
+  },
 };
 
 export default {

@@ -2,8 +2,9 @@
   <div
     ref="slider"
     class="range-slider"
-    min="3"
-    max="26"
+    :min="min"
+    :max="max"
+    :value="value"
     step="0.5"
   >
     <div
@@ -20,7 +21,21 @@
 
 <script>
 export default {
-  name: 'TabJava',
+  name: 'RangeSlider',
+  props: {
+    min: {
+      type: Number,
+      default: 3,
+    },
+    max: {
+      type: Number,
+      default: 4,
+    },
+    value: {
+      type: Number,
+      default: 3,
+    },
+  },
   emits: ['change'],
   data: () => ({
     mouseUpListener: null,
@@ -46,7 +61,10 @@ export default {
 
       if (this.curValue && this.curValue !== value) {
         this.curValue = value;
-        this.$emit('change', value);
+        this.$emit('change', {
+          notch,
+          value,
+        });
       }
       slider.setAttribute('value', value);
 

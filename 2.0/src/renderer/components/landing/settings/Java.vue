@@ -14,9 +14,20 @@
       <div class="col">
         <div class="col">
           <div>Maximum RAM</div>
-          <RangeSlider />
+          <RangeSlider
+            :max="availableMemory"
+            :value="maxRam"
+            @change="updateMaxRam"
+          />
         </div>
-        <div>Minimum RAM</div>
+        <div class="col">
+          <div>Minimum RAM</div>
+          <RangeSlider
+            :max="availableMemory"
+            :value="minRam"
+            @change="updateMinRam"
+          />
+        </div>
       </div>
       <div class="col">
         <div class="col align-center">
@@ -37,7 +48,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import RangeSlider from './general/RangeSlider';
 
@@ -50,7 +61,29 @@ export default {
     ...mapGetters('Java', [
       'totalMemory',
       'availableMemory',
+      'minRam',
+      'maxRam',
     ]),
+  },
+  methods: {
+    ...mapActions('Java', [
+      'setMinRam',
+      'setMaxRam',
+    ]),
+    updateMinRam(data) {
+      this.setMinRam(data.value);
+
+      if (data.value > this.maxRam) {
+        this.$children[0].updateRangedSlider(data.value, data.notch);
+      }
+    },
+    updateMaxRam(data) {
+      this.setMaxRam(data.value);
+
+      if (data.value < this.minRam) {
+        this.$children[1].updateRangedSlider(data.value, data.notch);
+      }
+    },
   },
 };
 </script>
