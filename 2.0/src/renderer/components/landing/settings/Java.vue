@@ -110,6 +110,7 @@
           type="text"
           spellcheck="false"
           :value="jvmOptions.join(' ')"
+          @focusout="parseOpts"
         >
       </div>
       <div class="args-text">
@@ -126,7 +127,7 @@
 <script>
 /* eslint-disable no-return-assign */
 import { shell } from 'electron'; // eslint-disable-line
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import RangeSlider from './general/RangeSlider';
 
@@ -137,6 +138,7 @@ export default {
   },
   data: () => ({
     javaDeets: null,
+    newArgs: null,
   }),
   computed: {
     ...mapGetters('Java', [
@@ -160,6 +162,9 @@ export default {
     ...mapActions('Java', [
       'setMinRam',
       'setMaxRam',
+    ]),
+    ...mapMutations('Java', [
+      'setJvmOpts',
     ]),
     updateMinRam(data) {
       this.setMinRam(data.value);
@@ -194,6 +199,12 @@ export default {
     },
     openLink(url) {
       shell.openExternal(url);
+    },
+    parseOpts(ev) {
+      const { value } = ev.target;
+      const newArr = value.split(' ');
+
+      this.setJvmOpts(newArr);
     },
   },
 };

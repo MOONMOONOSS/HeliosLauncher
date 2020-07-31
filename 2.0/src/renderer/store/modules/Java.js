@@ -35,6 +35,13 @@ const mutations = {
     state.maxRam = Number(Number(val).toFixed(1));
     storage.setItem('java-max-ram', String(state.maxRam));
   },
+  setJvmOpts(state, val) {
+    if (val) {
+      state.jvmOptions = val;
+
+      StateHelper.setJsonObj('jvm-opts', val);
+    }
+  },
 };
 
 const getters = {
