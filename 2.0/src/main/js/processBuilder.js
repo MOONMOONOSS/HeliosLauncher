@@ -7,6 +7,7 @@ import path from 'path';
 import DistroTypes from './distribution/types';
 
 import Util from './assetGuard/util';
+import { Library } from '../../../../1.0/app/assets/js/assetguard';
 
 export default class ProcessBuilder {
   authUser;
@@ -23,6 +24,14 @@ export default class ProcessBuilder {
 
   libPath;
 
+  minecraftConfig;
+
+  modConfig;
+
+  optionalsConfig;
+
+  javaConfig;
+
   server;
 
   versionData;
@@ -36,6 +45,7 @@ export default class ProcessBuilder {
     modConfig,
     optionalsConfig,
     javaConfig,
+    minecraftConfig,
   ) {
     this.authUser = authUser;
     this.commonDir = app.getPath('appData');
@@ -45,6 +55,7 @@ export default class ProcessBuilder {
     this.javaConfig = javaConfig;
     this.launcherVersion = launcherVersion;
     this.libPath = path.join(this.commonDir, 'libraries');
+    this.minecraftConfig = minecraftConfig;
     this.modConfig = modConfig;
     this.optionalsConfig = optionalsConfig;
     this.server = distroServer;
@@ -67,7 +78,7 @@ export default class ProcessBuilder {
       this.constructModList(DistroTypes.ForgeMod, modArr, true);
     }
 
-    let args = this
+    const args = this;
   }
 
   resolveModConfiguration(modCfg, modules) {
@@ -180,11 +191,14 @@ export default class ProcessBuilder {
     args.push(`-Djava.library.path=${tempNativePath}`);
 
     // Main Java class
-    if (this.forgeData === null) {
+    if (!this.forgeData) {
       args.push(this.versionData.mainClass);
     } else {
       args.push(this.forgeData.mainClass);
     }
+
+    // Forge Arguments
+    args = args.concat(this.resolveForgeArgs());
 
     return args;
   }
@@ -200,7 +214,7 @@ export default class ProcessBuilder {
     args.push(`-Djava.library.path=${tempNativePath}`);
 
     // Main Java class
-    if (this.forgeData === null) {
+    if (!this.forgeData) {
       args.push(this.versionData.mainClass);
     } else {
       args.push(this.forgeData.mainClass);
@@ -208,6 +222,115 @@ export default class ProcessBuilder {
 
     // Vanilla args
     args = args.concat(this.versionData.arguments.game);
+
+    args.forEach((argument) => {
+      if (typeof argument === 'object' && argument.rules) {
+        let checksum = 0;
+
+        argument.rules.forEach((rule) => {
+          if (rule.os) {
+            if (rule.os.name === Library.mojangFriendlyOS()
+            && (rule.os.version ?? new RegExp(rule.os.version).test(os.release))) {
+              if (rule.action === 'allow') checksum += 1;
+            } else if (rule.action === 'disallow') checksum += 1;
+          } else if (rule.features) {
+            // We don't have many 'features' in the index at the moment.
+            // This should be fine for a while.
+            if (rule.features.has_custom_resolution
+              && rule.features.has_custom_resolution) {
+              if (this.minecraftConfig.fullScreen) {
+                rule.values = [
+                  '--fullscreen',
+                  'true',
+                ];
+              }
+
+              checksum += 1;
+            }
+          }
+        });
+
+        if (checksum === argument.rules.length) {
+          if (typeof argument.value === 'string') {
+            argument = argument.value;
+          } else if (typeof argument.value === 'object') {
+            console.warn('SPLICING LAUNCH ARGS. THINGS ARE ABOUT TO GO VERY WRONG');
+            args.splice(args.indexOf(argument), 1, ...argument.value);
+          }
+        } else {
+          argument = null;
+        }
+      } else if (typeof argument === 'string') {
+        if (argDiscovery.test(argument)) {
+          const ident = argument.match(argDiscovery)[1];
+          let val;
+
+          switch (ident) {
+            case 'auth_player_name':
+              val = this.authUser.displayName.trim();
+              break;
+            case 'version_name':
+              val = this.server.id;
+              break;
+            case 'game_directory':
+              val = this.gameDir;
+              break;
+            case 'assets_root':
+              val = path.join(this.commonDir, 'assets');
+              break;
+            case 'assets_index_name':
+              val = this.versionData.assets;
+              break;
+            case 'auth_uuid':
+              val = this.authUser.uuid.trim();
+              break;
+            case 'auth_access_token':
+              val = this.authUser.accessToken;
+              break;
+            case 'user_type':
+              val = 'mojang';
+              break;
+            case 'version_type':
+              val = this.versionData.type;
+              break;
+            case 'resolution_width':
+              [val] = this.minecraftConfig.resolution;
+              break;
+            case 'resolution_height':
+              [, val] = this.minecraftConfig.resolution;
+              break;
+            case 'natives_directory':
+              val = argument.replace(argDiscovery, tempNativePath);
+              break;
+            case 'launcher_name':
+              val = argument.replace(argDiscovery, 'Helios-Launcher');
+              break;
+            case 'launcher_version':
+              val = argument.replace(argDiscovery, this.launcherVersion);
+              break;
+            case 'classpath':
+              val = this.classpathArg(mods, tempNativePath).join(process.platform === 'win32' ? ';' : ':');
+              break;
+            default:
+              // eslint-disable-next-line no-console
+              console.warn(`Unknown argument: ${ident}`);
+          }
+
+          if (val) {
+            argument = val;
+          }
+        }
+      }
+    });
+
+    // Forge Specific Args
+    // Ignore if Forge is not present
+    if (this.forgeData) {
+      args = args.concat(this.forgeData.arguments.game);
+    }
+
+    // Filter null values
+    args = args.filter((argument) => argument);
 
     return args;
   }
