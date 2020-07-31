@@ -118,21 +118,18 @@ export default {
   name: 'FrameBar',
   data: () => ({
     platform: process.platform,
+    target: remote.getCurrentWindow(),
   }),
   methods: {
     close() {
-      const target = remote.getCurrentWindow();
-
-      target.close();
+      this.target.close();
     },
     minimize() {
-      const target = remote.getCurrentWindow();
-
-      target.minimize();
+      this.target.minimize();
       document.activeElement.blur();
     },
     restoreDown() {
-      const target = remote.getCurrentWindow();
+      const { target } = this;
 
       if (target.isMaximized()) {
         target.unmaximize();
