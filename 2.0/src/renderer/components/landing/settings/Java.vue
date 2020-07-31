@@ -11,7 +11,10 @@
       Memory
     </div>
     <div class="row item space-between">
-      <div class="col">
+      <div
+        id="sliders"
+        class="col grow"
+      >
         <div class="col">
           <div>Maximum RAM</div>
           <RangeSlider
@@ -29,7 +32,10 @@
           />
         </div>
       </div>
-      <div class="col">
+      <div
+        id="memory"
+        class="col"
+      >
         <div class="col align-center">
           <div class="mem-title">
             Total
@@ -141,6 +147,9 @@ summary
   &:hover
     background-color rgba(255,255,255,.2)
 
+.grow
+  flex-grow 1
+
 .header
   border-bottom 1px solid rgba(255,255,255,.5)
   font-size 16px
@@ -159,6 +168,12 @@ summary
   @extend .flex
   flex-direction row
 
+#memory
+  align-self center
+
 #settings
   padding-top 0
+
+#sliders
+  padding-right 2rem
 </style>

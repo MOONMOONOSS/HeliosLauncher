@@ -29,11 +29,11 @@ const mutations = {
   },
   setMinRam(state, val) {
     state.minRam = Number(Number(val).toFixed(1));
-    storage.setItem('java-min-ram', String(val));
+    storage.setItem('java-min-ram', String(state.minRam));
   },
   setMaxRam(state, val) {
     state.maxRam = Number(Number(val).toFixed(1));
-    storage.setItem('java-max-ram', String(val));
+    storage.setItem('java-max-ram', String(state.maxRam));
   },
 };
 
