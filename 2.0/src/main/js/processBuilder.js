@@ -9,6 +9,7 @@ import DistroTypes from './distribution/types';
 
 import Util from './assetGuard/util';
 import { Library } from '../../../../1.0/app/assets/js/assetguard';
+import AdmZip from 'adm-zip';
 
 export default class ProcessBuilder {
   authUser;
@@ -477,5 +478,73 @@ export default class ProcessBuilder {
     }
 
     return mcArgs;
+  }
+
+  classpathArg(mods, tempNativePath) {
+    let cpArgs = [];
+
+    // Add version.jar to classpath
+    const version = this.versionData.id;
+    cpArgs.push(path.join(this.commonDir, 'versions', version, `${version}.jar`));
+
+    // Resolve Mojang Libraries
+    const mojangLibs = this.resolveMojangLibraries(tempNativePath);
+
+    // Resolve the server declared libraries.
+  }
+
+  resolveMojangLibraries(tempNativePath) {
+    const libs = {};
+    const libArr = this.versionData.libraries;
+
+    fs.ensureDirSync(tempNativePath);
+
+    libArr.forEach((lib) => {
+      if (Library.validateRules(lib.rules, lib.natives)) {
+        if (!lib.natives) {
+          const dlInfo = lib.downloads;
+          const { artifact } = dlInfo;
+          const to = path.join(this.libPath, artifact.path);
+          const versionIndependentId = lib.name.substring(0, lib.name.lastIndexOf(':'));
+          libs[versionIndependentId] = to;
+        } else {
+          // Extract the native library.
+          const exclusionArr = lib.extract ? lib.extract.exclude : ['META-INF/'];
+          const artifact = lib.downloads.classifiers[
+            lib.natives[Library.mojangFriendlyOS()]
+              // eslint-disable-next-line no-template-curly-in-string
+              .replace('${arch}', process.arch.replace('x', ''))
+          ];
+
+          // Location of native zip
+          const to = path.join(this.libPath, artifact.path);
+
+          const zip = new AdmZip(to);
+          const zipEntries = zip.getEntries();
+
+          // Unzip the native zip
+          zipEntries.forEach((entry) => {
+            const fileName = entry.entryName;
+
+            let shouldExclude = false;
+
+            exclusionArr.forEach((exclusion) => {
+              if (fileName.indexOf(exclusion) > -1) {
+                shouldExclude = true;
+              }
+            });
+
+            // Extract the file
+            if (!shouldExclude) {
+              fs.writeFile(path.join(tempNativePath, fileName), entry.getData(), (err) => {
+                if (err) {
+                  console.error('Error while extracting native library', err);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
   }
 }
