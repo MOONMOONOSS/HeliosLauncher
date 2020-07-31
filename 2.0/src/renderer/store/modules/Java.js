@@ -12,8 +12,8 @@ const state = {
     '-XX:-UseAdaptiveSizePolicy',
     '-Xmn128M',
   ],
-  minRam: Number(storage.getItem('java-ram-min') ?? 3),
-  maxRam: Number(storage.getItem('java-ram-max') ?? 3),
+  minRam: Number(storage.getItem('java-min-ram') ?? 3),
+  maxRam: Number(storage.getItem('java-max-ram') ?? 3),
 };
 
 const mutations = {
