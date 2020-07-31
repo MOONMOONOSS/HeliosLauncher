@@ -65,6 +65,16 @@ export default {
       const { slider, track, bar } = this.$refs;
 
       if (this.curValue && this.curValue !== value) {
+        if (notch <= 30) {
+          bar.style.background = '#8be88b';
+        } else if (notch <= 50) {
+          bar.style.background = 'rgb(232, 225, 139)';
+        } else if (notch <= 70) {
+          bar.style.background = 'rgb(255, 143, 78)';
+        } else {
+          bar.style.background = 'rgb(232, 96, 96)';
+        }
+
         this.curValue = value;
         this.$emit('change', {
           notch,
@@ -170,7 +180,7 @@ export default {
 .slider-bar
   background #8be88b
   height 5px
-  transition width .85s ease
+  transition .85s ease
 
 .slider-container
   @extends .space-between, .align-center
