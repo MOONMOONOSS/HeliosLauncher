@@ -492,6 +492,32 @@ export default class ProcessBuilder {
 
     // Resolve the server declared libraries.
     const servLibs = this.resolveServerLibraries(mods);
+
+    // Merge libraries, server libs with the same
+    // Maven identifier will override the mojang ones.
+    // Ex. 1.7.10 forge overrides mojang's guava with newer version.
+    const finalLibs = {
+      ...mojangLibs,
+      ...servLibs,
+    };
+
+    cpArgs = cpArgs.concat(Object.values(finalLibs));
+
+    ProcessBuilder.processClassPathList(cpArgs);
+
+    return cpArgs;
+  }
+
+  static processClassPathList(list) {
+    const ext = '.jar';
+    const extLen = ext.length;
+
+    list.forEach((item, idx, arr) => {
+      const extIndex = item.indexOf(ext);
+      if (extIndex > -1 && extIndex !== item.length - extLen) {
+        arr[idx] = item.substring(0, extIndex + extLen);
+      }
+    });
   }
 
   resolveMojangLibraries(tempNativePath) {
@@ -587,6 +613,32 @@ export default class ProcessBuilder {
         }
       });
     }
+
+    return libs;
+  }
+
+  resolveModuleLibraries(module) {
+    let libs = [];
+
+    if (!module.hasSubModules()) {
+      return libs;
+    }
+
+    module.subModules.forEach((mod) => {
+      if (mod.type === DistroTypes.Library) {
+        libs.push(mod.artifact.path);
+      }
+
+      // If this module has submodules, we need to resolve the libraries for those.
+      // To avoid unnecessary recursive calls, base case is checked here.
+      if (module.hasSubModules()) {
+        const res = this.resolveModuleLibraries(mod);
+
+        if (res.length > 0) {
+          libs = libs.concat(res);
+        }
+      }
+    });
 
     return libs;
   }
