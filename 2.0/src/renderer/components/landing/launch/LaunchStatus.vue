@@ -4,7 +4,7 @@
     :show="show"
   >
     <div id="inner">
-      Launching please wait...
+      {{ status }}...
     </div>
   </div>
 </template>
@@ -16,6 +16,10 @@ export default {
     show: {
       type: Boolean,
       default: false,
+    },
+    status: {
+      type: String,
+      default: 'Dunkel made an oopsie!',
     },
   },
 };

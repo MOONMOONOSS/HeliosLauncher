@@ -20,7 +20,10 @@
       id="launchControls"
       class="grow"
     >
-      <LaunchStatus :show="launching" />
+      <LaunchStatus
+        :show="launching"
+        :status="statusText"
+      />
       <button
         id="play"
         :disabled="launching"
@@ -56,7 +59,7 @@ export default {
     numPlayers: 0,
     maxPlayers: 0,
     serverIntervalId: null,
-    statusText: '',
+    statusText: 'Staring AssetGuard',
   }),
   computed: {
     ...mapGetters('Landing', [
@@ -93,6 +96,7 @@ export default {
       });
 
       ipcRenderer.on('launch-status', (_ev, data) => {
+        console.dir(data);
         this.statusText = data;
       });
 
@@ -100,6 +104,7 @@ export default {
         console.log('Validation finished');
 
         this.launching = false;
+        this.statusText = 'Starting AssetGuard';
       });
     });
   },
