@@ -32,8 +32,12 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ServerItem',
   props: {
-    data: Object,
+    // eslint-disable-next-line vue/require-default-prop
+    data: {
+      type: Object,
+    },
   },
+  emits: ['select-server'],
   computed: {
     ...mapGetters('Distribution', ['selectedServerId']),
   },

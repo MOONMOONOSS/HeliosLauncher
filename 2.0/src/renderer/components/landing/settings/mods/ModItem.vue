@@ -28,7 +28,16 @@ export default {
     SliderButton,
   },
   props: {
-    module: Object,
+    module: {
+      type: Object,
+      default: () => ({
+        name: 'An Undefined Mod',
+        artifactVersion: '1.2.3',
+        required: {
+          required: true,
+        },
+      }),
+    },
   },
   data: () => ({
     enabled: null,

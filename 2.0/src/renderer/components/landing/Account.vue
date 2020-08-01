@@ -40,6 +40,14 @@ export default {
     wlText: 'Checking Status...',
     wlStatus: 'checking',
   }),
+  computed: {
+    ...mapGetters('Account', [
+      'username',
+      'uuid',
+      'whitelistStatus',
+    ]),
+    ...mapGetters('Landing', ['crafatar']),
+  },
   mounted() {
     this.$nextTick(() => {
       setTimeout(async () => {
@@ -87,14 +95,6 @@ export default {
       await this.whitelistStatus
         .then((result) => this.updateWl(result));
     },
-  },
-  computed: {
-    ...mapGetters('Account', [
-      'username',
-      'uuid',
-      'whitelistStatus',
-    ]),
-    ...mapGetters('Landing', ['crafatar']),
   },
 };
 </script>

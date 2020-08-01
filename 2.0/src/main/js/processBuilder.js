@@ -5,11 +5,11 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 
+import AdmZip from 'adm-zip';
 import DistroTypes from './distribution/types';
 
 import Util from './assetGuard/util';
 import { Library } from '../../../../1.0/app/assets/js/assetguard';
-import AdmZip from 'adm-zip';
 
 export default class ProcessBuilder {
   authUser;
