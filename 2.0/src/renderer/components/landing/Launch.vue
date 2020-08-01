@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section :hide="launching">
     <div
       id="status"
       class="grow"
@@ -20,8 +20,10 @@
       id="launchControls"
       class="grow"
     >
+      <LaunchStatus :show="launching" />
       <button
         id="play"
+        :disabled="launching"
         @click="playGame()"
       >
         PLAY
@@ -29,6 +31,7 @@
       <div class="horiDivider" />
       <button
         id="server-select"
+        :disabled="launching"
         @click="serverVisibility(true)"
       >
         • {{ selectedServerName }}
@@ -38,12 +41,18 @@
 </template>
 
 <script>
-import {remote, shell, ipcRenderer} from 'electron'; // eslint-disable-line
+import { ipcRenderer } from 'electron'; // eslint-disable-line
 import { mapGetters, mapMutations } from 'vuex';
+
+import LaunchStatus from './launch/LaunchStatus';
 
 export default {
   name: 'Launch',
+  components: {
+    LaunchStatus,
+  },
   data: () => ({
+    launching: false,
     numPlayers: 0,
     maxPlayers: 0,
     serverIntervalId: null,
@@ -78,6 +87,8 @@ export default {
         if (data && data.data !== false) {
           this.setJavaExe(data.data);
           this.validate();
+        } else {
+          this.launching = false;
         }
       });
 
@@ -87,6 +98,8 @@ export default {
 
       ipcRenderer.on('validate-finished', () => {
         console.log('Validation finished');
+
+        this.launching = false;
       });
     });
   },
@@ -106,6 +119,7 @@ export default {
       this.maxPlayers = status.maxPlayers;
     },
     playGame() {
+      this.launching = true;
       ipcRenderer.send('java-scan');
     },
     startGame() {
@@ -136,8 +150,12 @@ section
   display flex
   flex-direction row
   margin-bottom 5rem
+  overflow hidden
   padding 0 10%
   justify-content space-between
+  &[hide]
+    #launchControls
+      transform translateY(-28px)
 
 .grow
   flex-grow 1
@@ -174,6 +192,7 @@ section
 #launchControls
   display flex
   justify-content flex-end
+  transition .2s ease
   button
     background none
     border none
