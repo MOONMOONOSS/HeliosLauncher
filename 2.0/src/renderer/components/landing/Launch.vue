@@ -52,6 +52,8 @@ export default {
   computed: {
     ...mapGetters('Landing', [
       'serverStatus',
+    ]),
+    ...mapGetters('Java', [
       'selectedJavaExe',
     ]),
     ...mapGetters('Distribution', [
@@ -91,6 +93,8 @@ export default {
   methods: {
     ...mapMutations('Landing', [
       'serverVisibility',
+    ]),
+    ...mapMutations('Java', [
       'setJavaExe',
     ]),
     async updatePlayerCount() {
