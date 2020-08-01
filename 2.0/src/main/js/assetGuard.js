@@ -754,6 +754,9 @@ export default class AssetGuard extends EventEmitter {
                 this.totalDlSize += contentLength;
               }
 
+              this.progress += asset.size * 1;
+              this.emit('progress', 'download', this.progress, this.totalDlSize);
+
               return res.buffer();
             }
             // eslint-disable-next-line no-console

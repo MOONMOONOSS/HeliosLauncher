@@ -85,6 +85,7 @@ export default {
     this.$nextTick(() => {
       const VALIDATE = 'Validating';
       const DOWNLOAD = 'Downloading';
+      const START = 'Starting';
 
       this.updatePlayerCount();
       this.serverIntervalId = window.setInterval(this.updatePlayerCount, 30000);
@@ -107,19 +108,19 @@ export default {
         if (data.context === 'validate') {
           switch (data.data) {
             case 'distribution':
-              this.statusText = `${VALIDATE} Distribution`;
+              this.statusText = `${START} Distribution Validation`;
               break;
             case 'version':
-              this.statusText = `${VALIDATE} Version Manifest`;
+              this.statusText = `${START} Version Manifest Validation`;
               break;
             case 'assets':
-              this.statusText = `${VALIDATE} Pack Assets`;
+              this.statusText = `${START} Asset Validation`;
               break;
             case 'libraries':
-              this.statusText = `${VALIDATE} Pack Libraries`;
+              this.statusText = `${START} Library Validation`;
               break;
             case 'files':
-              this.statusText = `${VALIDATE} Misc Files`;
+              this.statusText = `${START} Misc Files Validation`;
               break;
             default:
           }
@@ -127,10 +128,15 @@ export default {
       });
 
       ipcRenderer.on('launch-progress', (_ev, data) => {
-        console.dir(data);
         switch (data.data) {
           case 'assets':
-            this.statusText = `${DOWNLOAD} Pack Assets (${data.percent}%)`;
+            this.statusText = `${VALIDATE} Pack Assets (${data.percent}%)`;
+            break;
+          case 'download':
+            this.statusText = `${DOWNLOAD} Pack Content (${data.percent}%)`;
+            break;
+          case 'extract':
+            this.statusText = `Extracting Libraries (${data.percent}%)`;
             break;
           default:
         }
