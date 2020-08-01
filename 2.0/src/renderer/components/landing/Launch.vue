@@ -83,6 +83,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      const VALIDATE = 'Validating';
+      const DOWNLOAD = 'Downloading';
+
       this.updatePlayerCount();
       this.serverIntervalId = window.setInterval(this.updatePlayerCount, 30000);
 
@@ -98,6 +101,39 @@ export default {
       ipcRenderer.on('launch-status', (_ev, data) => {
         console.dir(data);
         this.statusText = data;
+      });
+
+      ipcRenderer.on('validate-status', (_ev, data) => {
+        if (data.context === 'validate') {
+          switch (data.data) {
+            case 'distribution':
+              this.statusText = `${VALIDATE} Distribution`;
+              break;
+            case 'version':
+              this.statusText = `${VALIDATE} Version Manifest`;
+              break;
+            case 'assets':
+              this.statusText = `${VALIDATE} Pack Assets`;
+              break;
+            case 'libraries':
+              this.statusText = `${VALIDATE} Pack Libraries`;
+              break;
+            case 'files':
+              this.statusText = `${VALIDATE} Misc Files`;
+              break;
+            default:
+          }
+        }
+      });
+
+      ipcRenderer.on('launch-progress', (_ev, data) => {
+        console.dir(data);
+        switch (data.data) {
+          case 'assets':
+            this.statusText = `${DOWNLOAD} Pack Assets (${data.percent}%)`;
+            break;
+          default:
+        }
       });
 
       ipcRenderer.on('validate-finished', () => {

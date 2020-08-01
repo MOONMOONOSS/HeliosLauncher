@@ -170,15 +170,18 @@ ipcMain.on('java-scan', (ev) => {
   );
 
   p.stdout.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.log(data.toString());
   });
 
   p.stderr.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.error(data.toString());
   });
 
   p.on('close', (code) => {
-    console.log(`AssetGuard exited with code ${code}`);
+    // eslint-disable-next-line no-console
+    console.log(`JavaScan exited with code ${code}`);
   });
 
   p.on('message', (msg) => {
@@ -194,6 +197,7 @@ ipcMain.on('java-scan', (ev) => {
         ev.reply('java-status', msg);
         break;
       default:
+        // eslint-disable-next-line no-console
         console.warn(`Unknown context: ${msg.context}`);
     }
   });

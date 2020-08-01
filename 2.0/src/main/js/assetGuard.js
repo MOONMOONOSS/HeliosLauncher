@@ -110,11 +110,10 @@ export default class AssetGuard extends EventEmitter {
   static extractPackXZ(filePaths, javaExe) {
     return new Promise((resolve) => {
       let libPath;
-
-      if (process.platform === 'darwin') {
-        libPath = path.join(process.cwd(), 'Contents', 'Resources', 'libraries', 'java', 'PackXZExtract.jar');
+      if (process.env.NODE_ENV === 'production') {
+        libPath = path.join(process.resourcesPath, 'static', 'bean', 'PackXZExtract.jar');
       } else {
-        libPath = path.join(process.cwd(), 'resources', 'libraries', 'java', 'PackXZExtract.jar');
+        libPath = path.join(__dirname, '../../..', 'static', 'bean', 'PackXZExtract.jar');
       }
 
       const filePath = filePaths.join(',');
@@ -526,10 +525,11 @@ export default class AssetGuard extends EventEmitter {
    * @memberof AssetGuard
    */
   loadForgeData(server) {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve) => {
       const { modules } = server;
 
-      modules.forEach((mod) => {
+      await Promise.all(modules.map(async (mod) => {
         const { type } = mod;
 
         if (type === DistroTypes.ForgeHosted || type === DistroTypes.Forge) {
@@ -562,13 +562,13 @@ export default class AssetGuard extends EventEmitter {
               type,
             );
 
-            AssetGuard.finalizeForgeAsset(asset, this.commonPath)
-              .then((forgeData) => resolve(forgeData))
-              .catch((err) => reject(err))
-              .finally(() => resolve(null));
+            const forgeData = await AssetGuard.finalizeForgeAsset(asset, this.commonPath);
+
+            if (forgeData) resolve(forgeData);
+            else resolve(null);
           }
         }
-      });
+      }));
     });
   }
 
@@ -706,7 +706,8 @@ export default class AssetGuard extends EventEmitter {
         resolve();
       });
 
-      identifiers.forEach((identity) => {
+      // eslint-disable-next-line array-callback-return
+      identifiers.map((identity) => {
         const r = this.startAsyncProcess(identity.id, identity.limit);
         if (r) {
           shouldFire = false;
@@ -728,7 +729,6 @@ export default class AssetGuard extends EventEmitter {
    * @memberof AssetGuard
    */
   startAsyncProcess(identifier, limit) {
-    const self = this;
     const dlTracker = this[identifier];
     const { dlQueue } = dlTracker;
 
@@ -765,10 +765,11 @@ export default class AssetGuard extends EventEmitter {
             cb();
           })
           .then((buffer) => {
+            fs.ensureFileSync(asset.to);
             fs.writeFileSync(asset.to, buffer);
 
             if (typeof dlTracker.callback === 'function') {
-              dlTracker.callback.apply(dlTracker, [asset, self]);
+              dlTracker.callback.apply(dlTracker, [asset, this]);
             }
 
             if (doHashCheck) {
@@ -798,16 +799,14 @@ export default class AssetGuard extends EventEmitter {
           console.log(`All ${identifier} have been processed successfully`);
         }
 
-        if (this.progress >= this.totalDlSize) {
-          if (this.extractQueue.length > 0) {
-            this.emit('progress', 'extract', 1, 1);
+        if (this.extractQueue.length > 0) {
+          this.emit('progress', 'extract', 1, 1);
 
-            AssetGuard.extractPackXZ(this.extractQueue, this.javaExec)
-              .then(() => {
-                this.extractQueue = [];
-                this.emit('complete', 'download');
-              });
-          }
+          AssetGuard.extractPackXZ(this.extractQueue, this.javaExec)
+            .then(() => {
+              this.extractQueue = [];
+              this.emit('complete', 'download');
+            });
         } else {
           this.emit('complete', 'download');
         }
