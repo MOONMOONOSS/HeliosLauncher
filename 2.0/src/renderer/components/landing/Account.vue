@@ -56,6 +56,7 @@ export default {
           .catch(async (err) => {
             switch (err.message) {
               case 'Error invoking remote method \'whitelist-status\': Error: REFRESH':
+                // eslint-disable-next-line no-console
                 console.log('Refreshing Discord token');
                 await this.discordRefresh()
                   .then(() => this.getWlStatus())

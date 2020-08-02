@@ -13,32 +13,37 @@
         <input
           type="number"
           min="800"
-          default="1280"
+          :value="gameResolution.width"
+          @focusout="parseWidth"
         >
         ✖
         <input
           type="number"
           min="600"
-          default="720"
+          :value="gameResolution.height"
+          @focusout="parseHeight"
         >
       </div>
     </div>
     <div class="header item glow space-between">
       <div>Launch in fullscreen.</div>
       <SliderButton
-        :checked="false"
+        :checked="isFullScreen"
+        @toggle="toggleFullScreen"
       />
     </div>
     <div class="header item glow space-between">
       <div>Connect to server automatically when I press 'Play'</div>
       <SliderButton
-        :checked="true"
+        :checked="false"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 import SliderButton from './general/SliderButton';
 
 export default {
@@ -47,8 +52,31 @@ export default {
     SliderButton,
   },
   computed: {
+    ...mapGetters('Minecraft', [
+      'gameResolution',
+      'isFullScreen',
+    ]),
   },
   methods: {
+    ...mapMutations('Minecraft', [
+      'setResolution',
+      'setFullScreen',
+    ]),
+    toggleFullScreen() {
+      this.setFullScreen(!this.isFullScreen);
+    },
+    parseHeight(ev) {
+      const { value } = ev.target;
+
+      this.setResolution([this.gameResolution.width, Number(value)]);
+      ev.target.value = this.gameResolution.height;
+    },
+    parseWidth(ev) {
+      const { value } = ev.target;
+
+      this.setResolution([Number(value), this.gameResolution.height]);
+      ev.target.value = this.gameResolution.width;
+    },
   },
 };
 </script>

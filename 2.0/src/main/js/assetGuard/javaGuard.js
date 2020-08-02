@@ -260,6 +260,7 @@ export default class JavaGuard extends EventEmitter {
               if (err) {
                 keysDone += 1;
 
+                // eslint-disable-next-line no-console
                 console.error(err);
 
                 // Stop early due to error
@@ -344,6 +345,7 @@ export default class JavaGuard extends EventEmitter {
             if (err) {
               resolve(res);
 
+              // eslint-disable-next-line no-console
               console.error(err);
             } else {
               let pathsDone = 0;
@@ -633,6 +635,7 @@ export default class JavaGuard extends EventEmitter {
             }
           } else if (Util.mcVersionAtLeast('1.13', this.mcVersion)) {
             // Java 9+
+            // eslint-disable-next-line no-console
             console.warn('Java 9+ not yet tested');
           }
         }

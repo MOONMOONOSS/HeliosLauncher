@@ -10,9 +10,11 @@ const state = {
 
 const mutations = {
   setResolution(state, val) {
-    state.resolution = val;
+    if (val[0] >= 800 && val[1] >= 600) {
+      state.resolution = val;
 
-    StateHelpers.setJsonObj('mc-resolution', val);
+      StateHelpers.setJsonObj('mc-resolution', val);
+    }
   },
   setFullScreen(state, val) {
     state.fullScreen = val;

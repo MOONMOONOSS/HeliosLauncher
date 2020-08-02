@@ -50,12 +50,15 @@ export default class AssetExec {
           process.exit(0);
           break;
         default:
+          // eslint-disable-next-line no-console
           console.warn(`Unknown context in AssetExec: ${msg.context}`);
+          // eslint-disable-next-line no-console
           console.dir(msg);
       }
     });
 
     process.on('disconnect', () => {
+      // eslint-disable-next-line no-console
       console.log('AssetExec Disconnected');
       process.exit(0);
     });
