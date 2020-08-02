@@ -183,7 +183,7 @@ export default {
     startGame(forgeData, versionData) {
       ipcRenderer.send('start-game', {
         authUser: this.authUser,
-        commonDir: remote.app.getPath('appData'),
+        commonDir: remote.app.getPath('userData'),
         distroServer: this.selectedServer,
         forgeData,
         javaConfig: this.javaConfig,

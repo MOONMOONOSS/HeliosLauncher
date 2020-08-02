@@ -918,12 +918,7 @@ export default class AssetGuard extends EventEmitter {
         if (Library.validateRules(lib.rules, lib.natives)) {
           const artifact = (typeof lib.natives === 'undefined')
             ? lib.downloads.artifact
-            : lib.downloads.classifiers[
-              String(lib.natives[
-                Library.mojangFriendlyOs()
-              // eslint-disable-next-line no-template-curly-in-string
-              ]).replace('${arch}', process.arch.replace('x', ''))
-            ];
+            : lib.downloads.classifiers[`natives-${Library.mojangFriendlyOs()}`];
 
           if (artifact) {
             const libItm = new Library(

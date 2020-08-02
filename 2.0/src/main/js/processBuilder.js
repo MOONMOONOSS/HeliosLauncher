@@ -5,10 +5,12 @@ import os from 'os';
 import path from 'path';
 
 import AdmZip from 'adm-zip';
+
 import DistroTypes from './distribution/types';
+import Module from './distribution/module';
 
 import Util from './assetGuard/util';
-import { Library } from '../../../../1.0/app/assets/js/assetguard';
+import Library from './assetGuard/library';
 
 export default class ProcessBuilder {
   authUser;
@@ -164,10 +166,13 @@ export default class ProcessBuilder {
 
     switch (type) {
       case DistroTypes.ForgeMod:
-        mods.forEach((module) => ids.push(module.extensionlessId()));
+        mods.forEach((module) => ids.push(new Module(null, null, module).extensionlessId()));
         break;
       default:
-        mods.forEach((module) => ids.push(`${module.extensionlessId()}@${module.artifactExt}`));
+        mods.forEach((module) => {
+          const mod = new Module(null, null, module);
+          ids.push(`${mod.extensionlessId()}@${mod.artifactExt}`);
+        });
     }
 
     modList.modRef = ids;
@@ -181,7 +186,7 @@ export default class ProcessBuilder {
   }
 
   static constructModArgs(mods) {
-    const argStr = mods.map((mod) => mod.extensionlessId())
+    const argStr = mods.map((mod) => new Module(null, null, mod).extensionlessId())
       .join(',');
 
     if (argStr) {
@@ -211,8 +216,8 @@ export default class ProcessBuilder {
     args.push('-cp');
     args.push(this.classpathArg(mods, tempNativePath).join(process.platform === 'win32' ? ';' : ':'));
 
-    args.push(`-Xmx${this.javaConfig.maxRam}`);
-    args.push(`-Xms${this.javaConfig.minRam}`);
+    args.push(`-Xmx${this.javaConfig.maxRam * 1000}M`);
+    args.push(`-Xms${this.javaConfig.minRam * 1000}M`);
     args = args.concat(this.javaConfig.jvmOptions);
     args.push(`-Djava.library.path=${tempNativePath}`);
 
@@ -234,8 +239,8 @@ export default class ProcessBuilder {
 
     let args = this.versionData.arguments.jvm;
 
-    args.push(`-Xmx${this.javaConfig.maxRam}`);
-    args.push(`-Xms${this.javaConfig.minRam}`);
+    args.push(`-Xmx${this.javaConfig.maxRam * 1000}M`);
+    args.push(`-Xms${this.javaConfig.minRam * 1000}M`);
     args = args.concat(this.javaConfig.jvmOptions);
     args.push(`-Djava.library.path=${tempNativePath}`);
 
@@ -249,53 +254,59 @@ export default class ProcessBuilder {
     // Vanilla args
     args = args.concat(this.versionData.arguments.game);
 
-    args.forEach((argument, argIdx, argArr) => {
-      if (typeof argument === 'object' && argument.rules) {
+    for (let i = 0; i < args.length; i += 1) {
+      if (typeof args[i] === 'object' && args[i].rules != null) {
         let checksum = 0;
-
-        argument.rules.forEach((rule, ruleIdx, ruleArr) => {
-          if (rule.os) {
-            if (rule.os.name === Library.mojangFriendlyOS()
-            && (rule.os.version || new RegExp(rule.os.version).test(os.release))) {
-              if (rule.action === 'allow') checksum += 1;
-            } else if (rule.action === 'disallow') checksum += 1;
-          } else if (rule.features) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const rule of args[i].rules) {
+          if (rule.os != null) {
+            if (rule.os.name === Library.mojangFriendlyOs()
+                    && (rule.os.version == null || new RegExp(rule.os.version).test(os.release))) {
+              if (rule.action === 'allow') {
+                checksum += 1;
+              }
+            } else if (rule.action === 'disallow') {
+              checksum += 1;
+            }
+          } else if (rule.features != null) {
             // We don't have many 'features' in the index at the moment.
             // This should be fine for a while.
-            if (rule.features.has_custom_resolution
-              && rule.features.has_custom_resolution) {
+            if (rule.features.has_custom_resolution && rule.features.has_custom_resolution) {
               if (this.minecraftConfig.fullScreen) {
-                ruleArr[ruleIdx].values = [
+                rule.values = [
                   '--fullscreen',
                   'true',
                 ];
               }
-
               checksum += 1;
             }
           }
-        });
-
-        if (checksum === argument.rules.length) {
-          if (typeof argument.value === 'string') {
-            argArr[argIdx] = argument.value;
-          } else if (typeof argument.value === 'object') {
-            console.warn('SPLICING LAUNCH ARGS. THINGS ARE ABOUT TO GO VERY WRONG');
-            args.splice(args.indexOf(argument), 1, ...argument.value);
-          }
-        } else {
-          argArr[argIdx] = null;
         }
-      } else if (typeof argument === 'string') {
-        if (argDiscovery.test(argument)) {
-          const ident = argument.match(argDiscovery)[1];
-          let val;
 
-          switch (ident) {
+        // TODO splice not push
+        if (checksum === args[i].rules.length) {
+          if (typeof args[i].value === 'string') {
+            args[i] = args[i].value;
+          } else if (typeof args[i].value === 'object') {
+            // args = args.concat(args[i].value)
+            args.splice(i, 1, ...args[i].value);
+          }
+
+          // Decrement i to reprocess the resolved value
+          i -= 1;
+        } else {
+          args[i] = null;
+        }
+      } else if (typeof args[i] === 'string') {
+        if (argDiscovery.test(args[i])) {
+          const identifier = args[i].match(argDiscovery)[1];
+          let val = null;
+          switch (identifier) {
             case 'auth_player_name':
               val = this.authUser.displayName.trim();
               break;
             case 'version_name':
+              // val = versionData.id
               val = this.server.id;
               break;
             case 'game_directory':
@@ -326,28 +337,25 @@ export default class ProcessBuilder {
               [, val] = this.minecraftConfig.resolution;
               break;
             case 'natives_directory':
-              val = argument.replace(argDiscovery, tempNativePath);
+              val = args[i].replace(argDiscovery, tempNativePath);
               break;
             case 'launcher_name':
-              val = argument.replace(argDiscovery, 'Helios-Launcher');
+              val = args[i].replace(argDiscovery, 'Helios-Launcher');
               break;
             case 'launcher_version':
-              val = argument.replace(argDiscovery, this.launcherVersion);
+              val = args[i].replace(argDiscovery, this.launcherVersion);
               break;
             case 'classpath':
               val = this.classpathArg(mods, tempNativePath).join(process.platform === 'win32' ? ';' : ':');
               break;
             default:
-              // eslint-disable-next-line no-console
-              console.warn(`Unknown argument: ${ident}`);
           }
-
-          if (val) {
-            argArr[argIdx] = val;
+          if (val != null) {
+            args[i] = val;
           }
         }
       }
-    });
+    }
 
     // Forge Specific Args
     // Ignore if Forge is not present
@@ -362,7 +370,12 @@ export default class ProcessBuilder {
   }
 
   resolveForgeArgs() {
-    const mcArgs = this.forgeData.minecraftArguments.split(' ');
+    let mcArgs;
+    if (this.forgeData) {
+      mcArgs = this.forgeData.minecraftArguments.split(' ');
+    } else {
+      mcArgs = [];
+    }
     const argDiscovery = /\${*(.*)}/;
 
     // Replace the declared variables with their proper values.
@@ -453,12 +466,18 @@ export default class ProcessBuilder {
     const version = this.versionData.id;
     cpArgs.push(path.join(this.commonDir, 'versions', version, `${version}.jar`));
 
+    // Resolve Mojang Libraries
+    const mojangLibs = this.resolveMojangLibraries(tempNativePath);
+
+    // Resolve the server declared libraries.
+    const servLibs = this.resolveServerLibraries(mods);
+
     // Merge libraries, server libs with the same
     // Maven identifier will override the mojang ones.
     // Ex. 1.7.10 forge overrides mojang's guava with newer version.
     const finalLibs = {
-      ...this.resolveMojangLibraries(tempNativePath),
-      ...this.resolveServerLibraries(mods),
+      ...mojangLibs,
+      ...servLibs,
     };
 
     cpArgs = cpArgs.concat(Object.values(finalLibs));
@@ -482,11 +501,11 @@ export default class ProcessBuilder {
 
   resolveMojangLibraries(tempNativePath) {
     const libs = {};
+
     const libArr = this.versionData.libraries;
-
     fs.ensureDirSync(tempNativePath);
-
-    libArr.forEach((lib) => {
+    for (let i = 0; i < libArr.length; i += 1) {
+      const lib = libArr[i];
       if (Library.validateRules(lib.rules, lib.natives)) {
         if (!lib.natives) {
           const dlInfo = lib.downloads;
@@ -496,44 +515,47 @@ export default class ProcessBuilder {
           libs[versionIndependentId] = to;
         } else {
           // Extract the native library.
-          const exclusionArr = lib.extract ? lib.extract.exclude : ['META-INF/'];
-          const artifact = lib.downloads.classifiers[
-            lib.natives[Library.mojangFriendlyOS()]
-              // eslint-disable-next-line no-template-curly-in-string
-              .replace('${arch}', process.arch.replace('x', ''))
-          ];
+          const exclusionArr = lib.extract != null ? lib.extract.exclude : ['META-INF/'];
+          // eslint-disable-next-line no-template-curly-in-string
+          const artifact = lib.downloads.classifiers[`natives-${Library.mojangFriendlyOs()}`];
 
-          // Location of native zip
-          const to = path.join(this.libPath, artifact.path);
+          if (artifact) {
+            // Location of native zip.
+            const to = path.join(this.libPath, artifact.path);
 
-          const zip = new AdmZip(to);
-          const zipEntries = zip.getEntries();
+            const zip = new AdmZip(to);
+            const zipEntries = zip.getEntries();
 
-          // Unzip the native zip
-          zipEntries.forEach((entry) => {
-            const fileName = entry.entryName;
+            // Unzip the native zip.
+            for (let i = 0; i < zipEntries.length; i += 1) {
+              const fileName = zipEntries[i].entryName;
 
-            let shouldExclude = false;
+              let shouldExclude = false;
 
-            exclusionArr.forEach((exclusion) => {
-              if (fileName.indexOf(exclusion) > -1) {
-                shouldExclude = true;
-              }
-            });
-
-            // Extract the file
-            if (!shouldExclude) {
-              fs.writeFile(path.join(tempNativePath, fileName), entry.getData(), (err) => {
-                if (err) {
-                  // eslint-disable-next-line no-console
-                  console.error('Error while extracting native library', err);
+              // Exclude noted files.
+              exclusionArr.forEach((exclusion) => {
+                if (fileName.indexOf(exclusion) > -1) {
+                  shouldExclude = true;
                 }
               });
+
+              // Extract the file.
+              if (!shouldExclude) {
+                // eslint-disable-next-line max-len
+                fs.writeFile(path.join(tempNativePath, fileName), zipEntries[i].getData(), (err) => {
+                  if (err) {
+                    // eslint-disable-next-line no-console
+                    console.error('Error while extracting native library:', err);
+                  }
+                });
+              }
             }
-          });
+          }
         }
       }
-    });
+    }
+
+    return libs;
   }
 
   resolveServerLibraries(mods) {
@@ -542,6 +564,7 @@ export default class ProcessBuilder {
 
     // Locate Forge and Forge Libraries
     modules.forEach((mod) => {
+      mod = new Module(null, null, mod);
       const { type } = mod;
 
       if (type === DistroTypes.ForgeHosted || type === DistroTypes.Library) {
@@ -563,7 +586,7 @@ export default class ProcessBuilder {
     // Check for any libraries in our mod list.
     if (mods.subModules) {
       mods.forEach((mod) => {
-        const res = this.resolveModuleLibraries(mod);
+        const res = this.resolveModuleLibraries(new Module(null, null, mod));
 
         if (res.length > 0) {
           libs = {
@@ -578,6 +601,7 @@ export default class ProcessBuilder {
   }
 
   resolveModuleLibraries(module) {
+    module = new Module(null, null, module);
     let libs = [];
 
     if (!module.hasSubModules()) {
