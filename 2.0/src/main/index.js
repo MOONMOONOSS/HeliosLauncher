@@ -225,14 +225,17 @@ ipcMain.on('start-download', (ev, data) => {
   );
 
   p.stdout.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.log(data.toString());
   });
 
   p.stderr.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.error(data.toString());
   });
 
   p.on('close', (code) => {
+    // eslint-disable-next-line no-console
     console.log(`AssetGuard exited with code ${code}`);
   });
 
@@ -253,18 +256,64 @@ ipcMain.on('start-download', (ev, data) => {
         p.send({
           context: 'disconnect',
         });
-        ev.reply('validate-finished');
+        ev.reply('validate-finished', msg.data);
 
         break;
       default:
+        // eslint-disable-next-line no-console
         console.warn(`Unknown context in start-game: ${msg.context}`);
-        console.dir(msg);
     }
   });
 
   p.send({
     context: 'validate-pack',
     server: data.server,
+  });
+});
+
+ipcMain.on('start-game', (ev, data) => {
+  const forkEnv = JSON.parse(JSON.stringify(process.env));
+  forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
+
+  // Fork a process to run validations
+  const p = ChildProcess.fork(
+    path.join(__dirname, './js/processExecWrapper.cjs'),
+    [
+      `${app.getPath('userData')}`,
+      data.javaExe,
+    ],
+    {
+      env: forkEnv,
+      stdio: 'pipe',
+    },
+  );
+
+  p.stdout.on('data', (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data.toString());
+  });
+
+  p.stderr.on('data', (data) => {
+    // eslint-disable-next-line no-console
+    console.error(data.toString());
+  });
+
+  p.on('close', (code) => {
+    // eslint-disable-next-line no-console
+    console.log(`ProcessBuilder exited with code ${code}`);
+  });
+
+  p.on('message', (msg) => {
+    switch (msg.context) {
+      default:
+        // eslint-disable-next-line no-console
+        console.warn(`Unknown context in start-game: ${msg.context}`);
+    }
+  });
+
+  p.send({
+    context: 'start-game',
+    data,
   });
 });
 

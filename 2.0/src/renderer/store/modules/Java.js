@@ -46,6 +46,7 @@ const mutations = {
 
 const getters = {
   selectedJavaExe: (state) => state.javaExe,
+  javaConfig: (state) => state,
   javaDetails: (_state, getters, _rootState, rootGetters) => async () => {
     const details = await ipcRenderer.invoke('java-details', {
       exe: getters.selectedJavaExe,

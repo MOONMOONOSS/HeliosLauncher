@@ -32,6 +32,7 @@ const getters = {
     height: state.resolution[1],
   }),
   isFullScreen: (state) => state.fullScreen,
+  minecraftConfig: (state) => state,
 };
 
 const actions = {

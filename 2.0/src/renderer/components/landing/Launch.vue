@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'; // eslint-disable-line
+import { ipcRenderer, remote } from 'electron';
 import { mapGetters, mapMutations } from 'vuex';
 
 import LaunchStatus from './launch/LaunchStatus';
@@ -59,21 +59,29 @@ export default {
     numPlayers: 0,
     maxPlayers: 0,
     serverIntervalId: null,
-    statusText: 'Staring AssetGuard',
+    statusText: 'Starting AssetGuard',
   }),
   computed: {
+    ...mapGetters('Account', [
+      'authUser',
+    ]),
     ...mapGetters('Landing', [
       'serverStatus',
     ]),
     ...mapGetters('Java', [
+      'javaConfig',
       'selectedJavaExe',
     ]),
     ...mapGetters('Distribution', [
+      'selectedEnabledModules',
       'selectedServer',
       'selectedServerId',
       'selectedServerName',
       'selectedServerAddress',
       'selectedServerPort',
+    ]),
+    ...mapGetters('Minecraft', [
+      'minecraftConfig',
     ]),
   },
   watch: {
@@ -100,7 +108,6 @@ export default {
       });
 
       ipcRenderer.on('launch-status', (_ev, data) => {
-        console.dir(data);
         this.statusText = data;
       });
 
@@ -146,11 +153,11 @@ export default {
         }
       });
 
-      ipcRenderer.on('validate-finished', () => {
-        console.log('Validation finished');
-
+      ipcRenderer.on('validate-finished', (_ev, data) => {
         this.launching = false;
-        this.statusText = 'Starting AssetGuard';
+        this.statusText = 'Starting Minecraft';
+
+        this.startGame(data.forgeData, data.versionData);
       });
     });
   },
@@ -173,9 +180,16 @@ export default {
       this.launching = true;
       ipcRenderer.send('java-scan');
     },
-    startGame() {
+    startGame(forgeData, versionData) {
       ipcRenderer.send('start-game', {
-
+        authUser: this.authUser,
+        commonDir: remote.app.getPath('appData'),
+        distroServer: this.selectedServer,
+        forgeData,
+        javaConfig: this.javaConfig,
+        minecraftConfig: this.minecraftConfig,
+        modConfig: this.selectedEnabledModules,
+        versionData,
       });
     },
     validate() {

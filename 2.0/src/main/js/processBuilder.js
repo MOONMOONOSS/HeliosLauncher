@@ -1,4 +1,3 @@
-import { app } from 'electron';
 import ChildProcess from 'child_process';
 import crypto from 'crypto';
 import fs from 'fs-extra';
@@ -30,8 +29,6 @@ export default class ProcessBuilder {
 
   modConfig;
 
-  optionalsConfig;
-
   javaConfig;
 
   server;
@@ -43,14 +40,14 @@ export default class ProcessBuilder {
     versionData,
     forgeData,
     authUser,
-    launcherVersion,
+    launcherVersion = 2,
     modConfig,
-    optionalsConfig,
     javaConfig,
     minecraftConfig,
+    commonDir,
   ) {
     this.authUser = authUser;
-    this.commonDir = app.getPath('appData');
+    this.commonDir = commonDir;
     this.forgeData = forgeData;
     this.gameDir = path.join(this.commonDir, 'instances', distroServer.id);
     this.fmlDir = path.join(this.gameDir, 'forgeModList.json');
@@ -59,7 +56,6 @@ export default class ProcessBuilder {
     this.libPath = path.join(this.commonDir, 'libraries');
     this.minecraftConfig = minecraftConfig;
     this.modConfig = modConfig;
-    this.optionalsConfig = optionalsConfig;
     this.server = distroServer;
     this.versionData = versionData;
   }
@@ -73,7 +69,7 @@ export default class ProcessBuilder {
       'MOONMOON',
       crypto.pseudoRandomBytes(16).toString('hex'),
     );
-    const modArr = this.resolveModConfiguration();
+    const modArr = this.modConfig;
 
     // Mod list below 1.13
     if (!Util.mcVersionAtLeast('1.13', this.server.minecraftVersion)) {
@@ -123,41 +119,6 @@ export default class ProcessBuilder {
     });
 
     return child;
-  }
-
-  resolveModConfiguration(modCfg, modules) {
-    let enabledMods = [];
-    let config;
-
-    if (!modCfg && !modules) {
-      config = this.modConfig;
-    }
-
-    config.forEach((module) => {
-      const { type } = module;
-
-      if (type === DistroTypes.ForgeMod || type === DistroTypes.FabricMod) {
-        if (module.hasSubModules()) {
-          const v = this.resolveModConfiguration(
-            config[module.versionlessId()].mods,
-            module.subModules,
-          );
-
-          enabledMods = enabledMods.concat(v);
-        }
-
-        if (module.required.required) {
-          enabledMods.push(module);
-        } else {
-          const match = this.optionalsConfig.find((m) => m.id === module.id);
-          if (match && match.enabled) {
-            enabledMods.push(module);
-          }
-        }
-      }
-    });
-
-    return enabledMods;
   }
 
   belowOneSeven() {
@@ -290,7 +251,7 @@ export default class ProcessBuilder {
         argument.rules.forEach((rule, ruleIdx, ruleArr) => {
           if (rule.os) {
             if (rule.os.name === Library.mojangFriendlyOS()
-            && (rule.os.version ?? new RegExp(rule.os.version).test(os.release))) {
+            && (rule.os.version || new RegExp(rule.os.version).test(os.release))) {
               if (rule.action === 'allow') checksum += 1;
             } else if (rule.action === 'disallow') checksum += 1;
           } else if (rule.features) {
@@ -487,18 +448,12 @@ export default class ProcessBuilder {
     const version = this.versionData.id;
     cpArgs.push(path.join(this.commonDir, 'versions', version, `${version}.jar`));
 
-    // Resolve Mojang Libraries
-    const mojangLibs = this.resolveMojangLibraries(tempNativePath);
-
-    // Resolve the server declared libraries.
-    const servLibs = this.resolveServerLibraries(mods);
-
     // Merge libraries, server libs with the same
     // Maven identifier will override the mojang ones.
     // Ex. 1.7.10 forge overrides mojang's guava with newer version.
     const finalLibs = {
-      ...mojangLibs,
-      ...servLibs,
+      ...this.resolveMojangLibraries(tempNativePath),
+      ...this.resolveServerLibraries(mods),
     };
 
     cpArgs = cpArgs.concat(Object.values(finalLibs));
