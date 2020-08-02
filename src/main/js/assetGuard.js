@@ -813,6 +813,8 @@ export default class AssetGuard extends EventEmitter {
       return true;
     }
 
+    this.emit('complete', 'download');
+
     return false;
   }
 
