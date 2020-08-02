@@ -133,7 +133,11 @@ export default {
             this.statusText = `${VALIDATE} Pack Assets (${data.percent}%)`;
             break;
           case 'download':
-            this.statusText = `${DOWNLOAD} Pack Content (${data.percent}%)`;
+            if (data.percent === 100) {
+              this.statusText = 'Thinking (very) hard';
+            } else {
+              this.statusText = `${DOWNLOAD} Pack Content (${data.percent}%)`;
+            }
             break;
           case 'extract':
             this.statusText = `Extracting Libraries (${data.percent}%)`;

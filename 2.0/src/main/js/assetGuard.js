@@ -525,11 +525,11 @@ export default class AssetGuard extends EventEmitter {
    * @memberof AssetGuard
    */
   loadForgeData(server) {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve) => {
+    return new Promise((resolve, reject) => {
       const { modules } = server;
 
-      await Promise.all(modules.map(async (mod) => {
+      // eslint-disable-next-line array-callback-return
+      modules.map((mod) => {
         const { type } = mod;
 
         if (type === DistroTypes.ForgeHosted || type === DistroTypes.Forge) {
@@ -562,13 +562,16 @@ export default class AssetGuard extends EventEmitter {
               type,
             );
 
-            const forgeData = await AssetGuard.finalizeForgeAsset(asset, this.commonPath);
-
-            if (forgeData) resolve(forgeData);
-            else resolve(null);
+            AssetGuard.finalizeForgeAsset(asset, this.commonPath)
+              .then((forgeData) => resolve(forgeData))
+              .catch((err) => reject(err))
+              .finally(() => resolve(null));
           }
         }
-      }));
+      });
+
+      // If we get here, this is not a Forge pack
+      resolve(null);
     });
   }
 
@@ -708,7 +711,9 @@ export default class AssetGuard extends EventEmitter {
 
       // eslint-disable-next-line array-callback-return
       identifiers.map((identity) => {
+        console.log(identity);
         const r = this.startAsyncProcess(identity.id, identity.limit);
+        console.log(r);
         if (r) {
           shouldFire = false;
         }

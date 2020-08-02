@@ -66,7 +66,6 @@ export default class AssetExec {
     console.log('Listeners assigned.');
 
     this.tracker.on('validate', (data) => {
-      console.dir(data);
       process.send({
         context: 'validate',
         data,
