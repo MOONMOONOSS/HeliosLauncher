@@ -305,6 +305,9 @@ ipcMain.on('start-game', (ev, data) => {
 
   p.on('message', (msg) => {
     switch (msg.context) {
+      case 'game-close':
+        ev.reply('game-close', msg.code);
+        break;
       default:
         // eslint-disable-next-line no-console
         console.warn(`Unknown context in start-game: ${msg.context}`);

@@ -163,15 +163,13 @@ export default class AssetGuard extends EventEmitter {
 
             if (!fs.existsSync(versionFile)) {
               fs.ensureDirSync(versionPath);
-              fs.writeFileSync(path.join(versionPath, `${forgeVersion.id}.json`), zipEntries[i].getData());
+              fs.writeFileSync(versionFile, zipEntries[i].getData());
 
               resolve(forgeVersion);
             }
 
             // Read the saved file to allow for user modifications.
             resolve(JSON.parse(fs.readFileSync(versionFile, 'utf-8')));
-
-            break;
           }
         }
 
@@ -562,10 +560,11 @@ export default class AssetGuard extends EventEmitter {
               type,
             );
 
-            AssetGuard.finalizeForgeAsset(asset, this.commonPath)
-              .then((forgeData) => resolve(forgeData))
-              .catch((err) => reject(err))
-              .finally(() => resolve(null));
+            const forgeData = AssetGuard.finalizeForgeAsset(asset, this.commonPath)
+              .catch((err) => reject(err));
+
+            if (forgeData) resolve(forgeData);
+            else resolve(null);
           }
         }
       });
@@ -711,9 +710,7 @@ export default class AssetGuard extends EventEmitter {
 
       // eslint-disable-next-line array-callback-return
       identifiers.map((identity) => {
-        console.log(identity);
         const r = this.startAsyncProcess(identity.id, identity.limit);
-        console.log(r);
         if (r) {
           shouldFire = false;
         }

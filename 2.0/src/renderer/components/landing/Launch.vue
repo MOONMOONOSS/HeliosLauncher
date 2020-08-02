@@ -154,10 +154,14 @@ export default {
       });
 
       ipcRenderer.on('validate-finished', (_ev, data) => {
-        this.launching = false;
-        this.statusText = 'Starting Minecraft';
+        this.statusText = 'See you in-game';
 
         this.startGame(data.forgeData, data.versionData);
+      });
+
+      ipcRenderer.on('game-close', () => {
+        this.statusText = 'Starting AssetGuard';
+        this.launching = false;
       });
     });
   },

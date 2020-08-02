@@ -130,7 +130,7 @@ export default class Module {
       case Types.ForgeHosted:
       case Types.FabricHosted:
         this.artifact.path = path.join(
-          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          process.env.CONFIG_DIRECT_PATH || app.getPath('userData'),
           'common',
           'libraries',
           pth,
@@ -139,7 +139,7 @@ export default class Module {
       case Types.ForgeMod:
       case Types.FabricMod:
         this.artifact.path = path.join(
-          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          process.env.CONFIG_DIRECT_PATH || app.getPath('userData'),
           'common',
           'modstore',
           pth,
@@ -147,7 +147,7 @@ export default class Module {
         break;
       case Types.VersionManifest:
         this.artifact.path = path.join(
-          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          process.env.CONFIG_DIRECT_PATH || app.getPath('userData'),
           'common',
           'versions',
           String(this.artifactId), `${String(this.artifactId)}.json`,
@@ -156,7 +156,7 @@ export default class Module {
       case Types.File:
       default:
         this.artifact.path = path.join(
-          process.env.CONFIG_DIRECT_PATH || app.getPath('appData'),
+          process.env.CONFIG_DIRECT_PATH || app.getPath('userData'),
           'instances',
           serverId,
           pth,

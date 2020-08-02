@@ -24,13 +24,17 @@ export default class ProcessExec {
           process.exit(0);
           break;
         default:
+          // eslint-disable-next-line no-console
           console.warn(`Unknown context in ProcessBuilder: ${msg.context}`);
+          // eslint-disable-next-line no-console
           console.dir(msg);
       }
     });
 
     process.on('disconnect', () => {
+      // eslint-disable-next-line no-console
       console.log('ProcessBuilder Disconnected');
+
       process.exit(0);
     });
   }

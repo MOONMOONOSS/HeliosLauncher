@@ -52,7 +52,7 @@ export default class ProcessBuilder {
     this.commonDir = commonDir;
     this.forgeData = forgeData;
     this.gameDir = path.join(this.commonDir, 'instances', distroServer.id);
-    this.fmlDir = path.join(this.gameDir, 'forgeModList.json');
+    this.fmlDir = path.join(this.gameDir, 'mods', 'mod_list.json');
     this.javaConfig = javaConfig;
     this.launcherVersion = launcherVersion;
     this.libPath = path.join(this.commonDir, 'libraries');
@@ -118,6 +118,11 @@ export default class ProcessBuilder {
           console.log('Temp dir deleted successfully');
         }
       });
+
+      process.send({
+        context: 'game-close',
+        code,
+      });
     });
 
     return child;
@@ -158,27 +163,28 @@ export default class ProcessBuilder {
   }
 
   constructModList(type, mods, save = false) {
-    const absVal = (type === DistroTypes.ForgeMod && this.requiresAbsolute()) ? 'absolute:' : '';
     const modList = {
-      repositoryRoot: `${absVal}${path.join(this.commonDir, 'modstore')}`,
+      repositoryRoot: '../../common/modstore/',
     };
     const ids = [];
 
     switch (type) {
       case DistroTypes.ForgeMod:
-        mods.forEach((module) => ids.push(new Module(null, null, module).extensionlessId()));
+        mods.forEach((module) => {
+          module = new Module(null, null, module);
+          if (module.type === 'ForgeMod') {
+            ids.push(module.extensionlessId());
+          }
+        });
         break;
       default:
-        mods.forEach((module) => {
-          const mod = new Module(null, null, module);
-          ids.push(`${mod.extensionlessId()}@${mod.artifactExt}`);
-        });
     }
 
     modList.modRef = ids;
 
     if (save) {
       const data = JSON.stringify(modList, null, 4);
+      fs.ensureFileSync(this.fmlDir);
       fs.writeFileSync(this.fmlDir, data, 'UTF-8');
     }
 
@@ -257,23 +263,23 @@ export default class ProcessBuilder {
     for (let i = 0; i < args.length; i += 1) {
       if (typeof args[i] === 'object' && args[i].rules != null) {
         let checksum = 0;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const rule of args[i].rules) {
-          if (rule.os != null) {
+        // eslint-disable-next-line no-loop-func
+        args[i].rules.forEach((rule, ruleIdx) => {
+          if (rule.os) {
             if (rule.os.name === Library.mojangFriendlyOs()
-                    && (rule.os.version == null || new RegExp(rule.os.version).test(os.release))) {
+              && (!rule.os.version || new RegExp(rule.os.version).test(os.release))) {
               if (rule.action === 'allow') {
                 checksum += 1;
               }
             } else if (rule.action === 'disallow') {
               checksum += 1;
             }
-          } else if (rule.features != null) {
+          } else if (rule.features) {
             // We don't have many 'features' in the index at the moment.
             // This should be fine for a while.
             if (rule.features.has_custom_resolution && rule.features.has_custom_resolution) {
               if (this.minecraftConfig.fullScreen) {
-                rule.values = [
+                args[i].rules[ruleIdx].values = [
                   '--fullscreen',
                   'true',
                 ];
@@ -281,7 +287,7 @@ export default class ProcessBuilder {
               checksum += 1;
             }
           }
-        }
+        });
 
         // TODO splice not push
         if (checksum === args[i].rules.length) {
@@ -300,7 +306,7 @@ export default class ProcessBuilder {
       } else if (typeof args[i] === 'string') {
         if (argDiscovery.test(args[i])) {
           const identifier = args[i].match(argDiscovery)[1];
-          let val = null;
+          let val;
           switch (identifier) {
             case 'auth_player_name':
               val = this.authUser.displayName.trim();
@@ -374,13 +380,15 @@ export default class ProcessBuilder {
     if (this.forgeData) {
       mcArgs = this.forgeData.minecraftArguments.split(' ');
     } else {
-      mcArgs = [];
+      // eslint-disable-next-line no-console
+      console.warn('forgeData is missing. The game will launch in Vanilla mode!');
+      mcArgs = this.versionData.minecraftArguments.split(' ');
     }
     const argDiscovery = /\${*(.*)}/;
 
     // Replace the declared variables with their proper values.
     mcArgs.forEach((argument, idx, arr) => {
-      if (argDiscovery.text(argument)) {
+      if (argDiscovery.test(argument)) {
         const ident = argument.match(argDiscovery)[1];
         let val;
 
@@ -446,14 +454,6 @@ export default class ProcessBuilder {
       mcArgs.push(this.minecraftConfig.resolution[0]);
       mcArgs.push('--height');
       mcArgs.push(this.minecraftConfig.resolution[1]);
-    }
-
-    // Mod List File Arg
-    mcArgs.push('--modListFile');
-    if (this.belowOneSeven()) {
-      mcArgs.push(path.basename(this.fmlDir));
-    } else {
-      mcArgs.push(`absolute:${this.fmlDir}`);
     }
 
     return mcArgs;
@@ -559,11 +559,10 @@ export default class ProcessBuilder {
   }
 
   resolveServerLibraries(mods) {
-    const { modules } = this.server;
     let libs = {};
 
     // Locate Forge and Forge Libraries
-    modules.forEach((mod) => {
+    mods.forEach((mod) => {
       mod = new Module(null, null, mod);
       const { type } = mod;
 
@@ -603,10 +602,6 @@ export default class ProcessBuilder {
   resolveModuleLibraries(module) {
     module = new Module(null, null, module);
     let libs = [];
-
-    if (!module.hasSubModules()) {
-      return libs;
-    }
 
     module.subModules.forEach((mod) => {
       if (mod.type === DistroTypes.Library) {
