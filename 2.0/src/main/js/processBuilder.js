@@ -122,7 +122,12 @@ export default class ProcessBuilder {
   }
 
   belowOneSeven() {
-    return Number(this.forgeData.id.split('-')[0].split('.')[1]) <= 7;
+    if (this.forgeData) {
+      return Number(this.forgeData.id.split('-')[0].split('.')[1]) <= 7;
+    }
+
+    // Vanilla 1.7 and below is not supported
+    return false;
   }
 
   requiresAbsolute() {
