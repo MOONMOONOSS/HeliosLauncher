@@ -93,6 +93,11 @@ const mutations = {
 
 const getters = {
   accessToken: (state) => state.accessToken,
+  authUser: (state) => ({
+    displayName: state.displayName,
+    uuid: state.uuid,
+    accessToken: state.clientToken,
+  }),
   clientToken: (state) => state.clientToken,
   discordToken: (state) => state.discordToken,
   discordRefresh: (state) => state.discordRefresh,
