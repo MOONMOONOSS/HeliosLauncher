@@ -218,6 +218,7 @@ ipcMain.on('start-download', (ev, data) => {
     [
       `${app.getPath('userData')}`,
       data.javaExe,
+      `${process.resourcesPath}`,
     ],
     {
       env: forkEnv,

@@ -68,7 +68,7 @@ export default class AssetGuard extends EventEmitter {
    * to finalize installation.
    * @memberof AssetGuard
    */
-  constructor(commonPath, javaExec) {
+  constructor(commonPath, javaExec, resourcePath) {
     super();
 
     this.totalDlSize = 0;
@@ -80,6 +80,7 @@ export default class AssetGuard extends EventEmitter {
     this.java = new DlTracker([], 0);
     this.extractQueue = [];
     this.commonPath = commonPath;
+    this.resourcePath = resourcePath;
     this.javaExec = javaExec;
   }
 
@@ -107,11 +108,11 @@ export default class AssetGuard extends EventEmitter {
    * @returns {Promise<void>} An empty promise to indicate the extraction has completed.
    * @memberof AssetGuard
    */
-  static extractPackXZ(filePaths, javaExe) {
+  extractPackXZ(filePaths, javaExe) {
     return new Promise((resolve) => {
       let libPath;
       if (!process.env.NODE_ENV) {
-        libPath = path.join(process.resourcesPath, 'PackXZExtract.jar');
+        libPath = `${this.resourcePath}/PackXZExtract.jar`;
       } else {
         libPath = path.join(__dirname, '../../..', 'static', 'bean', 'PackXZExtract.jar');
       }
@@ -807,7 +808,7 @@ export default class AssetGuard extends EventEmitter {
         if (this.extractQueue.length > 0) {
           this.emit('progress', 'extract', 1, 1);
 
-          AssetGuard.extractPackXZ(this.extractQueue, this.javaExec)
+          this.extractPackXZ(this.extractQueue, this.javaExec)
             .then(() => {
               this.extractQueue = [];
               this.emit('complete', 'download');
