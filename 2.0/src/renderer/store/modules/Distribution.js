@@ -93,6 +93,13 @@ const getters = {
     .filter((module) => module.required.required === true),
   selectedOptionalModules: (_state, getters) => getters.selectedModules
     .filter((module) => module.required.required === false),
+  selectedEnabledModules: (_state, getters) => {
+    const filteredOptionals = getters.selectedOptionalModules
+      .filter((module) => getters.selectedOptionalPrefs.modules
+        .find((item) => item.id === module.id).enabled);
+
+    return getters.selectedRequiredModules.concat(filteredOptionals);
+  },
   selectedServerName: (_state, getters) => {
     if (getters.selectedServer) {
       return getters.selectedServer.name;
