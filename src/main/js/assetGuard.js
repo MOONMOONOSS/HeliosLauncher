@@ -692,7 +692,7 @@ export default class AssetGuard extends EventEmitter {
         { id: 'forge', limit: 5 },
       ];
 
-      let shouldFire = true;
+      let totalFinished = 0;
 
       // Assign DlTracker vars
       this.totalDlSize = 0;
@@ -705,21 +705,13 @@ export default class AssetGuard extends EventEmitter {
         this.totalDlSize += this[identity.id].dlSize;
       });
 
-      this.once('complete', () => {
-        resolve();
+      this.on('complete', () => {
+        totalFinished += 1;
+        if (totalFinished === identifiers.length) resolve();
       });
 
       // eslint-disable-next-line array-callback-return
-      identifiers.map((identity) => {
-        const r = this.startAsyncProcess(identity.id, identity.limit);
-        if (r) {
-          shouldFire = false;
-        }
-      });
-
-      if (shouldFire) {
-        this.emit('complete', 'download');
-      }
+      identifiers.map((identity) => this.startAsyncProcess(identity.id, identity.limit));
     });
   }
 
