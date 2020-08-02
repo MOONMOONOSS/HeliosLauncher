@@ -71,7 +71,7 @@ export default class Module {
    * @param {string} serverId The ID of the server to which this module belongs.
    * @memberof Module
    */
-  constructor(serverId, json) {
+  constructor(serverId, json, vueState) {
     if (json) {
       this.id = json.id;
       this.type = json.type;
@@ -83,6 +83,8 @@ export default class Module {
 
       this.resolveArtifactPath(serverId);
       this.resolveSubModules(json.subModules, serverId);
+    } else if (vueState) {
+      Object.assign(this, vueState);
     }
   }
 
