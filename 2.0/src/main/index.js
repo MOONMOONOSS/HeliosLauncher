@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import ChildProcess from 'child_process';
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
 import fs from 'fs';

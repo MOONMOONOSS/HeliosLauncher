@@ -44,6 +44,7 @@
 </template>
 
 <script>
+/* eslint-disable import/no-extraneous-dependencies */
 import { ipcRenderer, remote } from 'electron';
 import { mapGetters, mapMutations } from 'vuex';
 

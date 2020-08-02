@@ -1,6 +1,6 @@
 {
-  "name": "helios-test",
-  "productName": "helios-test",
+  "name": "moonmoon-launcher",
+  "productName": "moonmoon-launcher",
   "version": "2.0.0-alpha",
   "author": "Joseph Zurowski <Dunklheit@users.noreply.github.com>",
   "description": "An all-in-one Electron launcher for Minecraft",
@@ -14,6 +14,8 @@
     "build:win32": "cross-env BUILD_TARGET=win32 node .electron-vue/build.js",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+    "compile": "electron-webpack",
+    "dist": "npm run compile && electron-builder",
     "dev": "node .electron-vue/dev-runner.js",
     "e2e": "npm run pack && mocha test/e2e",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
@@ -23,13 +25,12 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": "npm run lint:fix"
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
     "adm-zip": "^0.4.16",
     "async": "^3.2.0",
-    "electron": "^9.1.2",
     "esm": "^3.2.25",
     "form-data": "^3.0.0",
     "fs-extra": "^9.0.1",
@@ -54,7 +55,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
-    "@babel/preset-stage-0": "^7.8.3",
     "@babel/register": "^7.10.5",
     "@vue/compiler-sfc": "^3.0.0-rc.5",
     "ajv": "^6.12.3",
@@ -70,10 +70,13 @@
     "css-loader": "^3.6.0",
     "del": "^5.1.0",
     "devtron": "^1.4.0",
+    "electron": "^9.1.2",
+    "electron-builder": "^22.8.0",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^3.1.1",
     "electron-packager": "^15.0.0",
-    "electron-rebuild": "^1.11.0",
+    "electron-webpack": "^2.8.2",
+    "electron-webpack-vue": "^2.4.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-friendly-formatter": "^4.0.1",
@@ -108,10 +111,59 @@
     "vue-loader": "^15.9.3",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "~5.0.0-beta.22",
+    "webpack": "~4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^5.0.9"
+  },
+  "electronWebpack": {
+    "commonSourceDirectory": "src/common",
+    "staticSourceDirectory": "src/static",
+    "title": true,
+    "main": {
+      "sourceDirectory": "src/main",
+      "webpackConfig": ".electron-vue/webpack.main.config.js"
+    },
+    "renderer": {
+      "sourceDirectory": "src/renderer",
+      "template": "src/renderer/index.ejs",
+      "webpackConfig": ".electron-vue/webpack.renderer.config.js"
+    }
+  },
+  "build": {
+    "appId": "tv.moonmoon.launcher",
+    "productName": "MOON2 Launcher",
+    "copyright": "© 2020 Dunkel Web Services",
+    "asar": true,
+    "compression": "maximum",
+    "extraResources": [
+      "static/bean"
+    ],
+    "directories": {
+      "buildResources": "dist/electron"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": "x64"
+        }
+      ]
+    },
+    "mac": {
+      "target": "dir",
+      "category": "public.app-category.games"
+    },
+    "linux": {
+      "target": "AppImage",
+      "maintainer": "Dunkel Web Services",
+      "vendor": "Dunkel Web Services",
+      "synopsis": "Modded Minecraft Launcher",
+      "description": "Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.",
+      "category": "Game"
+    },
+    "icon": "build/icons/icon",
+    "nodeVersion": "current"
   }
 }

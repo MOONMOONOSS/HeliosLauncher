@@ -1,27 +1,25 @@
-//
-
 import Module from './module';
 
 export default class Server {
-  id ;
+  id;
 
-  name ;
+  name;
 
-  description ;
+  description;
 
-  icon ;
+  icon;
 
-  version ;
+  version;
 
-  address ;
+  address;
 
-  minecraftVersion ;
+  minecraftVersion;
 
-  mainServer ;
+  mainServer;
 
-  autoconnect ;
+  autoconnect;
 
-  modules ;
+  modules;
 
   constructor(json) {
     if (!json) {

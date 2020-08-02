@@ -1,15 +1,13 @@
-//
-
 import Server from './server';
 
 export default class DistroIndex {
-  mainServerId ;
+  mainServerId;
 
-  rss ;
+  rss;
 
-  servers ;
+  servers;
 
-  version ;
+  version;
 
   constructor(json) {
     if (!json) {

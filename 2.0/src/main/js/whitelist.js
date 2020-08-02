@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { BrowserWindow } from 'electron';
 import Url from 'url';
 import fetchNode from 'node-fetch';

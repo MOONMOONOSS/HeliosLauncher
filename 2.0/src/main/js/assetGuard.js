@@ -110,8 +110,8 @@ export default class AssetGuard extends EventEmitter {
   static extractPackXZ(filePaths, javaExe) {
     return new Promise((resolve) => {
       let libPath;
-      if (process.env.NODE_ENV === 'production') {
-        libPath = path.join(process.resourcesPath, 'static', 'bean', 'PackXZExtract.jar');
+      if (!process.env.NODE_ENV) {
+        libPath = path.join(process.resourcesPath, 'PackXZExtract.jar');
       } else {
         libPath = path.join(__dirname, '../../..', 'static', 'bean', 'PackXZExtract.jar');
       }
