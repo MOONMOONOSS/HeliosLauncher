@@ -400,7 +400,8 @@ ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve, reject) =
     .then((data) => {
       if (data && data.valid) resolve(data);
       reject(Error('Invalid path to Java'));
-    });
+    })
+    .catch(() => resolve({ valid: false }));
 }));
 
 // eslint-disable-next-line no-return-assign
