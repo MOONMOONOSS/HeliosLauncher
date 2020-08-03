@@ -690,11 +690,11 @@ export default class JavaGuard extends EventEmitter {
             });
           }
         });
-      } else {
-        resolve({
-          valid: false,
-        });
       }
+
+      resolve({
+        valid: false,
+      });
     });
   }
 }

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
 import WipBadge from './components/app/WipBadge.vue';
@@ -27,10 +27,20 @@ export default {
       'isSkinEditOpen',
       'isServerSelectOpen',
     ]),
+    ...mapGetters('Java', [
+      'javaDetails',
+    ]),
   },
   mounted() {
     this.$nextTick(async () => {
       this.pullDistro();
+
+      const details = await this.javaDetails();
+
+      if (!details || !details.valid) {
+        this.setJavaExe();
+        this.$router.push({ name: 'missing-java' });
+      }
 
       const loader = document.getElementById('loadingContainer');
 
@@ -54,6 +64,9 @@ export default {
   },
   methods: {
     ...mapActions('Distribution', ['pullDistro']),
+    ...mapMutations('Java', [
+      'setJavaExe',
+    ]),
   },
 };
 </script>

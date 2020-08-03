@@ -93,14 +93,14 @@
       </div>
     </div>
     <div
-      class="header col item"
       v-if="javaDeets && javaDeets.valid"
+      class="header col item"
     >
       Additional JVM Options
     </div>
     <div
-      class="col item"
       v-if="javaDeets && javaDeets.valid"
+      class="col item"
     >
       <div class="row">
         <div class="coffee-container">

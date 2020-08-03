@@ -393,13 +393,13 @@ ipcMain.handle('skin-upload', (_ev, payload) => new Promise((resolve, reject) =>
 
 ipcMain.handle('distro-pull', () => DistroManager.pullRemote(app.getPath('userData')));
 
-ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve, reject) => {
+ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve) => {
   const jg = new JavaGuard(payload.mcVersion);
 
   return jg.validateJavaBinary(payload.exe)
     .then((data) => {
       if (data && data.valid) resolve(data);
-      reject(Error('Invalid path to Java'));
+      else resolve({ valid: false });
     })
     .catch(() => resolve({ valid: false }));
 }));
