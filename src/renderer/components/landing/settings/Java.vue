@@ -64,9 +64,7 @@
       Java Executable
     </div>
     <div class="col item">
-      <div
-        v-if="javaDeets"
-      >
+      <div v-if="javaDeets && javaDeets.valid">
         <div id="java-version">
           Selected: Java
           {{ `${javaDeets.version.major} Update ${javaDeets.version.update} (x${javaDeets.arch})` }}
@@ -94,10 +92,16 @@
         Java not detected
       </div>
     </div>
-    <div class="header col item">
+    <div
+      class="header col item"
+      v-if="javaDeets && javaDeets.valid"
+    >
       Additional JVM Options
     </div>
-    <div class="col item">
+    <div
+      class="col item"
+      v-if="javaDeets && javaDeets.valid"
+    >
       <div class="row">
         <div class="coffee-container">
           <img
