@@ -4,6 +4,7 @@
     :overlay="isServerSelectOpen || isSettingsOpen || isSkinEditOpen"
   >
     <FrameBar />
+    <WipBadge />
     <router-view />
   </div>
 </template>
@@ -12,10 +13,14 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
+import WipBadge from './components/app/WipBadge.vue';
 
 export default {
   name: 'Launcher',
-  components: { FrameBar },
+  components: {
+    FrameBar,
+    WipBadge,
+  },
   computed: {
     ...mapGetters('Landing', [
       'isSettingsOpen',
