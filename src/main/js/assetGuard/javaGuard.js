@@ -254,7 +254,7 @@ export default class JavaGuard extends EventEmitter {
           arch: 'x64',
         });
 
-        key.keyExists((err, exists) => {
+        key.keyExists((_err, exists) => {
           if (exists) {
             key.keys((err, javaVersion) => {
               if (err) {
@@ -311,6 +311,9 @@ export default class JavaGuard extends EventEmitter {
           }
         });
       }
+
+      // Always ensure resolution of the Promise!
+      resolve(candidates);
     });
   }
 
@@ -563,8 +566,7 @@ export default class JavaGuard extends EventEmitter {
    * @memberof JavaGuard
    */
   validateJava(dataDir) {
-    return this[`${process.platform}JavaValidate`](dataDir)
-      .then((res) => res);
+    return this[`${process.platform}JavaValidate`](dataDir);
   }
 
   /**
