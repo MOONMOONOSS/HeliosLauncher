@@ -1,6 +1,6 @@
 <template>
   <div id="badge">
-    Alpha 1
+    Beta 1
   </div>
 </template>
 
