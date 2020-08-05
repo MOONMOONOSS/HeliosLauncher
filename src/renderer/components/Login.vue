@@ -156,6 +156,9 @@ export default {
       });
     });
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners('mojang-request');
+  },
   methods: {
     async onSubmit() {
       const { username, password } = this.loginData;

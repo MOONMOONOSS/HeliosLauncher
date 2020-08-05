@@ -36,6 +36,9 @@ export default {
       });
     });
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners('java-complete');
+  },
   methods: {
     startInstall() {
       ipcRenderer.send('java-install');

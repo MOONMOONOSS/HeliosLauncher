@@ -166,6 +166,14 @@ export default {
       });
     });
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners('game-close');
+    ipcRenderer.removeAllListeners('validate-finished');
+    ipcRenderer.removeAllListeners('launch-progress');
+    ipcRenderer.removeAllListeners('validate-status');
+    ipcRenderer.removeAllListeners('launch-status');
+    ipcRenderer.removeAllListeners('java-status');
+  },
   methods: {
     ...mapMutations('Landing', [
       'serverVisibility',

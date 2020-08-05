@@ -68,6 +68,9 @@ export default {
       });
     });
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners('discord-code');
+  },
   methods: {
     finish() {
       this.linking = true;

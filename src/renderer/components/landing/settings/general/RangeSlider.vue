@@ -47,6 +47,10 @@ export default {
     mouseMoveListener: null,
     curValue: 1,
   }),
+  beforeUnmount() {
+    document.removeEventListener('mousemove', this.mouseMoveListener);
+    document.removeEventListener('mouseup', this.mouseUpListener);
+  },
   methods: {
     calculateRangeSliderMeta(v) {
       const { max, min, step } = v;

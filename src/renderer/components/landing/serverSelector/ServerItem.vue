@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import {remote, shell} from 'electron'; // eslint-disable-line
-
 import { mapGetters } from 'vuex';
 
 export default {
