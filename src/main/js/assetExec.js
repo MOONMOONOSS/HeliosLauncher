@@ -117,14 +117,6 @@ export default class AssetExec {
       });
     });
 
-    this.tracker.on('install-complete', (data) => {
-      console.log('Complete!');
-      process.send({
-        context: 'install-complete',
-        data,
-      });
-    });
-
     this.tracker.on('error', (data, error) => {
       process.send({
         context: 'error',
