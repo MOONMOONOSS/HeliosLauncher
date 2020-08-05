@@ -201,6 +201,52 @@ export default class {
     });
   }
 
+  static refresh(accessToken, clientToken) {
+    return new Promise((resolve, reject) => {
+      if (!accessToken || !clientToken) reject(Error('Missing Parameters'));
+      /**
+       * HTTP request body
+       */
+      const body = {
+        accessToken,
+        clientToken,
+      };
+
+      /**
+       * Options for Fetch API call
+       */
+      const params = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'error',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body),
+      };
+
+      try {
+        fetchNode(`${this.authServer}/refresh`, params)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              reject(data);
+            } else {
+              resolve(data);
+            }
+          });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('shits broke fam', err);
+        reject(err);
+      }
+    });
+  }
+
   /**
    * Resets a user's Minecraft skin back to Steve.
    *

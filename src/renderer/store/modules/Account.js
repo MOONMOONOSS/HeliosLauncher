@@ -195,6 +195,29 @@ const actions = {
       resolve();
     });
   },
+  minecraftRefresh({ state, commit }) {
+    return new Promise((resolve, reject) => {
+      if (state.accessToken && state.clientToken) {
+        ipcRenderer.invoke('minecraft-refresh', {
+          accessToken: state.accessToken,
+          clientToken: state.clientToken,
+        })
+          .then((result) => {
+            commit('accessToken', result.accessToken);
+            commit('clientToken', result.clientToken);
+            resolve();
+          })
+          .catch((err) => {
+            commit('accessToken', null);
+            commit('clientToken', null);
+
+            // eslint-disable-next-line no-console
+            console.error('Unable to refresh Minecraft token', err);
+            reject(err);
+          });
+      } else resolve();
+    });
+  },
   minecraftReset({ commit }) {
     return new Promise((resolve) => {
       commit('accessToken');

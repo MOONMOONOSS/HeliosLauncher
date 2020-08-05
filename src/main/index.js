@@ -346,6 +346,8 @@ ipcMain.handle('minecraft-logout', (_ev, payload) => {
     .then((data) => JSON.stringify(data));
 });
 
+ipcMain.handle('minecraft-refresh', (_ev, payload) => Mojang.refresh(payload.accessToken, payload.clientToken));
+
 ipcMain.handle('whitelist-register', (_ev, payload) => {
   payload = JSON.parse(payload);
 
