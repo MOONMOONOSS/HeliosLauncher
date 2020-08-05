@@ -24,6 +24,9 @@ export default {
     WipBadge,
   },
   computed: {
+    ...mapGetters('Account', [
+      'accessToken',
+    ]),
     ...mapGetters('Landing', [
       'isSettingsOpen',
       'isSkinEditOpen',
@@ -32,6 +35,11 @@ export default {
     ...mapGetters('Java', [
       'javaDetails',
     ]),
+  },
+  watch: {
+    accessToken(val) {
+      if (!val) this.$router.push({ name: 'minecraft-login' });
+    },
   },
   mounted() {
     this.$nextTick(async () => {
@@ -45,6 +53,7 @@ export default {
 
       ipcRenderer.send('java-detect', { mcVersion: '1.16.1' });
       this.pullDistro();
+      this.minecraftRefresh();
 
       const details = await this.javaDetails();
 
@@ -74,6 +83,9 @@ export default {
     });
   },
   methods: {
+    ...mapActions('Account', [
+      'minecraftRefresh',
+    ]),
     ...mapActions('Distribution', [
       'pullDistro',
       'selectedServer',
