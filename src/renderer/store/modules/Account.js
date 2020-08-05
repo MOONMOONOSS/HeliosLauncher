@@ -96,7 +96,7 @@ const getters = {
   authUser: (state) => ({
     displayName: state.displayName,
     uuid: state.uuid,
-    accessToken: state.clientToken,
+    accessToken: state.accessToken,
   }),
   clientToken: (state) => state.clientToken,
   discordToken: (state) => state.discordToken,
