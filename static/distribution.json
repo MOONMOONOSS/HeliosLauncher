@@ -1,5 +1,5 @@
 {
-  "version": "2.0.3",
+  "version": "2.0.8",
   "discord": {
     "clientId": "604009411928784917",
     "smallImageText": "Mooncraft",
@@ -433,7 +433,7 @@
       "name": "RLCraft",
       "description": "Is it really that time to suffer again?",
       "icon": "https://moonmoon-live.s3.us-east-2.amazonaws.com/icon/rlcraft.png",
-      "version": "1.0.1",
+      "version": "1.0.6",
       "address": "51.81.48.39:27070",
       "minecraftVersion": "1.12.2",
       "discord": {
@@ -657,16 +657,6 @@
           ]
         },
         {
-          "id": "generated.forgemod:# libloader:0.0.0@jar",
-          "name": "# LibLoader",
-          "type": "ForgeMod",
-          "artifact": {
-            "size": 23934,
-            "MD5": "dc9c407ac72708942ade074049d97e00",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/#%20LibLoader.jar"
-          }
-        },
-        {
           "id": "com.charles445:aireducer:1.12.2-0.1.3@jar",
           "name": "AI Reducer",
           "type": "ForgeMod",
@@ -803,7 +793,7 @@
           "artifact": {
             "size": 3642,
             "MD5": "944a413889537655a8c1165d44e2647f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Born%20In%20A%20Barn%20V1.8-1.12-1.1.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Born In A Barn V1.8-1.12-1.1.jar"
           }
         },
         {
@@ -813,7 +803,7 @@
           "artifact": {
             "size": 443029,
             "MD5": "c3bbd6b5923ce44d3f004ce0ca796051",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Bountiful%20Baubles-1.12.2-0.1.5.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Bountiful Baubles-1.12.2-0.1.5.jar"
           }
         },
         {
@@ -823,7 +813,7 @@
           "artifact": {
             "size": 317135,
             "MD5": "c026ac8f71ce43553c99a1b49f3c3a06",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/CarryOn%20MC1.12.2%20v1.12.3.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/CarryOn MC1.12.2 v1.12.3.jar"
           }
         },
         {
@@ -1013,7 +1003,7 @@
           "artifact": {
             "size": 617200,
             "MD5": "8a765ab92c47cc5559ff551debccb937",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/ForgottenItems%20MC1.12.2%20v1.2.1.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/ForgottenItems MC1.12.2 v1.2.1.jar"
           }
         },
         {
@@ -1063,7 +1053,7 @@
           "artifact": {
             "size": 286144,
             "MD5": "eff5b44c2e1019a262eafd0aaad4c4a9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/InventoryTweaks-1.64+dev.151.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/InventoryTweaks-1.64-dev.151.jar"
           }
         },
         {
@@ -1093,7 +1083,7 @@
           "artifact": {
             "size": 187346,
             "MD5": "82332952e6ac6c770d4976586cb09b12",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Level%20Up!%202-1.1.23-1.12.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Level Up! 2-1.1.23-1.12.jar"
           }
         },
         {
@@ -1143,7 +1133,7 @@
           "artifact": {
             "size": 18527,
             "MD5": "c371deab2490ecd6a2689eed09302d23",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Neat%201.4-17.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Neat 1.4-17.jar"
           }
         },
         {
@@ -1273,7 +1263,7 @@
           "artifact": {
             "size": 369985,
             "MD5": "e9455929b793300c4987ab368d38d170",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/ScalingHealth-1.12.2-1.3.42+147.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/ScalingHealth-1.12.2-1.3.42-147.jar"
           }
         },
         {
@@ -1293,7 +1283,7 @@
           "artifact": {
             "size": 369314,
             "MD5": "1e66a91d88c26de3702af1c4f754a5e5",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/SilentLib-1.12.2-3.0.14+168.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/SilentLib-1.12.2-3.0.14-168.jar"
           }
         },
         {
@@ -1313,7 +1303,7 @@
           "artifact": {
             "size": 448545,
             "MD5": "a0d76289c5d15f7a1ce4fd77a81de50b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/So%20Many%20Enchantments%20V0.4.4.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/So Many Enchantments V0.4.4.jar"
           }
         },
         {
@@ -1357,16 +1347,6 @@
           }
         },
         {
-          "id": "org.minimallycorrect.tickprofiler.minecraft:tickprofiler:1.12-0.0.10@jar",
-          "name": "TickProfiler",
-          "type": "ForgeMod",
-          "artifact": {
-            "size": 484034,
-            "MD5": "6a275afe89b5a5c900caf88b277425cc",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/TickProfiler-1.12-0.0.10.jar"
-          }
-        },
-        {
           "id": "gigaherz.toolbelt:toolbelt:1.9.12@jar",
           "name": "Tool Belt",
           "type": "ForgeMod",
@@ -1403,7 +1383,7 @@
           "artifact": {
             "size": 610961,
             "MD5": "8c2f119a7584155d3a44acc105e71188",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Trinkets%20and%20Baubles-1.12.2-0.29.2.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/Trinkets and Baubles-1.12.2-0.29.2.jar"
           }
         },
         {
@@ -1413,7 +1393,7 @@
           "artifact": {
             "size": 47850,
             "MD5": "bad304eee3e23269dd94a26785e7d037",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/TschippLib%20MC1.12.2%20v1.1.3.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/TschippLib MC1.12.2 v1.1.3.jar"
           }
         },
         {
@@ -1703,7 +1683,7 @@
           "artifact": {
             "size": 1082311,
             "MD5": "9892af4ac4f8ca4222138a245592227c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/phosphor-1.12.2-0.2.6+build50-universal.jar"
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/mods/phosphor-1.12.2-0.2.6-build50-universal.jar"
           }
         },
         {
@@ -3373,7 +3353,7 @@
           "artifact": {
             "size": 17982,
             "MD5": "9d26348c067eb2c4145dd7153ae71067",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/First%20Aid.cfg",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/First Aid.cfg",
             "path": "config/First Aid.cfg"
           }
         },
@@ -3474,2063 +3454,6 @@
             "MD5": "b95eb5e8781ba3c83f0f7a16e15b394c",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/InvTweaksCompatibility.xml",
             "path": "config/InvTweaksCompatibility.xml"
-          }
-        },
-        {
-          "id": "AlchemistsDungeon.tml",
-          "name": "AlchemistsDungeon.tml",
-          "type": "File",
-          "artifact": {
-            "size": 32847,
-            "MD5": "d1d031852b2a3cb9a802f11780e8a551",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/AlchemistsDungeon.tml",
-            "path": "config/RUINS BAKUP templateparser/AlchemistsDungeon.tml"
-          }
-        },
-        {
-          "id": "Altar.tml",
-          "name": "Altar.tml",
-          "type": "File",
-          "artifact": {
-            "size": 12951,
-            "MD5": "c1f5feee0bee01645724e3bd84b2f49a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Altar.tml",
-            "path": "config/RUINS BAKUP templateparser/Altar.tml"
-          }
-        },
-        {
-          "id": "AncientFountain.tml",
-          "name": "AncientFountain.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2210,
-            "MD5": "042230c5ae2d477fc0bb4c8d5dd1bca1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/AncientFountain.tml",
-            "path": "config/RUINS BAKUP templateparser/AncientFountain.tml"
-          }
-        },
-        {
-          "id": "Archway.tml",
-          "name": "Archway.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2802,
-            "MD5": "aa46ddd16d41c3b92ceb0c5a34f0ccb9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Archway.tml",
-            "path": "config/RUINS BAKUP templateparser/Archway.tml"
-          }
-        },
-        {
-          "id": "ArrowTrapTomb.tml",
-          "name": "ArrowTrapTomb.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4518,
-            "MD5": "81aa1eb534e994f83b10812651ced4f4",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/ArrowTrapTomb.tml",
-            "path": "config/RUINS BAKUP templateparser/ArrowTrapTomb.tml"
-          }
-        },
-        {
-          "id": "BaloonHigh.tml",
-          "name": "BaloonHigh.tml",
-          "type": "File",
-          "artifact": {
-            "size": 18141,
-            "MD5": "1b560459100265ca00351998d676d44f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BaloonHigh.tml",
-            "path": "config/RUINS BAKUP templateparser/BaloonHigh.tml"
-          }
-        },
-        {
-          "id": "BaloonLow.tml",
-          "name": "BaloonLow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 14330,
-            "MD5": "91a0790c2af9e767c16a305466066bbe",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BaloonLow.tml",
-            "path": "config/RUINS BAKUP templateparser/BaloonLow.tml"
-          }
-        },
-        {
-          "id": "BaloonVeryLow.tml",
-          "name": "BaloonVeryLow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 7930,
-            "MD5": "368c1fa71936dd0491b12ab8d7a921e6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BaloonVeryLow.tml",
-            "path": "config/RUINS BAKUP templateparser/BaloonVeryLow.tml"
-          }
-        },
-        {
-          "id": "Barn-intact.tml",
-          "name": "Barn-intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5438,
-            "MD5": "c50a4e5434d7fb0c3b73fcc29a918700",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Barn-intact.tml",
-            "path": "config/RUINS BAKUP templateparser/Barn-intact.tml"
-          }
-        },
-        {
-          "id": "Barn-ruined.tml",
-          "name": "Barn-ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6844,
-            "MD5": "a01f65bb60d6ebdd68db1620c1c3deec",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Barn-ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/Barn-ruined.tml"
-          }
-        },
-        {
-          "id": "Barrow.tml",
-          "name": "Barrow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 13593,
-            "MD5": "1f57846837bb16e9c9e84ab5dde754d5",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Barrow.tml",
-            "path": "config/RUINS BAKUP templateparser/Barrow.tml"
-          }
-        },
-        {
-          "id": "BattleBasementEasy.tml",
-          "name": "BattleBasementEasy.tml",
-          "type": "File",
-          "artifact": {
-            "size": 21543,
-            "MD5": "3baedc0029168ee59a9dd24ab507483f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BattleBasementEasy.tml",
-            "path": "config/RUINS BAKUP templateparser/BattleBasementEasy.tml"
-          }
-        },
-        {
-          "id": "BattleBasementHard.tml",
-          "name": "BattleBasementHard.tml",
-          "type": "File",
-          "artifact": {
-            "size": 21553,
-            "MD5": "da046c04e5c8c130360eaa1e742b559c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BattleBasementHard.tml",
-            "path": "config/RUINS BAKUP templateparser/BattleBasementHard.tml"
-          }
-        },
-        {
-          "id": "BattleBasementMedium.tml",
-          "name": "BattleBasementMedium.tml",
-          "type": "File",
-          "artifact": {
-            "size": 21565,
-            "MD5": "4833382659888fb5ed4ee2ca203e5986",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BattleBasementMedium.tml",
-            "path": "config/RUINS BAKUP templateparser/BattleBasementMedium.tml"
-          }
-        },
-        {
-          "id": "Beacon.tml",
-          "name": "Beacon.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5589,
-            "MD5": "01d64bb60a880c7f0dd74c56f6f78973",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Beacon.tml",
-            "path": "config/RUINS BAKUP templateparser/Beacon.tml"
-          }
-        },
-        {
-          "id": "BlockHenge.tml",
-          "name": "BlockHenge.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5026,
-            "MD5": "f8125d5fa3f22cf79f6e25eabeda1baa",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BlockHenge.tml",
-            "path": "config/RUINS BAKUP templateparser/BlockHenge.tml"
-          }
-        },
-        {
-          "id": "BridgePilings-lg2.tml",
-          "name": "BridgePilings-lg2.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3109,
-            "MD5": "0b03ae903fcfa758c5407b54501a51c6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BridgePilings-lg2.tml",
-            "path": "config/RUINS BAKUP templateparser/BridgePilings-lg2.tml"
-          }
-        },
-        {
-          "id": "BridgePilings-sm2.tml",
-          "name": "BridgePilings-sm2.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1774,
-            "MD5": "e6ce00bd3f826691c3e1db84f8f043f0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BridgePilings-sm2.tml",
-            "path": "config/RUINS BAKUP templateparser/BridgePilings-sm2.tml"
-          }
-        },
-        {
-          "id": "BridgePilings-small.tml",
-          "name": "BridgePilings-small.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1756,
-            "MD5": "a7ef446cde147d49eb875e96db068533",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BridgePilings-small.tml",
-            "path": "config/RUINS BAKUP templateparser/BridgePilings-small.tml"
-          }
-        },
-        {
-          "id": "BridgePilings-small_river.tml",
-          "name": "BridgePilings-small_river.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1967,
-            "MD5": "2df459d52fff7060dcd5e78235b8446c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BridgePilings-small_river.tml",
-            "path": "config/RUINS BAKUP templateparser/BridgePilings-small_river.tml"
-          }
-        },
-        {
-          "id": "BridgePilings2_river.tml",
-          "name": "BridgePilings2_river.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3315,
-            "MD5": "af64998bae48dbd6ec12325be1ea8b55",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/BridgePilings2_river.tml",
-            "path": "config/RUINS BAKUP templateparser/BridgePilings2_river.tml"
-          }
-        },
-        {
-          "id": "CastleModified.tml",
-          "name": "CastleModified.tml",
-          "type": "File",
-          "artifact": {
-            "size": 40109,
-            "MD5": "eaa0e690946848aaa02482011e532942",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/CastleModified.tml",
-            "path": "config/RUINS BAKUP templateparser/CastleModified.tml"
-          }
-        },
-        {
-          "id": "CastleModifiedRuined.tml",
-          "name": "CastleModifiedRuined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 31384,
-            "MD5": "26ea3b33d173a0e682d998a46e4b4ee7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/CastleModifiedRuined.tml",
-            "path": "config/RUINS BAKUP templateparser/CastleModifiedRuined.tml"
-          }
-        },
-        {
-          "id": "CastleOcean.tml",
-          "name": "CastleOcean.tml",
-          "type": "File",
-          "artifact": {
-            "size": 80988,
-            "MD5": "df9e28e355ec508b6f94a51c49624b3b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/CastleOcean.tml",
-            "path": "config/RUINS BAKUP templateparser/CastleOcean.tml"
-          }
-        },
-        {
-          "id": "CaveSpiderBurrow.tml",
-          "name": "CaveSpiderBurrow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 994,
-            "MD5": "c5a569310318d93ef49c544e860bcf79",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/CaveSpiderBurrow.tml",
-            "path": "config/RUINS BAKUP templateparser/CaveSpiderBurrow.tml"
-          }
-        },
-        {
-          "id": "DesertBarrow.tml",
-          "name": "DesertBarrow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 12437,
-            "MD5": "6b338d2df71c5cc7ae8439d0a7361d4f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DesertBarrow.tml",
-            "path": "config/RUINS BAKUP templateparser/DesertBarrow.tml"
-          }
-        },
-        {
-          "id": "DesertPanthenon.tml",
-          "name": "DesertPanthenon.tml",
-          "type": "File",
-          "artifact": {
-            "size": 28710,
-            "MD5": "bb746e5a9a40f09206fc7eda0b35711a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DesertPanthenon.tml",
-            "path": "config/RUINS BAKUP templateparser/DesertPanthenon.tml"
-          }
-        },
-        {
-          "id": "DesertPanthenonRuined.tml",
-          "name": "DesertPanthenonRuined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 28563,
-            "MD5": "684a53d8e66a831852663384ee692eaa",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DesertPanthenonRuined.tml",
-            "path": "config/RUINS BAKUP templateparser/DesertPanthenonRuined.tml"
-          }
-        },
-        {
-          "id": "DesertSmallFort_Intact.tml",
-          "name": "DesertSmallFort_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2749,
-            "MD5": "9bf6f41d65a7855f9b0e9d7cac82457f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DesertSmallFort_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/DesertSmallFort_Intact.tml"
-          }
-        },
-        {
-          "id": "DesertSmallFort_Ruined.tml",
-          "name": "DesertSmallFort_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2424,
-            "MD5": "2e38d89e085398e42d76cbf03a140b0c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DesertSmallFort_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/DesertSmallFort_Ruined.tml"
-          }
-        },
-        {
-          "id": "DiamondWell.tml",
-          "name": "DiamondWell.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6394,
-            "MD5": "79d646432f5db3e69023bbdac7dee885",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DiamondWell.tml",
-            "path": "config/RUINS BAKUP templateparser/DiamondWell.tml"
-          }
-        },
-        {
-          "id": "DoomHouse.tml",
-          "name": "DoomHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2498,
-            "MD5": "b7f55e4570dc5e2c9d93c6e0045c1fa4",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DoomHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/DoomHouse.tml"
-          }
-        },
-        {
-          "id": "DoomTower.tml",
-          "name": "DoomTower.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3221,
-            "MD5": "92e0a7f4a49eb5880647dca117d7a022",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DoomTower.tml",
-            "path": "config/RUINS BAKUP templateparser/DoomTower.tml"
-          }
-        },
-        {
-          "id": "DwarfBase-mtn.tml",
-          "name": "DwarfBase-mtn.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4161,
-            "MD5": "d18b35b1c521dbaf2f5697f5978e9c17",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/DwarfBase-mtn.tml",
-            "path": "config/RUINS BAKUP templateparser/DwarfBase-mtn.tml"
-          }
-        },
-        {
-          "id": "EmeraldOreOutcrop.tml",
-          "name": "EmeraldOreOutcrop.tml",
-          "type": "File",
-          "artifact": {
-            "size": 817,
-            "MD5": "188a1b1b9607c3eddf4b85d3463a7f81",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/EmeraldOreOutcrop.tml",
-            "path": "config/RUINS BAKUP templateparser/EmeraldOreOutcrop.tml"
-          }
-        },
-        {
-          "id": "EnderStatueHigh.tml",
-          "name": "EnderStatueHigh.tml",
-          "type": "File",
-          "artifact": {
-            "size": 20839,
-            "MD5": "7782ac1989011a42f3763480d3fa8457",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/EnderStatueHigh.tml",
-            "path": "config/RUINS BAKUP templateparser/EnderStatueHigh.tml"
-          }
-        },
-        {
-          "id": "EnderStatueLow.tml",
-          "name": "EnderStatueLow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 20837,
-            "MD5": "9bfcf73d964d4346dca478086fdb11ba",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/EnderStatueLow.tml",
-            "path": "config/RUINS BAKUP templateparser/EnderStatueLow.tml"
-          }
-        },
-        {
-          "id": "EnderStatueMedHigh.tml",
-          "name": "EnderStatueMedHigh.tml",
-          "type": "File",
-          "artifact": {
-            "size": 20841,
-            "MD5": "003e389b611979d74e12f48976148e78",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/EnderStatueMedHigh.tml",
-            "path": "config/RUINS BAKUP templateparser/EnderStatueMedHigh.tml"
-          }
-        },
-        {
-          "id": "EnderStatueMedLow.tml",
-          "name": "EnderStatueMedLow.tml",
-          "type": "File",
-          "artifact": {
-            "size": 20840,
-            "MD5": "05301e1c61725601e0d44f47e48eb951",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/EnderStatueMedLow.tml",
-            "path": "config/RUINS BAKUP templateparser/EnderStatueMedLow.tml"
-          }
-        },
-        {
-          "id": "FlamingSkullHouse.tml",
-          "name": "FlamingSkullHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 36470,
-            "MD5": "1c3d6854d471f869d41d190488e721c0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/FlamingSkullHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/FlamingSkullHouse.tml"
-          }
-        },
-        {
-          "id": "Floater.tml",
-          "name": "Floater.tml",
-          "type": "File",
-          "artifact": {
-            "size": 30734,
-            "MD5": "b4d3ed4894dcf87316907427aff33d45",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Floater.tml",
-            "path": "config/RUINS BAKUP templateparser/Floater.tml"
-          }
-        },
-        {
-          "id": "FrozenBush.tml",
-          "name": "FrozenBush.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2097,
-            "MD5": "9ce56d9f01460816f26fe21eb454824e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/FrozenBush.tml",
-            "path": "config/RUINS BAKUP templateparser/FrozenBush.tml"
-          }
-        },
-        {
-          "id": "FrozenTree.tml",
-          "name": "FrozenTree.tml",
-          "type": "File",
-          "artifact": {
-            "size": 8886,
-            "MD5": "b0d058b436bf21cbec2105a8c1b71bc1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/FrozenTree.tml",
-            "path": "config/RUINS BAKUP templateparser/FrozenTree.tml"
-          }
-        },
-        {
-          "id": "GateUnderGlass.tml",
-          "name": "GateUnderGlass.tml",
-          "type": "File",
-          "artifact": {
-            "size": 24519,
-            "MD5": "d7da666645a4ca7262f04729e9527f98",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/GateUnderGlass.tml",
-            "path": "config/RUINS BAKUP templateparser/GateUnderGlass.tml"
-          }
-        },
-        {
-          "id": "Gazebo.tml",
-          "name": "Gazebo.tml",
-          "type": "File",
-          "artifact": {
-            "size": 10342,
-            "MD5": "02d45a2467294d9e77135f6bd63ec8a9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Gazebo.tml",
-            "path": "config/RUINS BAKUP templateparser/Gazebo.tml"
-          }
-        },
-        {
-          "id": "Gnomeworks.tml",
-          "name": "Gnomeworks.tml",
-          "type": "File",
-          "artifact": {
-            "size": 13508,
-            "MD5": "5014e3109ebd06ba6663b86bda9868d2",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Gnomeworks.tml",
-            "path": "config/RUINS BAKUP templateparser/Gnomeworks.tml"
-          }
-        },
-        {
-          "id": "GoldWell.tml",
-          "name": "GoldWell.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3340,
-            "MD5": "81cd5cb6dabeec342af05aeec3c56adf",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/GoldWell.tml",
-            "path": "config/RUINS BAKUP templateparser/GoldWell.tml"
-          }
-        },
-        {
-          "id": "GraveyardHaunted.tml",
-          "name": "GraveyardHaunted.tml",
-          "type": "File",
-          "artifact": {
-            "size": 8788,
-            "MD5": "03e4714b52bf434dc93a8dfd9213c559",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/GraveyardHaunted.tml",
-            "path": "config/RUINS BAKUP templateparser/GraveyardHaunted.tml"
-          }
-        },
-        {
-          "id": "GuardHouse.tml",
-          "name": "GuardHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3577,
-            "MD5": "8001cda73335b3bf8e78220c7af67c71",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/GuardHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/GuardHouse.tml"
-          }
-        },
-        {
-          "id": "Guardian.tml",
-          "name": "Guardian.tml",
-          "type": "File",
-          "artifact": {
-            "size": 42711,
-            "MD5": "9abd162bee49fde1035399eba9dda419",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Guardian.tml",
-            "path": "config/RUINS BAKUP templateparser/Guardian.tml"
-          }
-        },
-        {
-          "id": "GuardianFull.tml",
-          "name": "GuardianFull.tml",
-          "type": "File",
-          "artifact": {
-            "size": 56781,
-            "MD5": "75d3075b5d647abd6fba25dfae2630e0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/GuardianFull.tml",
-            "path": "config/RUINS BAKUP templateparser/GuardianFull.tml"
-          }
-        },
-        {
-          "id": "HutIntact.tml",
-          "name": "HutIntact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3928,
-            "MD5": "5ea52de636e7a66640d83662d68920f1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/HutIntact.tml",
-            "path": "config/RUINS BAKUP templateparser/HutIntact.tml"
-          }
-        },
-        {
-          "id": "HutRuined.tml",
-          "name": "HutRuined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3361,
-            "MD5": "234502b0b2f8c1065b9a53ab3413aeaa",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/HutRuined.tml",
-            "path": "config/RUINS BAKUP templateparser/HutRuined.tml"
-          }
-        },
-        {
-          "id": "Igloo.tml",
-          "name": "Igloo.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5560,
-            "MD5": "449695ec60f0915d5c7853095dc5943f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Igloo.tml",
-            "path": "config/RUINS BAKUP templateparser/Igloo.tml"
-          }
-        },
-        {
-          "id": "JungleThroneWood.tml",
-          "name": "JungleThroneWood.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1105,
-            "MD5": "21bd665c0ac030922301bb28d6142eb9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/JungleThroneWood.tml",
-            "path": "config/RUINS BAKUP templateparser/JungleThroneWood.tml"
-          }
-        },
-        {
-          "id": "JungleTreePlatform.tml",
-          "name": "JungleTreePlatform.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6673,
-            "MD5": "671d7db0eab856db70c877234c5066c1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/JungleTreePlatform.tml",
-            "path": "config/RUINS BAKUP templateparser/JungleTreePlatform.tml"
-          }
-        },
-        {
-          "id": "JungleTreePlatform_edit.tml",
-          "name": "JungleTreePlatform_edit.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6674,
-            "MD5": "b2b170f90f11fcd7fba33daef3b4f505",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/JungleTreePlatform_edit.tml",
-            "path": "config/RUINS BAKUP templateparser/JungleTreePlatform_edit.tml"
-          }
-        },
-        {
-          "id": "LargeNetherHouse.tml",
-          "name": "LargeNetherHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1140,
-            "MD5": "f362876dcb181da0fdce4d7d053de370",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LargeNetherHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/LargeNetherHouse.tml"
-          }
-        },
-        {
-          "id": "LargeSandstoneHouse.tml",
-          "name": "LargeSandstoneHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1211,
-            "MD5": "01920713c8a3743f8a4158d06717ea05",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LargeSandstoneHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/LargeSandstoneHouse.tml"
-          }
-        },
-        {
-          "id": "LargeStoneHouse.tml",
-          "name": "LargeStoneHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2457,
-            "MD5": "98061bfdc13037b2be716369cc31101e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LargeStoneHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/LargeStoneHouse.tml"
-          }
-        },
-        {
-          "id": "LargeStoneHouseWBasement.tml",
-          "name": "LargeStoneHouseWBasement.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2985,
-            "MD5": "f4df4fbff3c658ccdf2638f8a89bd4ab",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LargeStoneHouseWBasement.tml",
-            "path": "config/RUINS BAKUP templateparser/LargeStoneHouseWBasement.tml"
-          }
-        },
-        {
-          "id": "LargeStoneTwoStoryHouse.tml",
-          "name": "LargeStoneTwoStoryHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2935,
-            "MD5": "56c1ec743901bc2bd66ad2fa4dee9903",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LargeStoneTwoStoryHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/LargeStoneTwoStoryHouse.tml"
-          }
-        },
-        {
-          "id": "LightHouse.tml",
-          "name": "LightHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 14039,
-            "MD5": "66287352084dc1dea59df13ca5152890",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/LightHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/LightHouse.tml"
-          }
-        },
-        {
-          "id": "Mausoleum.tml",
-          "name": "Mausoleum.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3706,
-            "MD5": "194a27b9f09b49927d12dcfa41b6183d",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Mausoleum.tml",
-            "path": "config/RUINS BAKUP templateparser/Mausoleum.tml"
-          }
-        },
-        {
-          "id": "Melonfield.tml",
-          "name": "Melonfield.tml",
-          "type": "File",
-          "artifact": {
-            "size": 860,
-            "MD5": "96224241557d2313c45572000a023635",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Melonfield.tml",
-            "path": "config/RUINS BAKUP templateparser/Melonfield.tml"
-          }
-        },
-        {
-          "id": "MinersHut.tml",
-          "name": "MinersHut.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2388,
-            "MD5": "7b8d8c68bd3342fd18f6d020063b8a1a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/MinersHut.tml",
-            "path": "config/RUINS BAKUP templateparser/MinersHut.tml"
-          }
-        },
-        {
-          "id": "MoaiHead.tml",
-          "name": "MoaiHead.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2777,
-            "MD5": "d29ecb9c23baa3ea4248ff80f97ed224",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/MoaiHead.tml",
-            "path": "config/RUINS BAKUP templateparser/MoaiHead.tml"
-          }
-        },
-        {
-          "id": "MobTower.tml",
-          "name": "MobTower.tml",
-          "type": "File",
-          "artifact": {
-            "size": 12498,
-            "MD5": "3b9de8c2481b1229789839688d14fb7c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/MobTower.tml",
-            "path": "config/RUINS BAKUP templateparser/MobTower.tml"
-          }
-        },
-        {
-          "id": "Monolith.tml",
-          "name": "Monolith.tml",
-          "type": "File",
-          "artifact": {
-            "size": 8286,
-            "MD5": "625ff346bb5cf22d59c8a691b4a19b8a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Monolith.tml",
-            "path": "config/RUINS BAKUP templateparser/Monolith.tml"
-          }
-        },
-        {
-          "id": "NetherShrine.tml",
-          "name": "NetherShrine.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1236,
-            "MD5": "01cafef66363aff8a2246b7e98039cc0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/NetherShrine.tml",
-            "path": "config/RUINS BAKUP templateparser/NetherShrine.tml"
-          }
-        },
-        {
-          "id": "Obelisk.tml",
-          "name": "Obelisk.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1523,
-            "MD5": "efea840ee910c2a394115b100f42325b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Obelisk.tml",
-            "path": "config/RUINS BAKUP templateparser/Obelisk.tml"
-          }
-        },
-        {
-          "id": "OldFoundation.tml",
-          "name": "OldFoundation.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2712,
-            "MD5": "19abe65d02b7aa5e69bb3680aa30af2f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/OldFoundation.tml",
-            "path": "config/RUINS BAKUP templateparser/OldFoundation.tml"
-          }
-        },
-        {
-          "id": "OreSpire.tml",
-          "name": "OreSpire.tml",
-          "type": "File",
-          "artifact": {
-            "size": 17108,
-            "MD5": "4b1c2eb84d7dca0ea39ae4956d973884",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/OreSpire.tml",
-            "path": "config/RUINS BAKUP templateparser/OreSpire.tml"
-          }
-        },
-        {
-          "id": "Orthanc.tml",
-          "name": "Orthanc.tml",
-          "type": "File",
-          "artifact": {
-            "size": 15581,
-            "MD5": "a24cec46ad149994905cc941a94fbb15",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Orthanc.tml",
-            "path": "config/RUINS BAKUP templateparser/Orthanc.tml"
-          }
-        },
-        {
-          "id": "Outcrop.tml",
-          "name": "Outcrop.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1592,
-            "MD5": "adcca4644d40dbea8387aa4491777654",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Outcrop.tml",
-            "path": "config/RUINS BAKUP templateparser/Outcrop.tml"
-          }
-        },
-        {
-          "id": "PillarBase.tml",
-          "name": "PillarBase.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2252,
-            "MD5": "54e862fb398428a66eede52f20b896b8",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/PillarBase.tml",
-            "path": "config/RUINS BAKUP templateparser/PillarBase.tml"
-          }
-        },
-        {
-          "id": "PirateShip.tml",
-          "name": "PirateShip.tml",
-          "type": "File",
-          "artifact": {
-            "size": 71400,
-            "MD5": "47b19937f17a476ed90ffb7233148128",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/PirateShip.tml",
-            "path": "config/RUINS BAKUP templateparser/PirateShip.tml"
-          }
-        },
-        {
-          "id": "Piston-BunkerUnderground.tml",
-          "name": "Piston-BunkerUnderground.tml",
-          "type": "File",
-          "artifact": {
-            "size": 15863,
-            "MD5": "b1511cd10cf12300b1c46e8f100541a5",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Piston-BunkerUnderground.tml",
-            "path": "config/RUINS BAKUP templateparser/Piston-BunkerUnderground.tml"
-          }
-        },
-        {
-          "id": "Piston-CreeperRoom.tml",
-          "name": "Piston-CreeperRoom.tml",
-          "type": "File",
-          "artifact": {
-            "size": 7591,
-            "MD5": "56da3f68779d6c0d84f0746c35a60962",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Piston-CreeperRoom.tml",
-            "path": "config/RUINS BAKUP templateparser/Piston-CreeperRoom.tml"
-          }
-        },
-        {
-          "id": "Piston-LavaTrap.tml",
-          "name": "Piston-LavaTrap.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3712,
-            "MD5": "64ccdfdbd4f1f9c1b22cdd4999aa6a3b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Piston-LavaTrap.tml",
-            "path": "config/RUINS BAKUP templateparser/Piston-LavaTrap.tml"
-          }
-        },
-        {
-          "id": "Pit-big.tml",
-          "name": "Pit-big.tml",
-          "type": "File",
-          "artifact": {
-            "size": 14761,
-            "MD5": "7087a55b3f60f294c82d1772d751a62f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Pit-big.tml",
-            "path": "config/RUINS BAKUP templateparser/Pit-big.tml"
-          }
-        },
-        {
-          "id": "Pit-med.tml",
-          "name": "Pit-med.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2752,
-            "MD5": "1e52a05f9e56cfe8d8d85761ef11d941",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Pit-med.tml",
-            "path": "config/RUINS BAKUP templateparser/Pit-med.tml"
-          }
-        },
-        {
-          "id": "Pit-small.tml",
-          "name": "Pit-small.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1579,
-            "MD5": "073d67d9a6be0982bf4918554fedb683",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Pit-small.tml",
-            "path": "config/RUINS BAKUP templateparser/Pit-small.tml"
-          }
-        },
-        {
-          "id": "PortalShrine.tml",
-          "name": "PortalShrine.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2248,
-            "MD5": "343061962fef2705c8da7c986c994d60",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/PortalShrine.tml",
-            "path": "config/RUINS BAKUP templateparser/PortalShrine.tml"
-          }
-        },
-        {
-          "id": "PumpkinField.tml",
-          "name": "PumpkinField.tml",
-          "type": "File",
-          "artifact": {
-            "size": 856,
-            "MD5": "c7d44d2631fc84694b9261230e99e5e6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/PumpkinField.tml",
-            "path": "config/RUINS BAKUP templateparser/PumpkinField.tml"
-          }
-        },
-        {
-          "id": "Pyramid.tml",
-          "name": "Pyramid.tml",
-          "type": "File",
-          "artifact": {
-            "size": 77217,
-            "MD5": "c43c4491776f6511cbbaeb3c594096d0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Pyramid.tml",
-            "path": "config/RUINS BAKUP templateparser/Pyramid.tml"
-          }
-        },
-        {
-          "id": "PyramidStone.tml",
-          "name": "PyramidStone.tml",
-          "type": "File",
-          "artifact": {
-            "size": 13353,
-            "MD5": "39821e279c9276562892fd7361e9387b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/PyramidStone.tml",
-            "path": "config/RUINS BAKUP templateparser/PyramidStone.tml"
-          }
-        },
-        {
-          "id": "RuinedDryFountain.tml",
-          "name": "RuinedDryFountain.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2689,
-            "MD5": "fd40e9acb8c2215ee785a9ff53d7d724",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/RuinedDryFountain.tml",
-            "path": "config/RUINS BAKUP templateparser/RuinedDryFountain.tml"
-          }
-        },
-        {
-          "id": "RuinedSmallFountainDiagonal.tml",
-          "name": "RuinedSmallFountainDiagonal.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2460,
-            "MD5": "0b3b0982bb2a718f80dc0b0e0d484439",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/RuinedSmallFountainDiagonal.tml",
-            "path": "config/RUINS BAKUP templateparser/RuinedSmallFountainDiagonal.tml"
-          }
-        },
-        {
-          "id": "RuinedTripleFountain.tml",
-          "name": "RuinedTripleFountain.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4420,
-            "MD5": "c0e612e6e195a76f5c2a02ff3b5a26fe",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/RuinedTripleFountain.tml",
-            "path": "config/RUINS BAKUP templateparser/RuinedTripleFountain.tml"
-          }
-        },
-        {
-          "id": "SandCastle.tml",
-          "name": "SandCastle.tml",
-          "type": "File",
-          "artifact": {
-            "size": 7958,
-            "MD5": "42022063c699420d14d28e0230881d90",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandCastle.tml",
-            "path": "config/RUINS BAKUP templateparser/SandCastle.tml"
-          }
-        },
-        {
-          "id": "SandSpire.tml",
-          "name": "SandSpire.tml",
-          "type": "File",
-          "artifact": {
-            "size": 14253,
-            "MD5": "4bdfae9199d94a14a715a43a10a8f015",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandSpire.tml",
-            "path": "config/RUINS BAKUP templateparser/SandSpire.tml"
-          }
-        },
-        {
-          "id": "SandTrap.tml",
-          "name": "SandTrap.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4041,
-            "MD5": "be4143156909347b827de40e0ed116d7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandTrap.tml",
-            "path": "config/RUINS BAKUP templateparser/SandTrap.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld1_Intact.tml",
-          "name": "SandstoneBld1_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4517,
-            "MD5": "6cdb5b350d6c17e430821cc0f52b78fd",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld1_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld1_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld1_Ruined.tml",
-          "name": "SandstoneBld1_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5200,
-            "MD5": "22185c84d7651b93c903064a1607d0b1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld1_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld1_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld2_Intact.tml",
-          "name": "SandstoneBld2_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2895,
-            "MD5": "0c5421d40e5d9f48dee1c57c7c6ef8cd",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld2_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld2_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld2_Ruined.tml",
-          "name": "SandstoneBld2_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2772,
-            "MD5": "19a88f9aa1e321c565d89394b0e50f58",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld2_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld2_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld3_Intact.tml",
-          "name": "SandstoneBld3_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2666,
-            "MD5": "30a2d5fd807cb63d77210cb3cac1a5af",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld3_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld3_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld3_Ruined.tml",
-          "name": "SandstoneBld3_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2392,
-            "MD5": "2b348cb5479fe1f91a925c1b43c6efaf",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld3_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld3_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld4_Intact.tml",
-          "name": "SandstoneBld4_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4210,
-            "MD5": "f80a471203ccbc489ff73d4e18e0d4d3",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld4_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld4_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld4_Ruined.tml",
-          "name": "SandstoneBld4_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3521,
-            "MD5": "796d0b9c9f894306bef23e254a772c25",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld4_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld4_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld5_Intact.tml",
-          "name": "SandstoneBld5_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2021,
-            "MD5": "2b8035b34246b37b529d05aa7342da93",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld5_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld5_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld5_Ruined.tml",
-          "name": "SandstoneBld5_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1925,
-            "MD5": "28caca57a83bad5d1ef934189b167b26",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld5_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld5_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld6_Intact.tml",
-          "name": "SandstoneBld6_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2634,
-            "MD5": "76a48f33b12be8b0cbb4c66cfd78810c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld6_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld6_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneBld6_Ruined.tml",
-          "name": "SandstoneBld6_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2518,
-            "MD5": "d53a04d8b41813b3b34a179d81260355",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneBld6_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneBld6_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse.tml",
-          "name": "SandstoneHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1098,
-            "MD5": "b1670998ca26e6abeab7ae01d9788b0f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse1_Intact.tml",
-          "name": "SandstoneHouse1_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3739,
-            "MD5": "f3bb15ba12da1b90f4be2e622ee259fb",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse1_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse1_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse1_Ruined.tml",
-          "name": "SandstoneHouse1_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2927,
-            "MD5": "5c94a06bb158e5c01e9615fff48c17a1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse1_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse1_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse2_Intact.tml",
-          "name": "SandstoneHouse2_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3007,
-            "MD5": "b41b8f6c0a3eda185cdd7116615cd3d7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse2_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse2_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse2_Ruined.tml",
-          "name": "SandstoneHouse2_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2437,
-            "MD5": "5ceb153f5131ca956d7bd03a12714824",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse2_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse2_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse3_Intact.tml",
-          "name": "SandstoneHouse3_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2147,
-            "MD5": "15b82f8c966b7be5e62f078f2963f0c9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse3_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse3_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneHouse3_Ruined.tml",
-          "name": "SandstoneHouse3_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1852,
-            "MD5": "123fc3e45c2aba17c9e15cc7d4094ebe",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneHouse3_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneHouse3_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstonePool_Intact.tml",
-          "name": "SandstonePool_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2420,
-            "MD5": "082cedb30cd3e5d34cb5746b580fc6cd",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstonePool_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstonePool_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstonePool_Ruined.tml",
-          "name": "SandstonePool_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2169,
-            "MD5": "fdcac5e2fe4e2725b7eaa4e5d2a3d9e0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstonePool_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstonePool_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneRuin.tml",
-          "name": "SandstoneRuin.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1365,
-            "MD5": "04ea8d421816ec62dce38f1f3b5ba2ad",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneRuin.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneRuin.tml"
-          }
-        },
-        {
-          "id": "SandstoneStructure1_Intact.tml",
-          "name": "SandstoneStructure1_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2938,
-            "MD5": "c15bdd16265df0ca2a70586f95190451",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneStructure1_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneStructure1_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneStructure1_Ruined.tml",
-          "name": "SandstoneStructure1_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2998,
-            "MD5": "bbc73cacab16458ddc931e9989cf77ab",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneStructure1_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneStructure1_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneStructure2_Intact.tml",
-          "name": "SandstoneStructure2_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1941,
-            "MD5": "a6faf3cbf6c20d00dca4b46b60552137",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneStructure2_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneStructure2_Intact.tml"
-          }
-        },
-        {
-          "id": "SandstoneStructure2_Ruined.tml",
-          "name": "SandstoneStructure2_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1580,
-            "MD5": "850577d5f12e1af68bf83c4c92bf82f2",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneStructure2_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneStructure2_Ruined.tml"
-          }
-        },
-        {
-          "id": "SandstoneVanillaL-Modified.tml",
-          "name": "SandstoneVanillaL-Modified.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3091,
-            "MD5": "a2491451a6504c7e3096ab6e35c8e52a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneVanillaL-Modified.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneVanillaL-Modified.tml"
-          }
-        },
-        {
-          "id": "SandstoneVanillaS-Modified.tml",
-          "name": "SandstoneVanillaS-Modified.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2760,
-            "MD5": "a6eb1d4c2e8f56856ff8c1d60d752fd6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SandstoneVanillaS-Modified.tml",
-            "path": "config/RUINS BAKUP templateparser/SandstoneVanillaS-Modified.tml"
-          }
-        },
-        {
-          "id": "ShortTower.tml",
-          "name": "ShortTower.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2439,
-            "MD5": "fd6f36be53f7f25094aec501545cc7db",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/ShortTower.tml",
-            "path": "config/RUINS BAKUP templateparser/ShortTower.tml"
-          }
-        },
-        {
-          "id": "SkeletonHeadStatue.tml",
-          "name": "SkeletonHeadStatue.tml",
-          "type": "File",
-          "artifact": {
-            "size": 775,
-            "MD5": "e9af8d156c718b7da8d5237a41a934cc",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SkeletonHeadStatue.tml",
-            "path": "config/RUINS BAKUP templateparser/SkeletonHeadStatue.tml"
-          }
-        },
-        {
-          "id": "SkyCastle.tml",
-          "name": "SkyCastle.tml",
-          "type": "File",
-          "artifact": {
-            "size": 83839,
-            "MD5": "4b22a8033e40958029fc60a3c67a404c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SkyCastle.tml",
-            "path": "config/RUINS BAKUP templateparser/SkyCastle.tml"
-          }
-        },
-        {
-          "id": "SmallWell.tml",
-          "name": "SmallWell.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2150,
-            "MD5": "c11b29a7cec8dba2e8febcbf3edec37b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SmallWell.tml",
-            "path": "config/RUINS BAKUP templateparser/SmallWell.tml"
-          }
-        },
-        {
-          "id": "SnowCastle.tml",
-          "name": "SnowCastle.tml",
-          "type": "File",
-          "artifact": {
-            "size": 32755,
-            "MD5": "a8aad3f58143486f3368a1935ab472a8",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowCastle.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowCastle.tml"
-          }
-        },
-        {
-          "id": "SnowCastleIce.tml",
-          "name": "SnowCastleIce.tml",
-          "type": "File",
-          "artifact": {
-            "size": 32793,
-            "MD5": "5cb3b58b3349fc53899a0d43aedb27ea",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowCastleIce.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowCastleIce.tml"
-          }
-        },
-        {
-          "id": "SnowCastleSpire.tml",
-          "name": "SnowCastleSpire.tml",
-          "type": "File",
-          "artifact": {
-            "size": 32412,
-            "MD5": "e546d90e0bfa564aeb058b41ab163414",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowCastleSpire.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowCastleSpire.tml"
-          }
-        },
-        {
-          "id": "SnowFarm.tml",
-          "name": "SnowFarm.tml",
-          "type": "File",
-          "artifact": {
-            "size": 35128,
-            "MD5": "1b6ad98996ebd1941df1fe17c00d1c0a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowFarm.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowFarm.tml"
-          }
-        },
-        {
-          "id": "SnowHenge.tml",
-          "name": "SnowHenge.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2804,
-            "MD5": "3582060aad64ed9fc62e2254776c2675",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowHenge.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowHenge.tml"
-          }
-        },
-        {
-          "id": "SnowHouse1.tml",
-          "name": "SnowHouse1.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1346,
-            "MD5": "cc6fff54f0518ad0d17229b8aa4997c0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowHouse1.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowHouse1.tml"
-          }
-        },
-        {
-          "id": "SnowHouse2.tml",
-          "name": "SnowHouse2.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1346,
-            "MD5": "a8ce707575f2c2bcd2fd018be540163f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowHouse2.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowHouse2.tml"
-          }
-        },
-        {
-          "id": "SnowHouse3.tml",
-          "name": "SnowHouse3.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1346,
-            "MD5": "e6f66a818997d069159487678f85a360",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SnowHouse3.tml",
-            "path": "config/RUINS BAKUP templateparser/SnowHouse3.tml"
-          }
-        },
-        {
-          "id": "SpearStatue.tml",
-          "name": "SpearStatue.tml",
-          "type": "File",
-          "artifact": {
-            "size": 16815,
-            "MD5": "d37642ca888866ed923dfe61cc9995ac",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SpearStatue.tml",
-            "path": "config/RUINS BAKUP templateparser/SpearStatue.tml"
-          }
-        },
-        {
-          "id": "Sphere.tml",
-          "name": "Sphere.tml",
-          "type": "File",
-          "artifact": {
-            "size": 57320,
-            "MD5": "18306b7b40d71aa9aefe6ec441034bb2",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Sphere.tml",
-            "path": "config/RUINS BAKUP templateparser/Sphere.tml"
-          }
-        },
-        {
-          "id": "SpiralTree.tml",
-          "name": "SpiralTree.tml",
-          "type": "File",
-          "artifact": {
-            "size": 22024,
-            "MD5": "0484a749f3c703a30fac6dafe7e6f5fd",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SpiralTree.tml",
-            "path": "config/RUINS BAKUP templateparser/SpiralTree.tml"
-          }
-        },
-        {
-          "id": "StoneGrill.tml",
-          "name": "StoneGrill.tml",
-          "type": "File",
-          "artifact": {
-            "size": 870,
-            "MD5": "364c5c0095b20a8550f6dc06df63ee6e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneGrill.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneGrill.tml"
-          }
-        },
-        {
-          "id": "StoneHenge.tml",
-          "name": "StoneHenge.tml",
-          "type": "File",
-          "artifact": {
-            "size": 17772,
-            "MD5": "8c0ed647f31b8d1a8d71a1a68902a20a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHenge.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHenge.tml"
-          }
-        },
-        {
-          "id": "StoneHouse.tml",
-          "name": "StoneHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2218,
-            "MD5": "a7826340693b0ee5628595434892dcca",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHouse.tml"
-          }
-        },
-        {
-          "id": "StoneHouseM.tml",
-          "name": "StoneHouseM.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6306,
-            "MD5": "753acba55f8008c3c501a21d88cdc2c0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHouseM.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHouseM.tml"
-          }
-        },
-        {
-          "id": "StoneHouseMruined.tml",
-          "name": "StoneHouseMruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4035,
-            "MD5": "a0587a31bb0cd79fe84b2612ee999969",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHouseMruined.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHouseMruined.tml"
-          }
-        },
-        {
-          "id": "StoneHouse_Intact.tml",
-          "name": "StoneHouse_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3893,
-            "MD5": "9b289c21e2c16f9b8e4e7f4446dec7d0",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHouse_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHouse_Intact.tml"
-          }
-        },
-        {
-          "id": "StoneHouse_Ruined.tml",
-          "name": "StoneHouse_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4229,
-            "MD5": "9a4ec08c2fabd775cbffaa411960f95c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StoneHouse_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/StoneHouse_Ruined.tml"
-          }
-        },
-        {
-          "id": "StonePillar.tml",
-          "name": "StonePillar.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1037,
-            "MD5": "e2e8bd073ad6bdb2818c8ced07137b92",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/StonePillar.tml",
-            "path": "config/RUINS BAKUP templateparser/StonePillar.tml"
-          }
-        },
-        {
-          "id": "SunkenShip-v2.tml",
-          "name": "SunkenShip-v2.tml",
-          "type": "File",
-          "artifact": {
-            "size": 17068,
-            "MD5": "637b987007fe4ab421ff53c4e9524ba5",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SunkenShip-v2.tml",
-            "path": "config/RUINS BAKUP templateparser/SunkenShip-v2.tml"
-          }
-        },
-        {
-          "id": "SunkenShip-v3.tml",
-          "name": "SunkenShip-v3.tml",
-          "type": "File",
-          "artifact": {
-            "size": 10471,
-            "MD5": "eb008ea1124b5568943516614a8f25a8",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/SunkenShip-v3.tml",
-            "path": "config/RUINS BAKUP templateparser/SunkenShip-v3.tml"
-          }
-        },
-        {
-          "id": "TP_FishingShack.tml",
-          "name": "TP_FishingShack.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2546,
-            "MD5": "f2f4ca8b5fbe45e2690b170bb440be7e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TP_FishingShack.tml",
-            "path": "config/RUINS BAKUP templateparser/TP_FishingShack.tml"
-          }
-        },
-        {
-          "id": "TallTower.tml",
-          "name": "TallTower.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2953,
-            "MD5": "da30b0fb73cd448cd038e6376ffcba20",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TallTower.tml",
-            "path": "config/RUINS BAKUP templateparser/TallTower.tml"
-          }
-        },
-        {
-          "id": "TinyFarmField.tml",
-          "name": "TinyFarmField.tml",
-          "type": "File",
-          "artifact": {
-            "size": 980,
-            "MD5": "0bd9d52be04a4d66ecbba299a85e6954",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TinyFarmField.tml",
-            "path": "config/RUINS BAKUP templateparser/TinyFarmField.tml"
-          }
-        },
-        {
-          "id": "Tower-edit.tml",
-          "name": "Tower-edit.tml",
-          "type": "File",
-          "artifact": {
-            "size": 16682,
-            "MD5": "241a22d71e1746adc24e14483c6c9e4e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Tower-edit.tml",
-            "path": "config/RUINS BAKUP templateparser/Tower-edit.tml"
-          }
-        },
-        {
-          "id": "Tower-nether.tml",
-          "name": "Tower-nether.tml",
-          "type": "File",
-          "artifact": {
-            "size": 31290,
-            "MD5": "32e78d97e27a5c8547cb7adba460b90f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Tower-nether.tml",
-            "path": "config/RUINS BAKUP templateparser/Tower-nether.tml"
-          }
-        },
-        {
-          "id": "Tower-ruined-short.tml",
-          "name": "Tower-ruined-short.tml",
-          "type": "File",
-          "artifact": {
-            "size": 12333,
-            "MD5": "960eb2fe396aef7037307b7bf31c9456",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Tower-ruined-short.tml",
-            "path": "config/RUINS BAKUP templateparser/Tower-ruined-short.tml"
-          }
-        },
-        {
-          "id": "TowerEasy.tml",
-          "name": "TowerEasy.tml",
-          "type": "File",
-          "artifact": {
-            "size": 16540,
-            "MD5": "7d3f2032ba2a153233d173375464199b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TowerEasy.tml",
-            "path": "config/RUINS BAKUP templateparser/TowerEasy.tml"
-          }
-        },
-        {
-          "id": "TowerHard.tml",
-          "name": "TowerHard.tml",
-          "type": "File",
-          "artifact": {
-            "size": 15583,
-            "MD5": "4c06c6d1ccadfa41005d51eee4c7ea99",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TowerHard.tml",
-            "path": "config/RUINS BAKUP templateparser/TowerHard.tml"
-          }
-        },
-        {
-          "id": "TowerMedium.tml",
-          "name": "TowerMedium.tml",
-          "type": "File",
-          "artifact": {
-            "size": 16675,
-            "MD5": "7b714e1ea1d35ac47cad4b122f8bdb8c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TowerMedium.tml",
-            "path": "config/RUINS BAKUP templateparser/TowerMedium.tml"
-          }
-        },
-        {
-          "id": "TreeDungeon.tml",
-          "name": "TreeDungeon.tml",
-          "type": "File",
-          "artifact": {
-            "size": 7025,
-            "MD5": "4c6ff3cbba5ebf40fb89e1558c7fb933",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TreeDungeon.tml",
-            "path": "config/RUINS BAKUP templateparser/TreeDungeon.tml"
-          }
-        },
-        {
-          "id": "TreeHouse.tml",
-          "name": "TreeHouse.tml",
-          "type": "File",
-          "artifact": {
-            "size": 22013,
-            "MD5": "7952fdff57a8bcf73211caef266b6151",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/TreeHouse.tml",
-            "path": "config/RUINS BAKUP templateparser/TreeHouse.tml"
-          }
-        },
-        {
-          "id": "UnderwaterBase.tml",
-          "name": "UnderwaterBase.tml",
-          "type": "File",
-          "artifact": {
-            "size": 31262,
-            "MD5": "d82fb83e9b779ab1555cc62295f9de34",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/UnderwaterBase.tml",
-            "path": "config/RUINS BAKUP templateparser/UnderwaterBase.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageChurch-p.tml",
-          "name": "VanillaVillageChurch-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3263,
-            "MD5": "e111dad4f7d9797af9c64aab9f43939e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageChurch-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageChurch-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageChurch-r.tml",
-          "name": "VanillaVillageChurch-r.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3541,
-            "MD5": "e6a12f18a781803f57fe17cfece0d1e6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageChurch-r.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageChurch-r.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageCobble-p.tml",
-          "name": "VanillaVillageCobble-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2210,
-            "MD5": "7d1bc28e0fd09424b7553c79977e891a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageCobble-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageCobble-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageCobbleHouse-r.tml",
-          "name": "VanillaVillageCobbleHouse-r.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2251,
-            "MD5": "d4350f9c22517cf73aeea1137d68be72",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageCobbleHouse-r.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageCobbleHouse-r.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageEmpty-p.tml",
-          "name": "VanillaVillageEmpty-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3679,
-            "MD5": "6bb44ce1a20c3055bb6823451c8f57a1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageEmpty-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageEmpty-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageEmptyHouse-r.tml",
-          "name": "VanillaVillageEmptyHouse-r.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3821,
-            "MD5": "245602cf22a170ef0cd1fcf65d0ed2fa",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageEmptyHouse-r.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageEmptyHouse-r.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageForge-p.tml",
-          "name": "VanillaVillageForge-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3300,
-            "MD5": "6ab55d455fcea5d30ef9e9e4171049dc",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageForge-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageForge-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageForge-r.tml",
-          "name": "VanillaVillageForge-r.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3227,
-            "MD5": "808c10c480543f40f3a12c957514aea1",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageForge-r.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageForge-r.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageHut-p.tml",
-          "name": "VanillaVillageHut-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2248,
-            "MD5": "1e16f86dbbeab6fc9ee36b749f2af038",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageHut-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageHut-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageHut-r.tml",
-          "name": "VanillaVillageHut-r.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2169,
-            "MD5": "e35d5099b9f6a8ec4417076459736797",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageHut-r.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageHut-r.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageLadder-p.tml",
-          "name": "VanillaVillageLadder-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2110,
-            "MD5": "92d09610dd369433b6ce52172ab74436",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageLadder-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageLadder-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageLibrary-p.tml",
-          "name": "VanillaVillageLibrary-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3475,
-            "MD5": "8960a7373be2f90b77426e4dfcfb9e77",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageLibrary-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageLibrary-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillagePig-p.tml",
-          "name": "VanillaVillagePig-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3718,
-            "MD5": "d24a303aba4d84c4df723bb1a5c952cb",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillagePig-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillagePig-p.tml"
-          }
-        },
-        {
-          "id": "VanillaVillageWell-p.tml",
-          "name": "VanillaVillageWell-p.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3181,
-            "MD5": "ec68f1eca72f13ec196d8f1383e2e498",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VanillaVillageWell-p.tml",
-            "path": "config/RUINS BAKUP templateparser/VanillaVillageWell-p.tml"
-          }
-        },
-        {
-          "id": "VolcanicVent.tml",
-          "name": "VolcanicVent.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4257,
-            "MD5": "a389b9d999bea9b0655976e91ac6af3a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VolcanicVent.tml",
-            "path": "config/RUINS BAKUP templateparser/VolcanicVent.tml"
-          }
-        },
-        {
-          "id": "VolcanicVent3_good.tml",
-          "name": "VolcanicVent3_good.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4379,
-            "MD5": "09fefc5bf3742d8f78359489c613a91f",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/VolcanicVent3_good.tml",
-            "path": "config/RUINS BAKUP templateparser/VolcanicVent3_good.tml"
-          }
-        },
-        {
-          "id": "WatchtowerIntact.tml",
-          "name": "WatchtowerIntact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 7019,
-            "MD5": "08fff100470a74696d1b8b2bfdcc85a2",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WatchtowerIntact.tml",
-            "path": "config/RUINS BAKUP templateparser/WatchtowerIntact.tml"
-          }
-        },
-        {
-          "id": "WatchtowerRuined.tml",
-          "name": "WatchtowerRuined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5620,
-            "MD5": "abbdb3ecdf647dedaf71312f15b1d95c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WatchtowerRuined.tml",
-            "path": "config/RUINS BAKUP templateparser/WatchtowerRuined.tml"
-          }
-        },
-        {
-          "id": "WaterTrapRoom.tml",
-          "name": "WaterTrapRoom.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5488,
-            "MD5": "5601cc0dd3542265dcfce95b1f96e157",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WaterTrapRoom.tml",
-            "path": "config/RUINS BAKUP templateparser/WaterTrapRoom.tml"
-          }
-        },
-        {
-          "id": "WoodHouse2_Intact.tml",
-          "name": "WoodHouse2_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3363,
-            "MD5": "34bfc7893e651b4ab5c071e49ed0fafd",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse2_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse2_Intact.tml"
-          }
-        },
-        {
-          "id": "WoodHouse2_Ruined.tml",
-          "name": "WoodHouse2_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2948,
-            "MD5": "9fcc471904a6e79f63e39d48d8ad51e6",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse2_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse2_Ruined.tml"
-          }
-        },
-        {
-          "id": "WoodHouse3_Intact.tml",
-          "name": "WoodHouse3_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 4185,
-            "MD5": "cfb415e39b258f4c6f0440df80018970",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse3_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse3_Intact.tml"
-          }
-        },
-        {
-          "id": "WoodHouse3_Ruined.tml",
-          "name": "WoodHouse3_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3701,
-            "MD5": "8445921f2f400ac9e9aec69dfc427c28",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse3_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse3_Ruined.tml"
-          }
-        },
-        {
-          "id": "WoodHouse_Intact.tml",
-          "name": "WoodHouse_Intact.tml",
-          "type": "File",
-          "artifact": {
-            "size": 3571,
-            "MD5": "6038ccf4e4c57f315f507e1eb98add0c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse_Intact.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse_Intact.tml"
-          }
-        },
-        {
-          "id": "WoodHouse_Ruined.tml",
-          "name": "WoodHouse_Ruined.tml",
-          "type": "File",
-          "artifact": {
-            "size": 2917,
-            "MD5": "6044e5c9e3cbb6d64768fb48c3a0ea1a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/WoodHouse_Ruined.tml",
-            "path": "config/RUINS BAKUP templateparser/WoodHouse_Ruined.tml"
-          }
-        },
-        {
-          "id": "Ziggurat.tml",
-          "name": "Ziggurat.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5491,
-            "MD5": "8d6e851f95dd80f973b8934756c18eac",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/Ziggurat.tml",
-            "path": "config/RUINS BAKUP templateparser/Ziggurat.tml"
-          }
-        },
-        {
-          "id": "ZombieHut.tml",
-          "name": "ZombieHut.tml",
-          "type": "File",
-          "artifact": {
-            "size": 1195,
-            "MD5": "4113cb92ea47bc9edd3031c506bb2686",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/ZombieHut.tml",
-            "path": "config/RUINS BAKUP templateparser/ZombieHut.tml"
-          }
-        },
-        {
-          "id": "littlepyramid.tml",
-          "name": "littlepyramid.tml",
-          "type": "File",
-          "artifact": {
-            "size": 5081,
-            "MD5": "fcb299821dbf4ec435180ede572dda4a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/littlepyramid.tml",
-            "path": "config/RUINS BAKUP templateparser/littlepyramid.tml"
-          }
-        },
-        {
-          "id": "shipwreck.tml",
-          "name": "shipwreck.tml",
-          "type": "File",
-          "artifact": {
-            "size": 6681,
-            "MD5": "b74d7e64c3d4478f13b483fdb61efa40",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/RUINS%20BAKUP%20templateparser/shipwreck.tml",
-            "path": "config/RUINS BAKUP templateparser/shipwreck.tml"
           }
         },
         {
@@ -5903,7 +3826,7 @@
           "artifact": {
             "size": 840,
             "MD5": "36668d0652fc0404c94e02c0981ae285",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/SwitchBow/Enchantment%20Settings.cfg",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/SwitchBow/Enchantment Settings.cfg",
             "path": "config/SwitchBow/Enchantment Settings.cfg"
           }
         },
@@ -5914,7 +3837,7 @@
           "artifact": {
             "size": 2626,
             "MD5": "3585254493a4ddf8aa7f7ed53921a08e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/SwitchBow/General%20Settings.cfg",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/SwitchBow/General Settings.cfg",
             "path": "config/SwitchBow/General Settings.cfg"
           }
         },
@@ -8268,7 +6191,7 @@
           "artifact": {
             "size": 37,
             "MD5": "bb064fbd2f51bffeb8d8edca8fc44d30",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/infernal%20mobs%20loot%20table.txt",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/infernal mobs loot table.txt",
             "path": "config/infernal mobs loot table.txt"
           }
         },
@@ -11507,17 +9430,6 @@
           }
         },
         {
-          "id": "general BACK UP.cfg bak up",
-          "name": "general BACK UP.cfg bak up",
-          "type": "File",
-          "artifact": {
-            "size": 10170,
-            "MD5": "ce6ff1274798d2845752495c6d5668ad",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/lycanitesmobs/general%20BACK%20UP.cfg%20bak%20up",
-            "path": "config/lycanitesmobs/general BACK UP.cfg bak up"
-          }
-        },
-        {
           "id": "general.cfg",
           "name": "general.cfg",
           "type": "File",
@@ -11526,17 +9438,6 @@
             "MD5": "e0a44fda8fe443f19bfca2ea250602fb",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/lycanitesmobs/general.cfg",
             "path": "config/lycanitesmobs/general.cfg"
-          }
-        },
-        {
-          "id": "general.cfg the chosen one",
-          "name": "general.cfg the chosen one",
-          "type": "File",
-          "artifact": {
-            "size": 17044,
-            "MD5": "3010e88ba2eb8ff3cf1df0262e98e549",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/lycanitesmobs/general.cfg%20the%20chosen%20one",
-            "path": "config/lycanitesmobs/general.cfg the chosen one"
           }
         },
         {
@@ -13762,17 +11663,6 @@
           }
         },
         {
-          "id": "worldgen BACK UP.cfg bak up",
-          "name": "worldgen BACK UP.cfg bak up",
-          "type": "File",
-          "artifact": {
-            "size": 1732,
-            "MD5": "350681259143414159e6514bda9801d7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/lycanitesmobs/worldgen%20BACK%20UP.cfg%20bak%20up",
-            "path": "config/lycanitesmobs/worldgen BACK UP.cfg bak up"
-          }
-        },
-        {
           "id": "worldgen.cfg",
           "name": "worldgen.cfg",
           "type": "File",
@@ -13814,17 +11704,6 @@
             "MD5": "2371b498bf4e6d8f69882f792e7e6e2c",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/mujmajnkraftsbettersurvival/mujmajnkraftsbettersurvival.cfg",
             "path": "config/mujmajnkraftsbettersurvival/mujmajnkraftsbettersurvival.cfg"
-          }
-        },
-        {
-          "id": "mujmajnkraftsbettersurvival.cfg lel",
-          "name": "mujmajnkraftsbettersurvival.cfg lel",
-          "type": "File",
-          "artifact": {
-            "size": 6169,
-            "MD5": "f66e6b673434b9bb8217305f30e1d5e8",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/mujmajnkraftsbettersurvival/mujmajnkraftsbettersurvival.cfg%20lel",
-            "path": "config/mujmajnkraftsbettersurvival/mujmajnkraftsbettersurvival.cfg lel"
           }
         },
         {
@@ -14076,7 +11955,7 @@
           "artifact": {
             "size": 965,
             "MD5": "36e56ebd84a497eba0696df1d824226e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/Quailities/fishing%20rods.json",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/Quailities/fishing rods.json",
             "path": "config/qualitytools/Quailities/fishing rods.json"
           }
         },
@@ -14098,7 +11977,7 @@
           "artifact": {
             "size": 2975,
             "MD5": "9c812efb976f96ad5d0395fe2ad21bb7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/Quailities/horse%20armor.json",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/Quailities/horse armor.json",
             "path": "config/qualitytools/Quailities/horse armor.json"
           }
         },
@@ -14186,30 +12065,8 @@
           "artifact": {
             "size": 37224,
             "MD5": "3366041325df9365fb3a6bc7620e823a",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/reforging%20materials.json",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/reforging materials.json",
             "path": "config/qualitytools/reforging materials.json"
-          }
-        },
-        {
-          "id": "reforging materials.json bakup",
-          "name": "reforging materials.json bakup",
-          "type": "File",
-          "artifact": {
-            "size": 13755,
-            "MD5": "199ece6ae39b49901ced3d6e811daa3b",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/reforging%20materials.json%20bakup",
-            "path": "config/qualitytools/reforging materials.json bakup"
-          }
-        },
-        {
-          "id": "reforging materials.json v2.6.3",
-          "name": "reforging materials.json v2.6.3",
-          "type": "File",
-          "artifact": {
-            "size": 11385,
-            "MD5": "8d1a2aeeef79c282fd4dd0293c1b73e7",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/qualitytools/reforging%20materials.json%20v2.6.3",
-            "path": "config/qualitytools/reforging materials.json v2.6.3"
           }
         },
         {
@@ -15357,17 +13214,6 @@
           }
         },
         {
-          "id": "glorious eternal credits.txt",
-          "name": "glorious eternal credits.txt",
-          "type": "File",
-          "artifact": {
-            "size": 987,
-            "MD5": "ab0fc7a1b4a3ecd3b89a82adcb49bd79",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/ruins_config/glorious%20eternal%20credits.txt",
-            "path": "config/ruins_config/glorious eternal credits.txt"
-          }
-        },
-        {
           "id": "DoomHouse.tml",
           "name": "DoomHouse.tml",
           "type": "File",
@@ -16452,7 +14298,7 @@
           "artifact": {
             "size": 3850,
             "MD5": "97d030a68969c50f72dc430512f1e041",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/setbonus/1.12.2.009+.cfg",
+            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/setbonus/1.12.2.009.cfg",
             "path": "config/setbonus/1.12.2.009+.cfg"
           }
         },
@@ -16655,17 +14501,6 @@
           }
         },
         {
-          "id": "tickprofiler.cfg",
-          "name": "tickprofiler.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 915,
-            "MD5": "0c9ba7322775200973d3ffaa9f200610",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/tickprofiler.cfg",
-            "path": "config/tickprofiler.cfg"
-          }
-        },
-        {
           "id": "tickratechanger.cfg",
           "name": "tickratechanger.cfg",
           "type": "File",
@@ -16795,17 +14630,6 @@
             "MD5": "7bf1e77c488724dc6d0f458ea40143ed",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/trinkets/Trinkets_And_Baubles.cfg",
             "path": "config/trinkets/Trinkets_And_Baubles.cfg"
-          }
-        },
-        {
-          "id": "Trinkets_And_Baubles.cfg 0.30 config",
-          "name": "Trinkets_And_Baubles.cfg 0.30 config",
-          "type": "File",
-          "artifact": {
-            "size": 107610,
-            "MD5": "e4360d5241576e67852e1c8b2610b8a5",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/trinkets/Trinkets_And_Baubles.cfg%200.30%20config",
-            "path": "config/trinkets/Trinkets_And_Baubles.cfg 0.30 config"
           }
         },
         {
@@ -17730,17 +15554,6 @@
             "MD5": "61a7f0576befb0d113620d08f6076adb",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/resources/mainmenu/images/9.jpg",
             "path": "resources/mainmenu/images/9.jpg"
-          }
-        },
-        {
-          "id": "rlcraft old.png",
-          "name": "rlcraft old.png",
-          "type": "File",
-          "artifact": {
-            "size": 20277,
-            "MD5": "e9b9f7e511c119ab81d42e13ad0fe086",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/resources/mainmenu/rlcraft%20old.png",
-            "path": "resources/mainmenu/rlcraft old.png"
           }
         },
         {
@@ -19556,17 +17369,6 @@
             "MD5": "280607a0eb4851993bf2c08c128eec1d",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/structures/downloads/P_Pack.zip",
             "path": "structures/downloads/P_Pack.zip"
-          }
-        },
-        {
-          "id": "RLCraft_4Towers.rcst bakup",
-          "name": "RLCraft_4Towers.rcst bakup",
-          "type": "File",
-          "artifact": {
-            "size": 46935,
-            "MD5": "1a9e072fd591aeb049b9beeeaafbb7ce",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/structures/downloads/RLCraft_4Towers.rcst%20bakup",
-            "path": "structures/downloads/RLCraft_4Towers.rcst bakup"
           }
         },
         {

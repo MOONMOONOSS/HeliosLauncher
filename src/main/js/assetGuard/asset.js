@@ -20,7 +20,7 @@ export default class Asset {
 
     this.id = id;
     this.size = size;
-    this.from = from;
+    this.from = encodeURI(from);
     this.to = to;
   }
 }
