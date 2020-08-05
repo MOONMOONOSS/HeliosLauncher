@@ -11,6 +11,8 @@ import Whitelist from './js/whitelist';
 import Minecraft from './js/minecraft';
 import DistroManager from './js/distroManager';
 
+let staticBuilder;
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -275,52 +277,60 @@ ipcMain.on('start-download', (ev, data) => {
 });
 
 ipcMain.on('start-game', (ev, data) => {
-  const forkEnv = JSON.parse(JSON.stringify(process.env));
-  forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
+  if (!staticBuilder) {
+    const forkEnv = JSON.parse(JSON.stringify(process.env));
+    forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
 
-  // Fork a process to run validations
-  const p = ChildProcess.fork(
-    path.join(__dirname, './js/processExecWrapper.cjs'),
-    [
-      `${app.getPath('userData')}`,
-      data.javaExe,
-    ],
-    {
-      env: forkEnv,
-      stdio: 'pipe',
-    },
-  );
+    // Fork a process to run validations
+    staticBuilder = ChildProcess.fork(
+      path.join(__dirname, './js/processExecWrapper.cjs'),
+      [
+        `${app.getPath('userData')}`,
+        data.javaExe,
+      ],
+      {
+        env: forkEnv,
+        stdio: 'pipe',
+      },
+    );
 
-  p.stdout.on('data', (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data.toString());
-  });
+    staticBuilder.stdout.on('data', (data) => {
+      // eslint-disable-next-line no-console
+      console.log(data.toString());
+    });
 
-  p.stderr.on('data', (data) => {
-    // eslint-disable-next-line no-console
-    console.error(data.toString());
-  });
+    staticBuilder.stderr.on('data', (data) => {
+      // eslint-disable-next-line no-console
+      console.error(data.toString());
+    });
 
-  p.on('close', (code) => {
-    // eslint-disable-next-line no-console
-    console.log(`ProcessBuilder exited with code ${code}`);
-  });
+    staticBuilder.on('close', (code) => {
+      // eslint-disable-next-line no-console
+      console.log(`ProcessBuilder exited with code ${code}`);
+    });
 
-  p.on('message', (msg) => {
-    switch (msg.context) {
-      case 'game-close':
-        ev.reply('game-close', msg.code);
-        break;
-      default:
-        // eslint-disable-next-line no-console
-        console.warn(`Unknown context in start-game: ${msg.context}`);
-    }
-  });
+    staticBuilder.on('message', (msg) => {
+      switch (msg.context) {
+        case 'game-close':
+          ev.reply('game-close', msg.code);
+          staticBuilder.stdout.removeAllListeners();
+          staticBuilder.stderr.removeAllListeners();
+          staticBuilder.removeAllListeners();
+          staticBuilder.kill();
 
-  p.send({
-    context: 'start-game',
-    data,
-  });
+          staticBuilder = null;
+          break;
+        default:
+          // eslint-disable-next-line no-console
+          console.warn(`Unknown context in start-game: ${msg.context}`);
+      }
+    });
+
+    staticBuilder.send({
+      context: 'start-game',
+      data,
+    });
+  }
 });
 
 ipcMain.handle('discord-exchange', (_ev, code) => Whitelist.requestToken(code)
