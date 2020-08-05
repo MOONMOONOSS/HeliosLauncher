@@ -65,7 +65,7 @@ export default {
       this.newServer = null;
     },
     saveNewServer() {
-      this.selectedServer(this.newServer);
+      if (this.newServer) this.selectedServer(this.newServer);
       this.closePanel();
     },
   },
