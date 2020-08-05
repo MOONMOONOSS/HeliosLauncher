@@ -60,9 +60,12 @@ export default {
             .then(() => this.$router.push({ name: 'overview' }))
             .catch(() => {
               this.overlayText = 'Continue on pop-up window';
+              this.linking = false;
               this.hasError = true;
             });
         } else {
+          this.overlayText = 'Continue on pop-up window';
+          this.linking = false;
           this.hasError = true;
         }
       });
