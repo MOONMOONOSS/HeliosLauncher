@@ -6,6 +6,7 @@ export default class AssetExec {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     this.percent = 0;
+    [this.appDir] = args;
     this.tracker = new AssetGuard(...args);
     this.assignListeners();
 
@@ -43,6 +44,24 @@ export default class AssetExec {
               process.send({
                 context: 'finished',
                 data: obj,
+              });
+            });
+          break;
+        case 'install-java':
+          process.send({
+            context: 'status-msg',
+            data: 'Setting up OpenJRE',
+          });
+
+          this.tracker.enqueueOpenJdk(this.appDir)
+            .then(() => this.tracker.processDlQueues([
+              {
+                id: 'java',
+                limit: 5,
+              },
+            ])).then(() => {
+              process.send({
+                context: 'finished',
               });
             });
           break;

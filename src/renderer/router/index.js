@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Landing from '@/components/Landing';
 import Login from '@/components/Login';
+import MissingJava from '@/components/MissingJava';
 import Welcome from '@/components/Welcome';
 import Whitelist from '@/components/Whitelist';
 
@@ -62,6 +63,11 @@ export default new Router({
       name: 'overview',
       component: Landing,
       beforeEnter: fullyAuthorized,
+    },
+    {
+      path: '/java/missing',
+      name: 'missing-java',
+      component: MissingJava,
     },
     {
       path: '*',

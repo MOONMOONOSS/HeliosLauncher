@@ -50,7 +50,7 @@ const getters = {
   javaDetails: (_state, getters, _rootState, rootGetters) => async () => {
     const details = await ipcRenderer.invoke('java-details', {
       exe: getters.selectedJavaExe,
-      mcVersion: rootGetters['Distribution/selectedServer'].minecraftVersion,
+      mcVersion: rootGetters['Distribution/selectedServer']?.minecraftVersion ?? '1.16.1',
     });
 
     return details;
