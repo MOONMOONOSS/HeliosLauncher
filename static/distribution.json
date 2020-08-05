@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "discord": {
     "clientId": "604009411928784917",
     "smallImageText": "Mooncraft",
@@ -2047,17 +2047,6 @@
           }
         },
         {
-          "id": "Undefined.cfg",
-          "name": "Undefined.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/end/Creatures/Undefined.cfg",
-            "path": "config/CustomSpawner/end/Creatures/Undefined.cfg"
-          }
-        },
-        {
           "id": "Vanilla.cfg",
           "name": "Vanilla.cfg",
           "type": "File",
@@ -2099,17 +2088,6 @@
             "MD5": "f702473d7d3aa5e2168ed4d731f02b66",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/end/Environment.cfg",
             "path": "config/CustomSpawner/end/Environment.cfg"
-          }
-        },
-        {
-          "id": "Structures.cfg",
-          "name": "Structures.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/end/Structures.cfg",
-            "path": "config/CustomSpawner/end/Structures.cfg"
           }
         },
         {
@@ -2355,17 +2333,6 @@
           }
         },
         {
-          "id": "Undefined.cfg",
-          "name": "Undefined.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/lost/Creatures/Undefined.cfg",
-            "path": "config/CustomSpawner/lost/Creatures/Undefined.cfg"
-          }
-        },
-        {
           "id": "Vanilla.cfg",
           "name": "Vanilla.cfg",
           "type": "File",
@@ -2407,17 +2374,6 @@
             "MD5": "f702473d7d3aa5e2168ed4d731f02b66",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/lost/Environment.cfg",
             "path": "config/CustomSpawner/lost/Environment.cfg"
-          }
-        },
-        {
-          "id": "Structures.cfg",
-          "name": "Structures.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/lost/Structures.cfg",
-            "path": "config/CustomSpawner/lost/Structures.cfg"
           }
         },
         {
@@ -2594,17 +2550,6 @@
             "MD5": "4f194c0fec006402a16aecb5fa3780e4",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/nether/Creatures/MoCreatures.cfg",
             "path": "config/CustomSpawner/nether/Creatures/MoCreatures.cfg"
-          }
-        },
-        {
-          "id": "Undefined.cfg",
-          "name": "Undefined.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/nether/Creatures/Undefined.cfg",
-            "path": "config/CustomSpawner/nether/Creatures/Undefined.cfg"
           }
         },
         {
@@ -2839,17 +2784,6 @@
           }
         },
         {
-          "id": "Undefined.cfg",
-          "name": "Undefined.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/overworld/Creatures/Undefined.cfg",
-            "path": "config/CustomSpawner/overworld/Creatures/Undefined.cfg"
-          }
-        },
-        {
           "id": "Vanilla.cfg",
           "name": "Vanilla.cfg",
           "type": "File",
@@ -3081,17 +3015,6 @@
           }
         },
         {
-          "id": "Undefined.cfg",
-          "name": "Undefined.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/wyvernend/Creatures/Undefined.cfg",
-            "path": "config/CustomSpawner/wyvernend/Creatures/Undefined.cfg"
-          }
-        },
-        {
           "id": "Vanilla.cfg",
           "name": "Vanilla.cfg",
           "type": "File",
@@ -3133,17 +3056,6 @@
             "MD5": "f702473d7d3aa5e2168ed4d731f02b66",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/wyvernend/Environment.cfg",
             "path": "config/CustomSpawner/wyvernend/Environment.cfg"
-          }
-        },
-        {
-          "id": "Structures.cfg",
-          "name": "Structures.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/CustomSpawner/wyvernend/Structures.cfg",
-            "path": "config/CustomSpawner/wyvernend/Structures.cfg"
           }
         },
         {
@@ -3452,17 +3364,6 @@
             "MD5": "c3bb12b1e3aeb1cff6515aa7c0f872ad",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/FBP/ParticleBlockBlacklist.txt",
             "path": "config/FBP/ParticleBlockBlacklist.txt"
-          }
-        },
-        {
-          "id": "ParticleBlockExceptions.txt",
-          "name": "ParticleBlockExceptions.txt",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/FBP/ParticleBlockExceptions.txt",
-            "path": "config/FBP/ParticleBlockExceptions.txt"
           }
         },
         {
@@ -6040,17 +5941,6 @@
           }
         },
         {
-          "id": "adhooks.cfg",
-          "name": "adhooks.cfg",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/adhooks/adhooks.cfg",
-            "path": "config/adhooks/adhooks.cfg"
-          }
-        },
-        {
           "id": "PUDGE.cfg",
           "name": "PUDGE.cfg",
           "type": "File",
@@ -6389,17 +6279,6 @@
             "MD5": "35b0ac80a75d33d2c65664b699f9af9e",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/biomesoplenty/biome_ids.json",
             "path": "config/biomesoplenty/biome_ids.json"
-          }
-        },
-        {
-          "id": "Put biome config files here",
-          "name": "Put biome config files here",
-          "type": "File",
-          "artifact": {
-            "size": 0,
-            "MD5": "d41d8cd98f00b204e9800998ecf8427e",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/config/biomesoplenty/biomes/Put%20biome%20config%20files%20here",
-            "path": "config/biomesoplenty/biomes/Put biome config files here"
           }
         },
         {

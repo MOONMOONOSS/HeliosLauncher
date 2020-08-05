@@ -5,7 +5,7 @@ import path from 'path';
 import DistroIndex from './distribution/distroIndex';
 
 export default class DistroManager {
-  static distributionUrl = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/vue/2.0/static/distribution.json';
+  static distributionUrl = 'https://raw.githubusercontent.com/MOONMOONOSS/HeliosLauncher/2.0/static/distribution.json';
 
   static pullRemote(commonPath) {
     return new Promise((resolve, reject) => {
