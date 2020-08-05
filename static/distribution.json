@@ -1,5 +1,5 @@
 {
-  "version": "2.0.9",
+  "version": "2.0.10",
   "discord": {
     "clientId": "604009411928784917",
     "smallImageText": "Mooncraft",
@@ -433,7 +433,7 @@
       "name": "RLCraft",
       "description": "Is it really that time to suffer again?",
       "icon": "https://moonmoon-live.s3.us-east-2.amazonaws.com/icon/rlcraft.png",
-      "version": "1.0.7",
+      "version": "1.0.8",
       "address": "51.81.48.39:27070",
       "minecraftVersion": "1.12.2",
       "discord": {
@@ -17867,14 +17867,14 @@
           }
         },
         {
-          "id": "server.dat",
-          "name": "server.dat",
+          "id": "servers.dat",
+          "name": "servers.dat",
           "type": "File",
           "artifact": {
             "size": 72,
             "MD5": "36b16c6adc5afb78c7eca67369a2ed49",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/servers.dat",
-            "path": "server.dat"
+            "path": "servers.dat"
           }
         }
       ]
