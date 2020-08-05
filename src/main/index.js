@@ -404,6 +404,72 @@ ipcMain.handle('java-details', (_ev, payload) => new Promise((resolve) => {
     .catch(() => resolve({ valid: false }));
 }));
 
+ipcMain.on('java-detect', (ev, payload) => {
+  const jg = new JavaGuard(payload.mcVersion);
+
+  jg.validateJava(app.getPath('userData'))
+    .then((data) => ev.reply('java-detect', data))
+    .catch((ev) => ev.reply('java-detect', ev));
+});
+
+ipcMain.on('java-install', (ev) => {
+  const forkEnv = JSON.parse(JSON.stringify(process.env));
+  forkEnv.CONFIG_DIRECT_PATH = app.getPath('userData');
+
+  // Fork a process to run validations
+  const p = ChildProcess.fork(
+    path.join(__dirname, './js/assetExecWrapper.cjs'),
+    [
+      `${app.getPath('userData')}`,
+      '',
+      `${process.resourcesPath}`,
+    ],
+    {
+      env: forkEnv,
+      stdio: 'pipe',
+    },
+  );
+
+  p.stdout.on('data', (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data.toString());
+  });
+
+  p.stderr.on('data', (data) => {
+    // eslint-disable-next-line no-console
+    console.error(data.toString());
+  });
+
+  p.on('close', (code) => {
+    // eslint-disable-next-line no-console
+    console.log(`JavaScan exited with code ${code}`);
+  });
+
+  p.on('message', (msg) => {
+    switch (msg.context) {
+      case 'status-msg':
+        ev.reply('java-install-status', msg.data);
+        break;
+      case 'finished':
+      case 'progress':
+        break;
+      case 'complete':
+        p.send({
+          context: 'disconnect',
+        });
+        ev.reply('java-complete', msg);
+        break;
+      default:
+        // eslint-disable-next-line no-console
+        console.warn(`Unknown context: ${msg.context}`);
+    }
+  });
+
+  p.send({
+    context: 'install-java',
+  });
+});
+
 // eslint-disable-next-line no-return-assign
 ipcMain.on('total-memory', (ev) => ev.returnValue = (Number(os.totalmem() - 1_000_000_000) / 1_000_000_000).toFixed(1));
 

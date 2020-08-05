@@ -10,6 +10,8 @@
 </template>
 
 <script>
+/* eslint-disable import/no-extraneous-dependencies */
+import { ipcRenderer } from 'electron';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
@@ -33,6 +35,15 @@ export default {
   },
   mounted() {
     this.$nextTick(async () => {
+      ipcRenderer.on('java-detect', (_ev, payload) => {
+        if (payload) this.setJavaExe(payload);
+        else {
+          this.setJavaExe();
+          this.$router.push({ name: 'missing-java' });
+        }
+      });
+
+      ipcRenderer.send('java-detect', { mcVersion: '1.16.1' });
       this.pullDistro();
 
       const details = await this.javaDetails();
@@ -63,7 +74,10 @@ export default {
     });
   },
   methods: {
-    ...mapActions('Distribution', ['pullDistro']),
+    ...mapActions('Distribution', [
+      'pullDistro',
+      'selectedServer',
+    ]),
     ...mapMutations('Java', [
       'setJavaExe',
     ]),

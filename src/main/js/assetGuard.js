@@ -457,14 +457,16 @@ export default class AssetGuard extends EventEmitter {
               const zip = new AdmZip(a.to);
               const pos = path.join(direct, zip.getEntries()[0].entryName);
 
-              zip.extractAllToAsync(direct, true, (err) => {
+              zip.extractAllTo(direct, true, (err) => {
                 if (err) {
                   // eslint-disable-next-line no-console
                   console.error(err);
                   this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
+
+                  return;
                 }
 
-                fs.unlink(a.to, (err) => {
+                fs.unlinkSync(a.to, (err) => {
                   if (err) {
                     // eslint-disable-next-line no-console
                     console.error(err);
@@ -473,6 +475,8 @@ export default class AssetGuard extends EventEmitter {
                   this.emit('complete', 'java', JavaGuard.javaExecFromRoot(pos));
                 });
               });
+
+              return;
             }
 
             let h;
