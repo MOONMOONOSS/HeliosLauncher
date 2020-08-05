@@ -340,40 +340,34 @@ export default class JavaGuard extends EventEmitter {
    */
   static scanFileSystem(scanDir) {
     return new Promise((resolve) => {
-      fs.exists(scanDir, (e) => {
+      fs.exists(scanDir, (exists) => {
         const res = new Set();
 
-        if (e) {
+        if (exists) {
           fs.readdir(scanDir, (err, files) => {
             if (err) {
               resolve(res);
 
               // eslint-disable-next-line no-console
               console.error(err);
-            } else {
-              let pathsDone = 0;
-
-              for (let i = 0; i < files.length; i += 1) {
-                const combinedPath = path.join(scanDir, files[i]);
-                const execPath = JavaGuard.javaExecFromRoot(combinedPath);
-
-                fs.exists(execPath, (v) => {
-                  if (v) {
-                    res.add(combinedPath);
-                  }
-
-                  pathsDone += 1;
-
-                  if (pathsDone === files.length) {
-                    resolve(res);
-                  }
-                });
-              }
-
-              if (pathsDone === files.length) {
-                resolve(res);
-              }
             }
+
+            let pathsDone = 0;
+
+            for (let i = 0; i < files.length; i += 1) {
+              const combinedPath = path.join(scanDir, files[i]);
+              const execPath = JavaGuard.javaExecFromRoot(combinedPath);
+
+              fs.exists(execPath, (v) => {
+                if (v) res.add(combinedPath);
+
+                pathsDone += 1;
+
+                if (pathsDone === files.length) resolve(res);
+              });
+            }
+
+            if (pathsDone === files.length) resolve(res);
           });
         } else {
           resolve(res);
@@ -529,9 +523,9 @@ export default class JavaGuard extends EventEmitter {
     let pathSet1 = await JavaGuard.scanRegistry();
 
     // Get possible paths from the registry.
-    if (pathSet1.length === 0) {
+    if (pathSet1.size === 0) {
       // Do a manual file system scan of program files.
-      pathSet1 = JavaGuard.scanFileSystem('C:\\Program Files\\Java');
+      pathSet1 = await JavaGuard.scanFileSystem('C:\\Program Files\\Java');
     }
 
     // Get possible paths from the data directory.
@@ -543,7 +537,7 @@ export default class JavaGuard extends EventEmitter {
     // Validate JAVA_HOME
     const jHome = JavaGuard.scanJavaHome();
 
-    if (jHome && jHome.indexOf('(x86)') === -1) {
+    if (jHome && !jHome.toLowerCase().includes('(x86)')) {
       superSet.add(jHome);
     }
 
@@ -669,6 +663,14 @@ export default class JavaGuard extends EventEmitter {
    */
   validateJavaBinary(binaryExecPath) {
     return new Promise((resolve) => {
+      if (!binaryExecPath) {
+        // eslint-disable-next-line no-console
+        console.warn('no binary path!');
+
+        resolve({
+          valid: false,
+        });
+      }
       if (!JavaGuard.isJavaExecPath(binaryExecPath)) {
         resolve({
           valid: false,
@@ -676,7 +678,7 @@ export default class JavaGuard extends EventEmitter {
       } else if (fs.existsSync(binaryExecPath)) {
         // javaw.exe no longer outputs this information
         // so we use java.exe instead
-        if (binaryExecPath.indexOf('javaw.exe') > -1) {
+        if (binaryExecPath.includes('javaw.exe')) {
           binaryExecPath.replace('javaw.exe', 'java.exe');
         }
 
@@ -691,10 +693,6 @@ export default class JavaGuard extends EventEmitter {
           }
         });
       }
-
-      resolve({
-        valid: false,
-      });
     });
   }
 }
