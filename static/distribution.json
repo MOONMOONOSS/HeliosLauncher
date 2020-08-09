@@ -1,5 +1,5 @@
 {
-  "version": "2.0.10",
+  "version": "2.0.11",
   "discord": {
     "clientId": "604009411928784917",
     "smallImageText": "Mooncraft",
@@ -433,7 +433,7 @@
       "name": "RLCraft",
       "description": "Is it really that time to suffer again?",
       "icon": "https://moonmoon-live.s3.us-east-2.amazonaws.com/icon/rlcraft.png",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "address": "51.81.48.39:27070",
       "minecraftVersion": "1.12.2",
       "discord": {
@@ -3432,17 +3432,6 @@
             "MD5": "8a650400caae6960f21a2ab2b9ad20f3",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/InvTweaks/InvTweaksTree.txt",
             "path": "config/InvTweaks/InvTweaksTree.txt"
-          }
-        },
-        {
-          "id": "readme.txt",
-          "name": "readme.txt",
-          "type": "File",
-          "artifact": {
-            "size": 519,
-            "MD5": "34a966a4872523c8f7881871e9c9bae9",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/InvTweaks/trees/readme.txt",
-            "path": "config/InvTweaks/trees/readme.txt"
           }
         },
         {
@@ -14696,39 +14685,6 @@
             "MD5": "f6fc0114e175c65e9faf2e73fb75fdab",
             "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/config/xpfromharvest.cfg",
             "path": "config/xpfromharvest.cfg"
-          }
-        },
-        {
-          "id": "options.txt",
-          "name": "options.txt",
-          "type": "File",
-          "artifact": {
-            "size": 3945,
-            "MD5": "8f75b9e0574eae679ba292e6ce534275",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/options.txt",
-            "path": "options.txt"
-          }
-        },
-        {
-          "id": "optionsof.txt",
-          "name": "optionsof.txt",
-          "type": "File",
-          "artifact": {
-            "size": 1433,
-            "MD5": "5f87431fab234cc0004fe65220054eee",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/optionsof.txt",
-            "path": "optionsof.txt"
-          }
-        },
-        {
-          "id": "optionsshaders.txt",
-          "name": "optionsshaders.txt",
-          "type": "File",
-          "artifact": {
-            "size": 372,
-            "MD5": "686376cc5af685520e0a1ad80160715c",
-            "url": "https://moonmoon-live.s3.us-east-2.amazonaws.com/rlcraft/optionsshaders.txt",
-            "path": "optionsshaders.txt"
           }
         },
         {
