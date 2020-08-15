@@ -43,6 +43,7 @@
     "vuex": "^3.5.1",
     "vuex-electron": "^1.0.3",
     "winreg": "^1.2.4",
+    "zeromq": "^6.0.0-beta.6",
     "zlib": "^1.0.5"
   },
   "devDependencies": {

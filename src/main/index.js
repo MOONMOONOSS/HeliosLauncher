@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import ChildProcess from 'child_process';
+import { Push } from 'zeromq';
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
 import fs from 'fs';
 import os from 'os';
@@ -22,9 +23,19 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow;
+let overlayWindow;
+let mqSocket;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
+
+async function mqStart() {
+  mqSocket = new Push();
+
+  await mqSocket.bind('tcp://127.0.0.1:27015');
+  // eslint-disable-next-line no-console
+  console.log('Producer bound to port 27015!');
+}
 
 function createWindow() {
   /**
@@ -53,6 +64,23 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
     app.quit();
+  });
+
+  mqStart().then(() => {
+    overlayWindow = new BrowserWindow({
+      webPreferences: {
+        preload: path.join(__dirname, 'assets', 'js'),
+        nodeIntegration: true,
+        contextIsolation: false,
+        offscreen: true,
+      },
+    });
+
+    overlayWindow.loadURL(winURL);
+    overlayWindow.webContents.setFrameRate(60);
+    overlayWindow.webContents.on('paint', async (_ev, _dirty, image) => {
+      await mqSocket.send(image.toPNG());
+    });
   });
 }
 
@@ -127,6 +155,8 @@ function createMenu() {
     Menu.setApplicationMenu(menuObject);
   }
 }
+
+app.disableHardwareAcceleration();
 
 // https://github.com/electron/electron/issues/18397
 app.allowRendererProcessReuse = true;
