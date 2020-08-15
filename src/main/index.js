@@ -81,7 +81,10 @@ function createWindow() {
     overlayWindow.loadURL(winURL);
     overlayWindow.webContents.setFrameRate(60);
     overlayWindow.webContents.on('paint', async (_ev, _dirty, image) => {
-      await mqSocket.send(image.toPNG());
+      try {
+        await mqSocket.send(image.toPNG());
+      // eslint-disable-next-line no-empty
+      } catch (_) {}
     });
   });
 }
