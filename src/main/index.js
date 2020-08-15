@@ -68,6 +68,8 @@ function createWindow() {
 
   mqStart().then(() => {
     overlayWindow = new BrowserWindow({
+      width: 800,
+      height: 800,
       webPreferences: {
         preload: path.join(__dirname, 'assets', 'js'),
         nodeIntegration: true,
