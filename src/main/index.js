@@ -68,23 +68,26 @@ function createWindow() {
 
   mqStart().then(() => {
     overlayWindow = new BrowserWindow({
-      width: 800,
-      height: 800,
+      width: 854,
+      height: 480,
+      transparent: true,
+      frame: false,
       webPreferences: {
+        devTools: false,
         preload: path.join(__dirname, 'assets', 'js'),
         nodeIntegration: true,
         contextIsolation: false,
-        offscreen: true,
       },
     });
 
     overlayWindow.loadURL(winURL);
     overlayWindow.webContents.setFrameRate(60);
-    overlayWindow.webContents.on('paint', async (_ev, _dirty, image) => {
+    overlayWindow.webContents.beginFrameSubscription((image) => {
       try {
-        await mqSocket.send(image.toPNG());
-      // eslint-disable-next-line no-empty
-      } catch (_) {}
+        mqSocket.send(image.toPNG());
+      } catch (e) {
+        console.log(e);
+      }
     });
   });
 }
@@ -166,8 +169,8 @@ app.disableHardwareAcceleration();
 // https://github.com/electron/electron/issues/18397
 app.allowRendererProcessReuse = true;
 
-app.on('ready', createWindow);
-app.on('ready', createMenu);
+app.on('ready', () => setTimeout(createWindow, 400));
+app.on('ready', () => setTimeout(createMenu, 400));
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
