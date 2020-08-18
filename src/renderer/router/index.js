@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import ChatSession from '@/components/ChatSession';
 import Landing from '@/components/Landing';
 import Login from '@/components/Login';
 import MissingJava from '@/components/MissingJava';
 import Welcome from '@/components/Welcome';
 import Whitelist from '@/components/Whitelist';
 
-import store from '../store-launcher/index';
+import store from '../store/index';
 
 function notMcAuthorized(to, from, next) {
   if (store.getters['Account/uuid']) {
@@ -18,9 +19,14 @@ function notMcAuthorized(to, from, next) {
 }
 
 function mcAuthorized(to, from, next) {
-  if (store.getters['Account/uuid'] && !store.getters['Account/discordToken']) {
+  if ((store.getters['Account/uuid']
+    && !store.getters['Account/discordToken'])
+    || to.name === 'chat-session'
+  ) {
     next();
-  } else if (store.getters['Account/discordToken'] && !store.getters['Account/uuid']) {
+  } else if (store.getters['Account/discordToken']
+    && !store.getters['Account/uuid']
+  ) {
     next({ name: 'minecraft-login' });
   } else {
     next({ name: 'overview' });
@@ -28,12 +34,24 @@ function mcAuthorized(to, from, next) {
 }
 
 function fullyAuthorized(to, from, next) {
-  if (store.getters['Account/uuid'] && store.getters['Account/discordToken']) {
+  if ((store.getters['Account/uuid']
+    && store.getters['Account/discordToken'])
+    || to.name === 'chat-session'
+  ) {
     next();
   } else if (!store.getters['Account/uuid']) {
     next({ name: 'minecraft-login' });
   } else if (!store.getters['Account/discordToken']) {
     next({ name: 'whitelisting' });
+  }
+}
+
+function isChatEnabled(to, from, next) {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('openChat')) {
+    next({ name: 'chat-session' });
+  } else {
+    next();
   }
 }
 
@@ -45,6 +63,12 @@ export default new Router({
       path: '/',
       name: 'welcome-page',
       component: Welcome,
+      beforeEnter: isChatEnabled,
+    },
+    {
+      path: '/chat',
+      name: 'chat-session',
+      component: ChatSession,
     },
     {
       path: '/login',

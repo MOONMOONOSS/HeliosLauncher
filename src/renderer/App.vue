@@ -3,7 +3,7 @@
     id="app"
     :overlay="isServerSelectOpen || isSettingsOpen || isSkinEditOpen"
   >
-    <FrameBar />
+    <FrameBar :style="isChatWindow ? 'visibility: hidden;' : ''" />
     <WipBadge />
     <router-view />
   </div>
@@ -35,10 +35,13 @@ export default {
     ...mapGetters('Java', [
       'javaDetails',
     ]),
+    isChatWindow() {
+      return this.$router.currentRoute.name === 'chat-session';
+    },
   },
   watch: {
     accessToken(val) {
-      if (!val) this.$router.push({ name: 'minecraft-login' });
+      if (!val && this.$router.currentRoute.name !== 'chat-session') this.$router.push({ name: 'minecraft-login' });
     },
   },
   mounted() {

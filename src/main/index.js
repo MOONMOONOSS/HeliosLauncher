@@ -30,11 +30,14 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`;
 
 const chatURL = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:9080'
-  : `file://${__dirname}/chat.html`;
+  ? 'http://localhost:9080?openChat=true'
+  : `file://${__dirname}/index.html?openChat=true`;
 
 async function mqStart() {
   mqSocket = new Push();
+  mqSocket.loopbackFastPath = true;
+  mqSocket.multicastHops = 1;
+  mqSocket.sendTimeout = 0;
 
   await mqSocket.bind('tcp://127.0.0.1:27015');
   // eslint-disable-next-line no-console
@@ -71,12 +74,12 @@ function createWindow() {
 
   mqStart().then(() => {
     overlayWindow = new BrowserWindow({
-      width: 854,
-      height: 480,
+      width: 640,
+      height: 240,
       transparent: true,
       frame: false,
       webPreferences: {
-        devTools: false,
+        devTools: true,
         nodeIntegration: true,
         contextIsolation: false,
       },
@@ -84,12 +87,11 @@ function createWindow() {
 
     overlayWindow.loadURL(chatURL);
     overlayWindow.webContents.setFrameRate(30);
-    overlayWindow.webContents.beginFrameSubscription((image) => {
+    overlayWindow.webContents.beginFrameSubscription(async (image) => {
       try {
-        mqSocket.send(image.toPNG());
-      } catch (e) {
-        console.log(e);
-      }
+        await mqSocket.send(image.toPNG());
+      // eslint-disable-next-line no-empty
+      } catch (_) {}
     });
   });
 }

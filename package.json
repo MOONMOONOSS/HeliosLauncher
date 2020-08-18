@@ -126,7 +126,7 @@
       "sourceDirectory": "src/main",
       "webpackConfig": ".electron-vue/webpack.main.config.js"
     },
-    "renderer": {
+    "launcher": {
       "sourceDirectory": "src/renderer",
       "template": "src/renderer/index.ejs",
       "webpackConfig": ".electron-vue/webpack.renderer.config.js"

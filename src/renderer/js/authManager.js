@@ -1,4 +1,4 @@
-import store from '../store-launcher/index';
+import store from '../store/index';
 
 export default class {
   static async addAccount(session) {
