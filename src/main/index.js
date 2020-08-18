@@ -34,17 +34,19 @@ function createWindow() {
     width: 980,
     height: 552,
     frame: false,
+    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'assets', 'js'),
       nodeIntegration: true,
       contextIsolation: false,
     },
     useContentSize: true,
-    backgroundColor: '#171614',
   });
 
   mainWindow.setMenuBarVisibility(false);
   mainWindow.setResizable(true);
+
+  mainWindow.setIgnoreMouseEvents(true);
 
   mainWindow.loadURL(winURL);
 
