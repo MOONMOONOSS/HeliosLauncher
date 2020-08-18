@@ -55,13 +55,6 @@ export default {
       this.pullDistro();
       this.minecraftRefresh();
 
-      const details = await this.javaDetails();
-
-      if (!details || !details.valid) {
-        this.setJavaExe();
-        this.$router.push({ name: 'missing-java' });
-      }
-
       const loader = document.getElementById('loadingContainer');
       const circle = document.getElementById('sweepingCircle');
 
