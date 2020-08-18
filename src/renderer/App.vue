@@ -63,23 +63,31 @@ export default {
       }
 
       const loader = document.getElementById('loadingContainer');
+      const circle = document.getElementById('sweepingCircle');
 
       // eslint-disable-next-line no-new
       new Promise((resolve) => {
         setTimeout(() => {
-          loader.style.opacity = 0;
+          circle.style.animationName = 'expand';
           resolve();
         }, 500);
       });
 
       await new Promise((resolve) => {
         setTimeout(() => {
-          loader.style.visibility = 'hidden';
+          loader.style.opacity = '0';
           resolve();
         }, 1000);
       });
 
       this.$el.style.opacity = 1;
+
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          loader.style.visibility = 'hidden';
+          resolve();
+        }, 1750);
+      });
     });
   },
   methods: {
