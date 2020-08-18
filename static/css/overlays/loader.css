@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 /* Loading container, placed above everything. */
 #loadingContainer {
   align-items: center;
