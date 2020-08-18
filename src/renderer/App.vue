@@ -11,7 +11,7 @@
 
 <script>
 /* eslint-disable import/no-extraneous-dependencies */
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import FrameBar from './components/electron/FrameBar.vue';
@@ -76,6 +76,7 @@ export default {
       await new Promise((resolve) => {
         setTimeout(() => {
           loader.style.opacity = '0';
+          remote.getCurrentWindow().setIgnoreMouseEvents(false);
           resolve();
         }, 1000);
       });

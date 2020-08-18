@@ -46,6 +46,8 @@ function createWindow() {
   mainWindow.setMenuBarVisibility(false);
   mainWindow.setResizable(true);
 
+  mainWindow.setIgnoreMouseEvents(true);
+
   mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
