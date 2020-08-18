@@ -7,7 +7,7 @@ import MissingJava from '@/components/MissingJava';
 import Welcome from '@/components/Welcome';
 import Whitelist from '@/components/Whitelist';
 
-import store from '../store/index';
+import store from '../store-launcher/index';
 
 function notMcAuthorized(to, from, next) {
   if (store.getters['Account/uuid']) {

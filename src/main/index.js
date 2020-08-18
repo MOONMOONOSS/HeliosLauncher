@@ -29,6 +29,10 @@ const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
 
+const chatURL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:9080'
+  : `file://${__dirname}/chat.html`;
+
 async function mqStart() {
   mqSocket = new Push();
 
@@ -47,7 +51,6 @@ function createWindow() {
     frame: false,
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, 'assets', 'js'),
       nodeIntegration: true,
       contextIsolation: false,
     },
@@ -74,14 +77,13 @@ function createWindow() {
       frame: false,
       webPreferences: {
         devTools: false,
-        preload: path.join(__dirname, 'assets', 'js'),
         nodeIntegration: true,
         contextIsolation: false,
       },
     });
 
-    overlayWindow.loadURL(winURL);
-    overlayWindow.webContents.setFrameRate(60);
+    overlayWindow.loadURL(chatURL);
+    overlayWindow.webContents.setFrameRate(30);
     overlayWindow.webContents.beginFrameSubscription((image) => {
       try {
         mqSocket.send(image.toPNG());
