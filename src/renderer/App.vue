@@ -46,6 +46,8 @@ export default {
   },
   mounted() {
     this.$nextTick(async () => {
+      this.chatSideEffects();
+
       ipcRenderer.on('java-detect', (_ev, payload) => {
         if (payload) this.setJavaExe(payload);
         else {
@@ -98,6 +100,11 @@ export default {
     ...mapMutations('Java', [
       'setJavaExe',
     ]),
+    chatSideEffects() {
+      if (this.isChatWindow) {
+        this.$el.style.backgroundImage = 'unset';
+      }
+    },
   },
 };
 </script>
