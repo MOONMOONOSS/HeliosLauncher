@@ -145,7 +145,8 @@ main
 #app
   background-image url('../../static/img/bgs/0.jpg')
   background-size cover
-  height -webkit-fill-available
+  display flex
+  height 100vh
   opacity 0
   transition all .85s ease
   transition-delay opacity .5s

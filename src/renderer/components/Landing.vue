@@ -42,6 +42,7 @@ a, button
 main
   display flex
   flex-direction column
+  flex-grow 1
   height 100%
   overflow-y hidden
   padding 0 10px
