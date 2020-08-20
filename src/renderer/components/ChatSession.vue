@@ -18,3 +18,8 @@ main
   flex-grow 1
   letter-spacing 1.25px
 </style>
+
+<style lang="stylus">
+#badge
+  background rgba(255,129,0,.1)
+</style>
