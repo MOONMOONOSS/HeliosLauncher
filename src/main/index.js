@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-restricted-syntax */
 import ChildProcess from 'child_process';
-import { Push } from 'zeromq';
+import { Push, Subscriber } from 'zeromq';
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron' // eslint-disable-line
 import fs from 'fs';
 import os from 'os';
@@ -24,7 +25,8 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow;
 let overlayWindow;
-let mqSocket;
+let mqServer;
+let mqClient;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
@@ -34,14 +36,74 @@ const chatURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html?openChat=true`;
 
 async function mqStart() {
-  mqSocket = new Push();
-  mqSocket.loopbackFastPath = true;
-  mqSocket.multicastHops = 1;
-  mqSocket.sendTimeout = 0;
+  mqServer = new Push();
+  mqServer.loopbackFastPath = true;
+  mqServer.multicastHops = 1;
+  mqServer.sendTimeout = 0;
 
-  await mqSocket.bind('tcp://127.0.0.1:27015');
+  await mqServer.bind('tcp://127.0.0.1:27015');
   // eslint-disable-next-line no-console
   console.log('Producer bound to port 27015!');
+}
+
+function startMqClient() {
+  mqClient = new Subscriber();
+
+  console.log('Attempting to connect to Minecraft process...');
+  mqClient.connect('tcp://127.0.0.1:27016');
+
+  mqClient.subscribe();
+  console.log('Connected to Minecraft!');
+
+  mqStart().then(() => {
+    overlayWindow = new BrowserWindow({
+      width: 640,
+      height: 240,
+      transparent: true,
+      frame: false,
+      webPreferences: {
+        devTools: true,
+        nodeIntegration: true,
+        contextIsolation: false,
+      },
+    });
+
+    overlayWindow.loadURL(chatURL);
+    overlayWindow.webContents.setFrameRate(30);
+    overlayWindow.webContents.beginFrameSubscription(async (image) => {
+      try {
+        await mqServer.send(image.toPNG());
+      // eslint-disable-next-line no-empty
+      } catch (_) {}
+    });
+  });
+
+  const listen = async () => {
+    let currentId = -1;
+
+    for await (const [sig] of mqClient) {
+      if (sig.toString() === 'stop') {
+        mqClient.close();
+
+        return;
+      }
+
+      const stringified = sig.toString();
+      const obj = JSON.parse(stringified);
+
+      // Deduplication of message events
+      if (obj.id > currentId) {
+        currentId = obj.id;
+
+        console.log('Message received from Minecraft!');
+        console.log(stringified);
+
+        overlayWindow.webContents.send('basic-chat', obj);
+      }
+    }
+  };
+
+  listen();
 }
 
 function createWindow() {
@@ -70,29 +132,6 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
     app.quit();
-  });
-
-  mqStart().then(() => {
-    overlayWindow = new BrowserWindow({
-      width: 640,
-      height: 240,
-      transparent: true,
-      frame: false,
-      webPreferences: {
-        devTools: true,
-        nodeIntegration: true,
-        contextIsolation: false,
-      },
-    });
-
-    overlayWindow.loadURL(chatURL);
-    overlayWindow.webContents.setFrameRate(30);
-    overlayWindow.webContents.beginFrameSubscription(async (image) => {
-      try {
-        await mqSocket.send(image.toPNG());
-      // eslint-disable-next-line no-empty
-      } catch (_) {}
-    });
   });
 }
 
@@ -355,8 +394,15 @@ ipcMain.on('start-game', (ev, data) => {
 
     staticBuilder.on('message', (msg) => {
       switch (msg.context) {
+        case 'game-ready':
+          startMqClient();
+
+          break;
         case 'game-close':
           ev.reply('game-close', msg.code);
+
+          overlayWindow.destroy();
+
           staticBuilder.stdout.removeAllListeners();
           staticBuilder.stderr.removeAllListeners();
           staticBuilder.removeAllListeners();
