@@ -13,6 +13,8 @@ import Util from './assetGuard/util';
 import Library from './assetGuard/library';
 
 export default class ProcessBuilder {
+  static GAME_READY = /^\[.+\]: Forge Mod Loader has successfully loaded .+$/;
+
   authUser;
 
   commonDir;
@@ -97,6 +99,13 @@ export default class ProcessBuilder {
     child.unref();
 
     child.stdout.on('data', (data) => {
+      if (ProcessBuilder.GAME_READY.test(data.toString().trim())) {
+        process.send({
+          context: 'game-ready',
+        });
+
+        return;
+      }
       // eslint-disable-next-line no-console
       console.log(data.toString());
     });
