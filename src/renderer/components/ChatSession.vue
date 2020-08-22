@@ -2,6 +2,7 @@
   <main>
     <BasicEntry
       v-for="entry in basicEntries"
+      :msgId="entry.id"
       :key="entry.id"
       :player="entry.player"
       :message="entry.msg"
@@ -42,7 +43,6 @@ export default {
 main
   align-self flex-end
   background unset
-  background-color rgba(0,0,0,.09)
   flex-grow 1
   letter-spacing 1.25px
 </style>
