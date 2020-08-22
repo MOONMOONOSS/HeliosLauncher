@@ -29,20 +29,10 @@ export default {
   }),
   mounted() {
     this.$nextTick(() => {
-      ipcRenderer.on('basic-player', (_ev, payload) => {
+      ipcRenderer.on('msg-received', (_ev, payload) => {
         console.log('Adding below entry to chat overlay...');
         console.dir(payload);
         this.chatEntries.push(payload);
-      });
-
-      ipcRenderer.on('basic-colored', (_ev, payload) => {
-        console.log('Colored text chat entry');
-
-        this.chatEntries.push(payload);
-      });
-
-      ipcRenderer.on('unknown-chat', (_ev, payload) => {
-        console.dir(payload);
       });
     });
   },
@@ -59,8 +49,7 @@ export default {
     },
   },
   beforeUnmount() {
-    ipcRenderer.removeAllListeners('basic-player');
-    ipcRenderer.removeAllListeners('unknown-chat');
+    ipcRenderer.removeAllListeners('msg-received');
   },
 };
 </script>

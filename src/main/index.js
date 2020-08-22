@@ -98,7 +98,7 @@ function startMqClient() {
         console.log('Message received from Minecraft!');
         console.log(stringified);
 
-        overlayWindow.webContents.send(obj.type, obj);
+        overlayWindow.webContents.send('msg-received', obj);
       }
     }
   };
