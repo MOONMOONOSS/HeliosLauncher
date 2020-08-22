@@ -3,13 +3,15 @@
     :id="elementName"
     class="chat-entry"
   >
-    {{ obj.msg }}
+    {{ contents }}
   </div>
 </template>
 
 <script>
+import ChatHelper from '@/js/chatHelper';
+
 export default {
-  name: 'BasicPlayer',
+  name: 'BasicEntry',
   props: {
     obj: {
       type: Object,
@@ -38,6 +40,9 @@ export default {
   computed: {
     elementName() {
       return `chat-entry-${this.obj.id}`;
+    },
+    contents() {
+      return ChatHelper.getContents(this.obj);
     },
   },
   mounted() {

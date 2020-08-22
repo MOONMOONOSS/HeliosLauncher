@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import ChatHelper from '@/js/chatHelper';
 import ColorEnum from '@/js/colorEnums';
 
 export default {
@@ -47,11 +48,7 @@ export default {
       return `color: ${ColorEnum.enumToHex(this.obj.color)};`;
     },
     contents() {
-      if (!this.obj.msg) {
-        return this.obj.translation;
-      }
-
-      return this.obj.msg;
+      return ChatHelper.getContents(this.obj);
     },
   },
   mounted() {
