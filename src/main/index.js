@@ -403,6 +403,14 @@ ipcMain.on('start-game', (ev, data) => {
 
           if (overlayWindow) {
             overlayWindow.destroy();
+
+            overlayWindow = null;
+
+            mqClient.close();
+            mqServer.close();
+
+            mqClient = null;
+            mqServer = null;
           }
 
           staticBuilder.stdout.removeAllListeners();
