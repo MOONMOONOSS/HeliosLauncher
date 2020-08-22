@@ -1,11 +1,10 @@
 <template>
   <main>
-    <BasicEntry
-      v-for="entry in basicEntries"
+    <component
+      v-for="entry in chatEntries"
       :key="entry.id"
-      :msg-id="entry.id"
-      :player="entry.player"
-      :message="entry.msg"
+      :is="getComponentType(entry.type)"
+      :obj="entry"
     />
   </main>
 </template>
@@ -14,22 +13,32 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { ipcRenderer } from 'electron';
 
+import BasicColored from './chat/BasicColored';
 import BasicEntry from './chat/BasicEntry';
+import BasicPlayer from './chat/BasicPlayer';
 
 export default {
   name: 'ChatSession',
   components: {
+    BasicColored,
     BasicEntry,
+    BasicPlayer,
   },
   data: () => ({
-    basicEntries: [],
+    chatEntries: [],
   }),
   mounted() {
     this.$nextTick(() => {
-      ipcRenderer.on('basic-chat', (_ev, payload) => {
+      ipcRenderer.on('basic-player', (_ev, payload) => {
         console.log('Adding below entry to chat overlay...');
         console.dir(payload);
-        this.basicEntries.push(payload);
+        this.chatEntries.push(payload);
+      });
+
+      ipcRenderer.on('basic-colored', (_ev, payload) => {
+        console.log('Colored text chat entry');
+
+        this.chatEntries.push(payload);
       });
 
       ipcRenderer.on('unknown-chat', (_ev, payload) => {
@@ -37,8 +46,20 @@ export default {
       });
     });
   },
+  methods: {
+    getComponentType(recvdType) {
+      switch (recvdType) {
+        case 'basic-colored':
+          return 'BasicColored';
+        case 'basic-player':
+          return 'BasicPlayer';
+        default:
+          return 'BasicEntry';
+      }
+    },
+  },
   beforeUnmount() {
-    ipcRenderer.removeAllListeners('basic-chat');
+    ipcRenderer.removeAllListeners('basic-player');
     ipcRenderer.removeAllListeners('unknown-chat');
   },
 };
