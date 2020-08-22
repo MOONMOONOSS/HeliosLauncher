@@ -79,7 +79,7 @@ function startMqClient() {
   });
 
   const listen = async () => {
-    let currentId = -1;
+    let currentBasicId = -1;
 
     for await (const [sig] of mqClient) {
       if (sig.toString() === 'stop') {
@@ -91,14 +91,24 @@ function startMqClient() {
       const stringified = sig.toString();
       const obj = JSON.parse(stringified);
 
-      // Deduplication of message events
-      if (obj.id > currentId) {
-        currentId = obj.id;
+      switch (obj.type) {
+        case 'basic':
+          // Deduplication of message events
+          if (obj.id > currentBasicId) {
+            currentBasicId = obj.id;
 
-        console.log('Message received from Minecraft!');
-        console.log(stringified);
+            console.log('Message received from Minecraft!');
+            console.log(stringified);
 
-        overlayWindow.webContents.send('basic-chat', obj);
+            overlayWindow.webContents.send('basic-chat', obj);
+          }
+
+          break;
+        default:
+          console.log('Unknown message type received from Minecraft!');
+          console.log(stringified);
+
+          overlayWindow.webContents.send('unknown-chat', obj);
       }
     }
   };

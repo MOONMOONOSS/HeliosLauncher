@@ -2,8 +2,8 @@
   <main>
     <BasicEntry
       v-for="entry in basicEntries"
-      :msgId="entry.id"
       :key="entry.id"
+      :msg-id="entry.id"
       :player="entry.player"
       :message="entry.msg"
     />
@@ -31,10 +31,15 @@ export default {
         console.dir(payload);
         this.basicEntries.push(payload);
       });
+
+      ipcRenderer.on('unknown-chat', (_ev, payload) => {
+        console.dir(payload);
+      });
     });
   },
   beforeUnmount() {
     ipcRenderer.removeAllListeners('basic-chat');
+    ipcRenderer.removeAllListeners('unknown-chat');
   },
 };
 </script>
