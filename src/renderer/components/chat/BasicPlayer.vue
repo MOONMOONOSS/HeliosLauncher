@@ -3,7 +3,7 @@
     :id="elementName"
     class="chat-entry"
   >
-    {{ obj.msg }}
+    &lt;{{ obj.player }}&gt; {{ obj.msg }}
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
     obj: {
       type: Object,
       default: () => ({
+        player: 'Player309',
         msg: 'This is a placeholder message body.',
         id: 0,
       }),

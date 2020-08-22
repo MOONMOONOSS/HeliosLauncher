@@ -1,19 +1,23 @@
 <template>
   <div
     :id="elementName"
+    :style="elementColor"
     class="chat-entry"
   >
-    {{ obj.msg }}
+    {{ contents }}
   </div>
 </template>
 
 <script>
+import ColorEnum from '@/js/colorEnums';
+
 export default {
-  name: 'BasicPlayer',
+  name: 'BasicColored',
   props: {
     obj: {
       type: Object,
       default: () => ({
+        color: 'white',
         msg: 'This is a placeholder message body.',
         id: 0,
       }),
@@ -38,6 +42,16 @@ export default {
   computed: {
     elementName() {
       return `chat-entry-${this.obj.id}`;
+    },
+    elementColor() {
+      return `color: ${ColorEnum.enumToHex(this.obj.color)};`;
+    },
+    contents() {
+      if (!this.obj.msg) {
+        return this.obj.translation;
+      }
+
+      return this.obj.msg;
     },
   },
   mounted() {
