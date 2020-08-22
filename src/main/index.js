@@ -401,7 +401,9 @@ ipcMain.on('start-game', (ev, data) => {
         case 'game-close':
           ev.reply('game-close', msg.code);
 
-          overlayWindow.destroy();
+          if (overlayWindow) {
+            overlayWindow.destroy();
+          }
 
           staticBuilder.stdout.removeAllListeners();
           staticBuilder.stderr.removeAllListeners();
