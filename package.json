@@ -4,7 +4,7 @@
   "version": "2.0.0-beta",
   "author": "Joseph Zurowski <Dunklheit@users.noreply.github.com>",
   "description": "An all-in-one Electron launcher for Minecraft",
-  "license": "The Unlicense",
+  "license": "GNU General Public License 3.0",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js",
