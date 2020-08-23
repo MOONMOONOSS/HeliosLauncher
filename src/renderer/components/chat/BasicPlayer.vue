@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import ChatHelper from '@/js/chatHelper';
+
 export default {
   name: 'BasicPlayer',
   props: {
@@ -37,9 +39,7 @@ export default {
     },
   }),
   computed: {
-    elementName() {
-      return `chat-entry-${this.obj.id}`;
-    },
+    elementName: () => ChatHelper.elementName(this.obj.id),
   },
   mounted() {
     this.$nextTick(() => {

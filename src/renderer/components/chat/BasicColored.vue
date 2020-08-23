@@ -41,15 +41,9 @@ export default {
     },
   }),
   computed: {
-    elementName() {
-      return `chat-entry-${this.obj.id}`;
-    },
-    elementColor() {
-      return `color: ${ColorEnum.enumToHex(this.obj.color)};`;
-    },
-    contents() {
-      return ChatHelper.getContents(this.obj);
-    },
+    elementName: () => ChatHelper.elementName(this.obj.id),
+    elementColor: () => `color: ${ColorEnum.enumToHex(this.obj.color)};`,
+    contents: () => ChatHelper.getContents(this.obj),
   },
   mounted() {
     this.$nextTick(() => {

@@ -6,4 +6,8 @@ export default class ChatHelper {
 
     return obj.msg;
   }
+
+  static elementName(id) {
+    return `chat-entry-${id}`;
+  }
 }

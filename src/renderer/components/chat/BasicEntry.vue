@@ -38,12 +38,8 @@ export default {
     },
   }),
   computed: {
-    elementName() {
-      return `chat-entry-${this.obj.id}`;
-    },
-    contents() {
-      return ChatHelper.getContents(this.obj);
-    },
+    elementName: () => ChatHelper.elementName(this.obj.id),
+    contents: () => ChatHelper.getContents(this.obj),
   },
   mounted() {
     this.$nextTick(() => {
