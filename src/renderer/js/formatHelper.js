@@ -62,12 +62,6 @@ export default class FormatHelper {
 
   static enumToHex(enumType) {
     switch (enumType) {
-      case FormatHelper.OBFUSCATED:
-      case FormatHelper.BOLD:
-      case FormatHelper.UNDERLINE:
-      case FormatHelper.ITALIC:
-      case FormatHelper.RESET:
-        return false;
       case FormatHelper.BLACK:
         return '#000000';
       case FormatHelper.DARK_BLUE:
@@ -101,7 +95,7 @@ export default class FormatHelper {
       case FormatHelper.WHITE:
         return '#FFFFFF';
       default:
-        throw new Error(`Passed value not a valid color code: ${enumType}`);
+        return false;
     }
   }
 

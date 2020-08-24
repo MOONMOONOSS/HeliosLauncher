@@ -4,7 +4,6 @@
       v-for="entry in chatEntries"
       :key="entry.id"
       :obj="entry"
-      @rendered="obfuscator.updateElementList()"
     />
   </main>
 </template>
@@ -23,7 +22,6 @@ export default {
   },
   data: () => ({
     chatEntries: [],
-    obfuscator: new Obfuscator(),
   }),
   mounted() {
     this.$nextTick(() => {
@@ -32,11 +30,13 @@ export default {
         console.dir(payload);
         this.chatEntries.push(payload);
       });
+
+      Obfuscator.construct();
     });
   },
   beforeUnmount() {
     ipcRenderer.removeAllListeners('msg-received');
-    this.obfuscator.cancellAllUpdates();
+    Obfuscator.cancelAllUpdates();
   },
 };
 </script>

@@ -7,7 +7,6 @@
     :prerender="preRender"
     :postrender="postRender"
     class="chat-entry"
-    @rendered="$emit('rendered')"
   >
     {{ contents }}
   </vue-markdown>
@@ -33,7 +32,6 @@ export default {
       }),
     },
   },
-  emits: ['rendered'],
   data: () => ({
     hideKeyframes: [
       { // from

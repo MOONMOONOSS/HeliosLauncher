@@ -3,31 +3,32 @@ export default class Obfuscator {
 
   static els;
 
-  constructor() {
+  static construct() {
     if (!Obfuscator.animId && !Obfuscator.els) {
       Obfuscator.animId = window.requestAnimationFrame(Obfuscator.animationUpdate);
-      Obfuscator.els = document.getElementsByClassName('obfuscated');
-
-      return;
+      Obfuscator.els = [...document.getElementsByClassName('obfuscated')];
+    } else {
+      throw new Error('An Obfuscator class has already been initialized!');
     }
-
-    throw new Error('An Obfuscator class has already been initialized!');
   }
 
   static animationUpdate() {
+    Obfuscator.animId = window.requestAnimationFrame(Obfuscator.animationUpdate);
+
+    Obfuscator.els = [...document.getElementsByClassName('obfuscated')];
+
     if (!Obfuscator.els || Obfuscator.els.length === 0) {
       return;
     }
 
     Obfuscator.els.forEach((el) => {
-      const str = el.innerHtml;
       let newStr = '';
 
-      [...str].forEach(() => {
+      [...el.innerText].forEach(() => {
         newStr += String.fromCharCode(Obfuscator.randomInRange(64, 95));
       });
 
-      el.innerHtml = newStr;
+      el.innerText = newStr;
     });
   }
 
@@ -35,10 +36,6 @@ export default class Obfuscator {
     Obfuscator.els = [];
 
     window.cancelAnimationFrame(Obfuscator.animId);
-  }
-
-  static updateElementList() {
-    Obfuscator.els = document.getElementsByClassName('obfuscated');
   }
 
   static get animationRequestId() {
