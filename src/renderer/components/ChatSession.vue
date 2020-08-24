@@ -1,10 +1,10 @@
 <template>
   <main>
-    <component
+    <GenericEntry
       v-for="entry in chatEntries"
       :key="entry.id"
-      :is="getComponentType()"
       :obj="entry"
+      @rendered="obfuscator.updateElementList()"
     />
   </main>
 </template>
@@ -14,6 +14,7 @@
 import { ipcRenderer } from 'electron';
 
 import GenericEntry from '@/components/chat/GenericEntry';
+import Obfuscator from '@/js/obfuscator';
 
 export default {
   name: 'ChatSession',
@@ -22,6 +23,7 @@ export default {
   },
   data: () => ({
     chatEntries: [],
+    obfuscator: new Obfuscator(),
   }),
   mounted() {
     this.$nextTick(() => {
@@ -32,11 +34,9 @@ export default {
       });
     });
   },
-  methods: {
-    getComponentType: () => 'GenericEntry',
-  },
   beforeUnmount() {
     ipcRenderer.removeAllListeners('msg-received');
+    this.obfuscator.cancellAllUpdates();
   },
 };
 </script>
