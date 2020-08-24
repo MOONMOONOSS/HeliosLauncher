@@ -178,6 +178,13 @@ export default class FormatHelper {
 
         spanCnt += 1;
       }
+
+      // Is the text obfuscated?
+      if (match === FormatHelper.OBFUSCATED) {
+        val = val.replace(pattern, '<span class="obfuscated">');
+
+        spanCnt += 1;
+      }
     });
 
     // Sanity checking inputs in case they don't use a reset
