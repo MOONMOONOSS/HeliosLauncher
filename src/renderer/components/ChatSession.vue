@@ -3,7 +3,7 @@
     <component
       v-for="entry in chatEntries"
       :key="entry.id"
-      :is="getComponentType(entry.type)"
+      :is="getComponentType()"
       :obj="entry"
     />
   </main>
@@ -13,16 +13,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { ipcRenderer } from 'electron';
 
-import BasicColored from './chat/BasicColored';
-import BasicEntry from './chat/BasicEntry';
-import BasicPlayer from './chat/BasicPlayer';
+import GenericEntry from '@/components/chat/GenericEntry';
 
 export default {
   name: 'ChatSession',
   components: {
-    BasicColored,
-    BasicEntry,
-    BasicPlayer,
+    GenericEntry,
   },
   data: () => ({
     chatEntries: [],
@@ -37,16 +33,7 @@ export default {
     });
   },
   methods: {
-    getComponentType(recvdType) {
-      switch (recvdType) {
-        case 'basic-colored':
-          return 'BasicColored';
-        case 'basic-player':
-          return 'BasicPlayer';
-        default:
-          return 'BasicEntry';
-      }
-    },
+    getComponentType: () => 'GenericEntry',
   },
   beforeUnmount() {
     ipcRenderer.removeAllListeners('msg-received');

@@ -1,24 +1,32 @@
 <template>
-  <div
+  <vue-markdown
     :id="elementName"
-    :style="elementColor"
+    :html="false"
+    :breaks="false"
+    :task-lists="false"
+    :prerender="preRender"
+    :postrender="postRender"
     class="chat-entry"
   >
     {{ contents }}
-  </div>
+  </vue-markdown>
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown-plus';
+
 import ChatHelper from '@/js/chatHelper';
-import ColorEnum from '@/js/colorEnums';
+import FormatHelper from '@/js/formatHelper';
 
 export default {
-  name: 'BasicColored',
+  name: 'GenericEntry',
+  components: {
+    VueMarkdown,
+  },
   props: {
     obj: {
       type: Object,
       default: () => ({
-        color: 'white',
         msg: 'This is a placeholder message body.',
         id: 0,
       }),
@@ -41,9 +49,12 @@ export default {
     },
   }),
   computed: {
-    elementName: () => ChatHelper.elementName(this.obj.id),
-    elementColor: () => `color: ${ColorEnum.enumToHex(this.obj.color)};`,
-    contents: () => ChatHelper.getContents(this.obj),
+    elementName() {
+      return ChatHelper.elementName(this.obj.id);
+    },
+    contents() {
+      return ChatHelper.getContents(this.obj);
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -52,10 +63,23 @@ export default {
         .animate(this.hideKeyframes, this.hideTiming);
     });
   },
+  methods: {
+    preRender(val) {
+      return FormatHelper.parseTextFormatters(val);
+    },
+    postRender(val) {
+      return FormatHelper.parseColorFormatters(val);
+    },
+  },
 };
 </script>
 
 <style scoped lang="stylus">
 .chat-entry
   background rgba(0,0,0,.2)
+</style>
+
+<style lang="stylus">
+p
+  margin 0
 </style>

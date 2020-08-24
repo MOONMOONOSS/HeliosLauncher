@@ -4,7 +4,11 @@ export default class ChatHelper {
       return obj.translation;
     }
 
-    return obj.msg;
+    if (obj.msg && obj.player) {
+      return `<${obj.player}> ${obj.msg}`;
+    }
+
+    return 'Probably a bug! (probably)';
   }
 
   static elementName(id) {
