@@ -153,13 +153,8 @@ export default class FormatHelper {
 
     if (!matches) return val;
 
-    console.dir(matches);
-
     matches.forEach((match) => {
       const pattern = new RegExp(match);
-
-      console.log(match);
-      console.log(val);
 
       // Reset all formatting and colors
       if (match === FormatHelper.RESET) {
