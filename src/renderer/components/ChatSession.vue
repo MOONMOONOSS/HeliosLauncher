@@ -4,6 +4,7 @@
       v-for="entry in chatEntries"
       :key="entry.id"
       :obj="entry"
+      :parser="parser"
     />
   </main>
 </template>
@@ -11,6 +12,7 @@
 <script>
 /* eslint-disable import/no-extraneous-dependencies */
 import { ipcRenderer } from 'electron';
+import { EmoteFetcher, EmoteParser } from '@mkody/twitch-emoticons';
 
 import GenericEntry from '@/components/chat/GenericEntry';
 import Obfuscator from '@/js/obfuscator';
@@ -21,7 +23,13 @@ export default {
     GenericEntry,
   },
   data: () => ({
+    channels: [
+      'moonmoon',
+      'moonmoon_ow',
+    ],
     chatEntries: [],
+    fetcher: new EmoteFetcher(),
+    parser: null,
   }),
   mounted() {
     this.$nextTick(() => {
@@ -31,8 +39,29 @@ export default {
         this.chatEntries.push(payload);
       });
 
+      this.parser = new EmoteParser(this.fetcher, {
+        type: 'html',
+        match: /:(.+?):/g,
+      });
+
+      this.loadEmotes();
+
       Obfuscator.construct();
     });
+  },
+  methods: {
+    async loadEmotes() {
+      await this.fetcher.fetchTwitchEmotes();
+      await this.fetcher.fetchBTTVEmotes();
+
+      if (this.channels && this.channels.length > 0) {
+        this.channels.forEach((channel) => {
+          this.fetcher.fetchTwitchEmotes(channel);
+          this.fetcher.fetchBTTVEmotes(channel);
+          this.fetcher.fetchFFZEmotes(channel);
+        });
+      }
+    },
   },
   beforeUnmount() {
     ipcRenderer.removeAllListeners('msg-received');

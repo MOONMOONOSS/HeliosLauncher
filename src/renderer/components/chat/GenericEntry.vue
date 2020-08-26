@@ -31,6 +31,10 @@ export default {
         id: 0,
       }),
     },
+    parser: {
+      type: Object,
+      default: null,
+    },
   },
   data: () => ({
     hideKeyframes: [
@@ -68,7 +72,9 @@ export default {
       return FormatHelper.parseTextFormatters(val);
     },
     postRender(val) {
-      return FormatHelper.parseColorFormatters(val);
+      const color = FormatHelper.parseColorFormatters(val);
+
+      return FormatHelper.parseEmotes(color, this.parser);
     },
   },
 };
@@ -81,5 +87,9 @@ export default {
 
 <style lang="stylus">
 p
+  display flex
   margin 0
+
+.twitch-emote
+  height 22px
 </style>

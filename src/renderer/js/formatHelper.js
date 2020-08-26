@@ -190,4 +190,8 @@ export default class FormatHelper {
 
     return val;
   }
+
+  static parseEmotes(input, parser) {
+    return parser.parse(input);
+  }
 }
